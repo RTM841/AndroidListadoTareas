@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">PantallaTareas</string>
+    <string name="AcercaDe">Acerca de...</string>
+    <string name="Salir">Salir</string>
+    <string name="Prio">Ag</string>
+    <string name="AgreTarea">Ag</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string-array name="EstadoBarra">
+        <item>Seleccione</item>
+        <item>No iniciada</item>
+        <item>Iniciada</item>
+        <item>Avanzada</item>
+        <item>Casi finalizada</item>
+        <item>Finalizada</item>
+    </string-array>
+</resources>

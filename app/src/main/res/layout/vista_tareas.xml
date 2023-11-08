@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="75dp">
+
+    <TextView
+        android:id="@+id/textoTarea"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TítuloTarea"
+        android:textSize="20sp"
+        app:layout_constraintStart_toEndOf="@+id/imagenEstrella"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/imagenEstrella"
+        android:layout_width="33dp"
+        android:layout_height="25dp"
+        app:layout_constraintBottom_toBottomOf="@+id/textoTarea"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/baseline_stars_24" />
+
+    <TextView
+        android:id="@+id/textoFecha"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="dd/mm/aaaa"
+        app:layout_constraintBottom_toBottomOf="@+id/ProGresBar_barra"
+        app:layout_constraintEnd_toStartOf="@+id/textoQuedan"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/ProGresBar_barra"
+        app:layout_constraintTop_toTopOf="@+id/ProGresBar_barra" />
+
+    <TextView
+        android:id="@+id/textoQuedan"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="64dp"
+        android:text="Quedan:"
+        app:layout_constraintBottom_toBottomOf="@+id/textoFecha"
+        app:layout_constraintEnd_toStartOf="@+id/textoNumDias"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/textoFecha"
+        app:layout_constraintTop_toTopOf="@+id/textoFecha" />
+
+    <TextView
+        android:id="@+id/textoNumDias"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="00"
+        app:layout_constraintBottom_toBottomOf="@+id/textoQuedan"
+        app:layout_constraintEnd_toStartOf="@+id/textoDias"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/textoQuedan"
+        app:layout_constraintTop_toTopOf="@+id/textoQuedan" />
+
+    <TextView
+        android:id="@+id/textoDias"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="dias"
+        app:layout_constraintBottom_toBottomOf="@+id/textoNumDias"
+        app:layout_constraintStart_toEndOf="@+id/textoNumDias"
+        app:layout_constraintTop_toTopOf="@+id/textoNumDias" />
+
+    <ProgressBar
+        android:id="@+id/ProGresBar_barra"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textoTarea" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
