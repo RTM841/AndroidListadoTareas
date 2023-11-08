@@ -29,6 +29,7 @@ public class CrearTareasActivity extends AppCompatActivity {
         fragmentoUno = new FragmentoUno();
 
         getSupportFragmentManager().beginTransaction().replace(R.id.contenedorFragmentos,fragmentoUno).commit();
+
     }
 
 }

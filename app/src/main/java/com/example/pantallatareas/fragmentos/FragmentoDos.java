@@ -3,13 +3,18 @@ package com.example.pantallatareas.fragmentos;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.example.pantallatareas.CompartirViewModel;
 import com.example.pantallatareas.R;
+
+import java.util.Date;
 
 public class FragmentoDos extends Fragment {
 
@@ -19,37 +24,54 @@ public class FragmentoDos extends Fragment {
 
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment FragmentoDos.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static FragmentoDos newInstance(String param1, String param2) {
-        FragmentoDos fragment = new FragmentoDos();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+
+        //Obtenemos una referencia del ViewModel
+        CompartirViewModel compartirViewModel = new ViewModelProvider(requireActivity()).get(CompartirViewModel.class);
+
+        //Creamos un observador (de String) para implementar el método onChanged()
+        Observer<String> observadorNombre = new Observer<String>() {
+            @Override
+            public void onChanged(String text) {
+                textoNombreTarea.setText(text);
+
+            }
+        };
+        //Asignamos un observador al MutableLiveData
+        compartirViewModel.getNombre().observe(this, observadorNombre);
+
+        //Creamos un observador (de Date) para implementar el método onChanged()
+        Observer<Date> observadorFechaInicio = new Observer<Date>() {
+            @Override
+            public void onChanged(Date fecha) {
+                fechaini.setText(fecha.toString());
+            }
+        };
+        //Asignamos un observador al MutableLiveData
+        compartirViewModel.getFechaIni().observe(FragmentoDos.this, fecha -> fechaini.setText(fecha.toString()));
+
+        //Creamos un observador (de Date) para implementar el método onChanged()
+        Observer<Date> observadorFechaFin = new Observer<Date>() {
+            @Override
+            public void onChanged(Date fecha) {
+                fechafin.setText(fecha.toString());
+            }
+        };
+        //Asignamos un observador al MutableLiveData
+        compartirViewModel.getFechaFin().observe(FragmentoDos.this, fecha -> fechafin.setText(fecha.toString()));
+
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_fragmento_dos, container, false);
+        View fragmento2 = inflater.inflate(R.layout.fragment_fragmento_dos, container, false);
+        textoNombreTarea = fragmento2.findViewById(R.id.editTetxtTituloTarea);
+        fechaini = fragmento2.findViewById(R.id.editTextFechaCreacion);
+        fechafin = fragmento2.findViewById(R.id.editTextFechaFinal);
+        return fragmento2;
     }
 }

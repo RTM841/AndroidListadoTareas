@@ -42,6 +42,8 @@ public class FragmentoUno extends Fragment implements View.OnClickListener {
 
     private CheckBox prioritaria;
 
+    private Button button;
+
     public FragmentoUno() {
 
     }
@@ -87,9 +89,11 @@ public class FragmentoUno extends Fragment implements View.OnClickListener {
         editTitulo.setText(compartirViewModel.getNombre().getValue()); //Leemos del ViewModel por si hay algo
 
 
-        Button botonEnviar = fragmento1.findViewById(R.id.bt_siguiente);
-        botonEnviar.setOnClickListener(view -> {
-            compartirViewModel.setNombre(editTitulo.getText().toString());  //Escribimos en el ViewModel
+        button = fragmento1.findViewById(R.id.bt_siguiente);
+        button.setOnClickListener(view -> {
+            compartirViewModel.setNombre(editTitulo.getText().toString());
+            compartirViewModel.setFechaIni(editfechaincio.getText().toString());
+            compartirViewModel.setFechaFin(editfechafin.getText().toString());//Escribimos en el ViewModel
             Toast.makeText(requireContext(), "¡Enviado!", Toast.LENGTH_SHORT).show();
         });
 

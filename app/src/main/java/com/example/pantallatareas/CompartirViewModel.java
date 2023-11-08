@@ -19,8 +19,7 @@ public class CompartirViewModel extends ViewModel {
     //Para guardar la fecha de inicio
     private final MutableLiveData<DatePickerFragment> fechaIni = new MutableLiveData<>();
 
-    public void setFechaIni(DatePickerFragment fechaIn){fechaIni.setValue(fechaIn);}
-
+    DatePickerFragment
     public  MutableLiveData<DatePickerFragment> getFechaIni(){return fechaIni;}
 
 
