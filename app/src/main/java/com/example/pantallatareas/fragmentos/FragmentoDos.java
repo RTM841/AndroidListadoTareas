@@ -18,6 +18,7 @@ import android.widget.TextView;
 import com.example.pantallatareas.CompartirViewModel;
 import com.example.pantallatareas.R;
 
+import java.text.ParseException;
 import java.util.Date;
 
 public class FragmentoDos extends Fragment {
@@ -34,7 +35,7 @@ public class FragmentoDos extends Fragment {
         //Definimos los prototipos de los métodos que se han de implementar
         //en este caso hay dos métodos
 
-        void onGuardar();
+        void onGuardar() throws ParseException;
     }
 
     private ComunicacionFragmento1 comunicador1;
@@ -109,7 +110,11 @@ public class FragmentoDos extends Fragment {
         boton = fragmento2.findViewById(R.id.bt_guardar);
         boton.setOnClickListener( view -> {
             compartirViewModel.setDescip(textoDescipcion.getText().toString());
-            comunicador1.onGuardar();
+            try {
+                comunicador1.onGuardar();
+            } catch (ParseException e) {
+                throw new RuntimeException(e);
+            }
             getActivity().finish();//Guardo la descripción del fragmento
         });
 

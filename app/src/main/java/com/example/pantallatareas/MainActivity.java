@@ -1,6 +1,9 @@
 package com.example.pantallatareas;
 
+import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContract;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -8,10 +11,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.LauncherActivityInfo;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -32,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
     Date date2 = calendar2.getTime();
 
     Menu mimenu;
+    ListAdapter listAdapter;
 
 
 
@@ -56,6 +62,25 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    ActivityResultContract<Intent, ActivityResult> contracto = new ActivityResultContracts.StartActivityForResult();
+    ActivityResultCallback<ActivityResult> respuesta = new ActivityResultCallback<ActivityResult>() {
+        @Override
+        public void onActivityResult(ActivityResult result) {
+            if (result.getResultCode() == Activity.RESULT_OK){
+                Intent intenDevuelto = result.getData();
+                Tarea tareaD = (Tarea) intenDevuelto.getExtras().get("TareaSeteada");
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+                    elements.add(tareaD);
+                }
+                listAdapter.notifyDataSetChanged();
+
+            }
+
+        }
+    };
+
+    ActivityResultLauncher<Intent> lan = registerForActivityResult(contracto, respuesta);
+
 
     public void init(){
         String formatoFecha = new SimpleDateFormat("dd/MM/yyyy").format(date);
@@ -70,7 +95,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-        ListAdapter listAdapter = new ListAdapter(elements, this);
+       listAdapter = new ListAdapter(elements, this);
         RecyclerView recyclerView = findViewById(R.id.recyclerVistaTareas);
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(listAdapter);
@@ -103,7 +128,7 @@ public class MainActivity extends AppCompatActivity {
         Toast.makeText(this, "Has seleccioando añadir tarea", Toast.LENGTH_SHORT).show();
 
         Intent intent = new Intent(this, CrearTareasActivity.class);
-        startActivity(intent);
+        lan.launch(intent);
         return true;
     }
 

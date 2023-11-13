@@ -27,6 +27,8 @@ import com.example.pantallatareas.CompartirViewModel;
 import com.example.pantallatareas.DatePickerFragment;
 import com.example.pantallatareas.R;
 
+import java.util.Calendar;
+
 
 public class FragmentoUno extends Fragment implements View.OnClickListener {
 
@@ -123,6 +125,7 @@ public class FragmentoUno extends Fragment implements View.OnClickListener {
 
         getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.contenedorFragmentos, new FragmentoDos()).commit();
 
+
     }
 
 
@@ -130,6 +133,7 @@ public class FragmentoUno extends Fragment implements View.OnClickListener {
     public void onClick(View view) {
         if (view.getId() == R.id.editTextFechaCreacion){showDatePickerDialog1();}
         else if(view.getId() == R.id.editTextFechaFinal){showDatePickerDialog2();}
+
     }
 
     private void showDatePickerDialog1() {
@@ -156,6 +160,8 @@ public class FragmentoUno extends Fragment implements View.OnClickListener {
 
         newFragment.show(getActivity().getSupportFragmentManager(), "datePicker");
     }
+
+
 
 
 }

@@ -16,6 +16,11 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.pantallatareas.fragmentos.FragmentoDos;
 import com.example.pantallatareas.fragmentos.FragmentoUno;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+
 public class CrearTareasActivity extends AppCompatActivity implements FragmentoDos.ComunicacionFragmento1{
 
     private FragmentoUno fragmentoUno;
@@ -24,6 +29,7 @@ public class CrearTareasActivity extends AppCompatActivity implements FragmentoD
     private Button continuar;
     private Button cancelar;
     private String nombreTarea, fechaIni, fechaFin, progesoBarra, descripcion;
+    private Integer numDias;
     private Tarea tarealistado;
 
     @Override
@@ -65,9 +71,12 @@ public class CrearTareasActivity extends AppCompatActivity implements FragmentoD
         progesoBarra = compartirViewModel.getEstadoTarea().getValue();
         descripcion = compartirViewModel.getGetDescrip().getValue();
 
+
         Tarea tarealistado = null;
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O){
-            tarealistado = new Tarea(nombreTarea.toString(), 50);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+            int contadorID = 1;
+
+            tarealistado = new Tarea(nombreTarea.toString(), 25);
         }
 
 
@@ -78,5 +87,7 @@ public class CrearTareasActivity extends AppCompatActivity implements FragmentoD
         finish();
 
     }
+
+
 
 }
