@@ -11,26 +11,26 @@
         android:layout_height="match_parent">
 
         <TextView
-            android:id="@+id/txtDesciprion"
+            android:id="@+id/labelDescripcion"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
+            android:layout_marginStart="24dp"
             android:text="Descripción"
             android:textSize="20sp"
-            app:layout_constraintBottom_toBottomOf="@+id/editTextText"
+            app:layout_constraintBottom_toBottomOf="@+id/txtDescripcion"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/editTextText" />
+            app:layout_constraintTop_toTopOf="@+id/txtDescripcion" />
 
         <EditText
-            android:id="@+id/editTextText"
+            android:id="@+id/txtDescripcion"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="220dp"
+            android:layout_marginTop="160dp"
+            android:layout_marginEnd="28dp"
             android:ems="10"
             android:inputType="text"
-            android:text="Name"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:layout_editor_absoluteX="165dp" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <Button
             android:id="@+id/bt_guardar"

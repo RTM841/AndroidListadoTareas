@@ -53,11 +53,6 @@ public class MainActivity extends AppCompatActivity {
         calendar2.set(Calendar.MONTH, 12);
         calendar2.set(Calendar.DAY_OF_MONTH, 25);
 
-        rv = findViewById(R.id.recyclerVistaTareas);
-        ListAdapter adaptador = new ListAdapter(elements, this);
-        rv.setLayoutManager( LinearLayoutManager.VERTICAL);
-        rv.setAdapter(adaptador);
-
 
     }
 

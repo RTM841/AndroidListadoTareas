@@ -1,30 +1,46 @@
 package com.example.pantallatareas;
 
+import android.os.Parcelable;
+
+import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
 
-public class Tarea {
+public class Tarea implements Serializable {
     private long id;
     private static long contador = 0;
-
-
     public String nombreTarea;
     public int porcentajeTarea;
-    public String fecha ;
+    public String fechaIni ;
+    public  String fechaFin;
     public int diasTarea;
     public boolean prioritaria;
 
-    public Tarea(String nombreTarea, int porcentajeTarea, String fecha, int diasTarea, boolean prioritaria) {
+    public Tarea(String nombreTarea, int porcentajeTarea, String fechaIni, String fechaFin, int diasTarea, boolean prioritaria) {
         this.id = ++contador;
         this.nombreTarea = nombreTarea;
         this.porcentajeTarea = porcentajeTarea;
-        this.fecha = fecha;
+        this.fechaIni = fechaIni;
+        this.fechaFin = fechaFin;
+        this.diasTarea = diasTarea;
+        this.prioritaria = prioritaria;
+    }
+    public Tarea(long id, String nombreTarea, int porcentajeTarea, String fechaIni, String fechaFin, int diasTarea) {
+        this.id = ++contador;
+        this.nombreTarea = nombreTarea;
+        this.porcentajeTarea = porcentajeTarea;
+        this.fechaIni = fechaIni;
+        this.fechaFin = fechaFin;
         this.diasTarea = diasTarea;
         this.prioritaria = prioritaria;
     }
 
     public Tarea(String nombreTarea) {
         this.nombreTarea = nombreTarea;
+    }
+
+    public Tarea() {
+
     }
     public Tarea(String nombreTarea, int porcentajeTarea) {
         this.nombreTarea = nombreTarea;
@@ -34,7 +50,7 @@ public class Tarea {
     public Tarea(String nombreTarea, int porcentajeTarea, String fecha) {
         this.nombreTarea = nombreTarea;
         this.porcentajeTarea = porcentajeTarea;
-        this.fecha = fecha;
+        this.fechaIni = fecha;
     }
 
     public String getNombreTarea() {
@@ -51,14 +67,6 @@ public class Tarea {
 
     public void setPorcentajeTarea(int porcentajeTarea) {
         this.porcentajeTarea = porcentajeTarea;
-    }
-
-    public String getFecha() {
-        return fecha;
-    }
-
-    public void setFecha(String fecha) {
-        this.fecha = fecha;
     }
 
     public int getDiasTarea() {
@@ -82,6 +90,22 @@ public class Tarea {
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public String getFechaIni() {
+        return fechaIni;
+    }
+
+    public void setFechaIni(String fechaIni) {
+        this.fechaIni = fechaIni;
+    }
+
+    public String getFechaFin() {
+        return fechaFin;
+    }
+
+    public void setFechaFin(String fechaFin) {
+        this.fechaFin = fechaFin;
     }
 
     @Override

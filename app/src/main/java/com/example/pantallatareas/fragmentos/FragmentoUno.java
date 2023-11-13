@@ -36,6 +36,8 @@ public class FragmentoUno extends Fragment implements View.OnClickListener {
         return super.getDefaultViewModelCreationExtras();
     }
 
+   private FragmentoDos fragmentoDos;
+
     private CompartirViewModel compartirViewModel;
 
     private EditText editTitulo, editfechaincio, editfechafin;
@@ -63,11 +65,8 @@ public class FragmentoUno extends Fragment implements View.OnClickListener {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        fragmentoDos = new FragmentoDos();
         compartirViewModel = new ViewModelProvider(requireActivity()).get(CompartirViewModel.class);
-
-
-
     }
 
     @SuppressLint("MissingInflatedId")
@@ -94,23 +93,36 @@ public class FragmentoUno extends Fragment implements View.OnClickListener {
 
 
         button = fragmento1.findViewById(R.id.bt_siguiente);
-        button.setOnClickListener(view -> {
-            compartirViewModel.setNombre(editTitulo.getText().toString());
-            compartirViewModel.setFechaIni(editfechaincio.getText().toString());
-            compartirViewModel.setFechaFin(editfechafin.getText().toString());//Escribimos en el ViewModel
-            //compartirViewModel.setEstadoTarea(barra.getSelectedItem().toString());
-            Toast.makeText(requireContext(), "¡Enviado!", Toast.LENGTH_SHORT).show();
+        button.setOnClickListener(this::siguiente);
 
-            // Cambiar al FragmentoDos al hacer clic en el botón "Siguiente"
-            FragmentoDos fragmentoDos = new FragmentoDos();
-            FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
-            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.replace(R.id.contenedorFragmentos, fragmentoDos);
-            fragmentTransaction.addToBackStack(null); // Opcional: Agregar a la pila de retroceso
-            fragmentTransaction.commit();
-        });
+
 
         return fragmento1;
+    }
+
+    private void siguiente(View view) {
+        compartirViewModel.setNombre(editTitulo.getText().toString());
+        compartirViewModel.setFechaIni(editfechaincio.getText().toString());
+        compartirViewModel.setFechaFin(editfechafin.getText().toString());//Escribimos en el ViewModel
+        compartirViewModel.setEstadoTarea(barra.getSelectedItem().toString());
+        Toast.makeText(requireContext(), "¡Enviado!", Toast.LENGTH_SHORT).show();
+
+        /*requireActivity().getSupportFragmentManager().beginTransaction().replace(R.id.segundo_fragment, new FragmentoDos()).addToBackStack(null).commit();
+        View fragmentContanier1 = requireActivity().findViewById(R.id.primer_fragment);
+        View fragmetnContainer2 = requireActivity().findViewById(R.id.segundo_fragment);
+
+        fragmentContanier1.setVisibility(view.GONE);
+        fragmetnContainer2.setVisibility(view.VISIBLE);*/
+
+        // Cambiar al FragmentoDos al hacer clic en el botón "Siguiente"
+        /*FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.contenedorFragmentos, fragmentoDos);
+        fragmentTransaction.addToBackStack(null); // Opcional: Agregar a la pila de retroceso
+        fragmentTransaction.commit();*/
+
+        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.contenedorFragmentos, new FragmentoDos()).commit();
+
     }
 
 
@@ -144,4 +156,6 @@ public class FragmentoUno extends Fragment implements View.OnClickListener {
 
         newFragment.show(getActivity().getSupportFragmentManager(), "datePicker");
     }
+
+
 }

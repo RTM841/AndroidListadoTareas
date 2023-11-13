@@ -67,7 +67,7 @@ public void setItems(List<Tarea> items){ datosTareas = items;}
       void bindData(final Tarea item){
           barraProgreso.setProgress(item.porcentajeTarea);
           nombreTarea.setText(item.getNombreTarea());
-          fecha.setText(item.getFecha());
+          fecha.setText(item.getFechaIni());
 
       }
 

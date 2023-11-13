@@ -1,8 +1,10 @@
 package com.example.pantallatareas.fragmentos;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -20,7 +22,7 @@ import java.util.Date;
 
 public class FragmentoDos extends Fragment {
 
-    private TextView textoNombreTarea, fechaini, fechafin, textoDescipcion;
+    private TextView textoDescipcion;
     private Button boton;
     private CompartirViewModel compartirViewModel;
 
@@ -28,12 +30,34 @@ public class FragmentoDos extends Fragment {
 
     }
 
+    public interface ComunicacionFragmento1{
+        //Definimos los prototipos de los métodos que se han de implementar
+        //en este caso hay dos métodos
+
+        void onGuardar();
+    }
+
+    private ComunicacionFragmento1 comunicador1;
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        //Sobrescribimos para esto el método onAttach() donde recibimos el contexto (=Actividad)
+        super.onAttach(context);
+        if (context instanceof ComunicacionFragmento1) {  //Si la Actividad implementa la interfaz de comunicación
+            comunicador1 = (ComunicacionFragmento1) context; //la Actividad se convierte en comunicador
+        } else {
+            throw new ClassCastException(context + " debe implementar interfaz de comunicación con el 1º fragmento");
+        }
+    }
+
+
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        //Obtenemos una referencia del ViewModel
-        CompartirViewModel compartirViewModel = new ViewModelProvider(requireActivity()).get(CompartirViewModel.class);
+        /*//Obtenemos una referencia del ViewModel
+         compartirViewModel = new ViewModelProvider(requireActivity()).get(CompartirViewModel.class);
 
         //Creamos un observador (de String) para implementar el método onChanged()
         Observer<String> observadorNombre = new Observer<String>() {
@@ -65,7 +89,7 @@ public class FragmentoDos extends Fragment {
             }
         };
         //Asignamos un observador al MutableLiveData
-        compartirViewModel.getFechaFin().observe(FragmentoDos.this, fecha -> fechafin.setText(fecha.toString()));
+        compartirViewModel.getFechaFin().observe(FragmentoDos.this, fecha -> fechafin.setText(fecha.toString()));*/
 
 
     }
@@ -75,12 +99,27 @@ public class FragmentoDos extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View fragmento2 = inflater.inflate(R.layout.fragment_fragmento_dos, container, false);
+        compartirViewModel = new ViewModelProvider(requireActivity()).get(CompartirViewModel.class);
+
+        textoDescipcion = fragmento2.findViewById(R.id.txtDescripcion);
+        textoDescipcion.setText(compartirViewModel.getGetDescrip().getValue());
+
+        //boton.setOnClickListener(this::guardar);
 
         boton = fragmento2.findViewById(R.id.bt_guardar);
         boton.setOnClickListener( view -> {
-            compartirViewModel.setDescip(textoDescipcion.toString());//Guardo la descripción del fragmento
+            compartirViewModel.setDescip(textoDescipcion.getText().toString());
+            comunicador1.onGuardar();
+            getActivity().finish();//Guardo la descripción del fragmento
         });
 
         return fragmento2;
     }
+
+   /* private void guardar(View view) {
+
+        compartirViewModel.setDescip(textoDescipcion.getText().toString());
+        comunicador1.onGuardar();
+        getActivity().finish();
+    }*/
 }

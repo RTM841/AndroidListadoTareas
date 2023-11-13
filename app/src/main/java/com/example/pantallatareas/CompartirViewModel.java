@@ -39,6 +39,8 @@ public class CompartirViewModel extends ViewModel {
         estadoTarea.setValue(estado);
     }
 
+    //Para guardar la descripción
+
     public  MutableLiveData<String> getEstadoTarea(){return estadoTarea;}
 
     //Para guardar la descripcion
