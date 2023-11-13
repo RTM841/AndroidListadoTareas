@@ -1,5 +1,6 @@
 package com.example.pantallatareas.fragmentos;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -9,6 +10,7 @@ import androidx.lifecycle.ViewModelProvider;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.pantallatareas.CompartirViewModel;
@@ -18,7 +20,9 @@ import java.util.Date;
 
 public class FragmentoDos extends Fragment {
 
-    private TextView textoNombreTarea, fechaini, fechafin;
+    private TextView textoNombreTarea, fechaini, fechafin, textoDescipcion;
+    private Button boton;
+    private CompartirViewModel compartirViewModel;
 
     public FragmentoDos() {
 
@@ -39,6 +43,7 @@ public class FragmentoDos extends Fragment {
 
             }
         };
+
         //Asignamos un observador al MutableLiveData
         compartirViewModel.getNombre().observe(this, observadorNombre);
 
@@ -65,13 +70,17 @@ public class FragmentoDos extends Fragment {
 
     }
 
+    @SuppressLint("MissingInflatedId")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View fragmento2 = inflater.inflate(R.layout.fragment_fragmento_dos, container, false);
-        textoNombreTarea = fragmento2.findViewById(R.id.editTetxtTituloTarea);
-        fechaini = fragmento2.findViewById(R.id.editTextFechaCreacion);
-        fechafin = fragmento2.findViewById(R.id.editTextFechaFinal);
+
+        boton = fragmento2.findViewById(R.id.bt_guardar);
+        boton.setOnClickListener( view -> {
+            compartirViewModel.setDescip(textoDescipcion.toString());//Guardo la descripción del fragmento
+        });
+
         return fragmento2;
     }
 }

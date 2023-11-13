@@ -17,28 +17,38 @@ public class CompartirViewModel extends ViewModel {
 
 
     //Para guardar la fecha de inicio
-    private final MutableLiveData<DatePickerFragment> fechaIni = new MutableLiveData<>();
+    private final MutableLiveData<String> fechaIni = new MutableLiveData<>();
 
-    DatePickerFragment
-    public  MutableLiveData<DatePickerFragment> getFechaIni(){return fechaIni;}
+    public void setFechaIni(String fechaI){fechaIni.setValue(fechaI);}
+    public  MutableLiveData<String> getFechaIni(){return fechaIni;}
 
+    //Para guardar la fecha final
+    private final MutableLiveData<String> fechaFin = new MutableLiveData<>();
 
-    private final MutableLiveData<DatePickerFragment> fechaFin = new MutableLiveData<>();
-
-    public void setFechaFin(DatePickerFragment fechaF){
+    public void setFechaFin(String fechaF){
         fechaFin.setValue(fechaF);
     }
 
-    public  MutableLiveData<DatePickerFragment> getFechaFin(){return fechaFin;}
+    public  MutableLiveData<String> getFechaFin(){return fechaFin;}
 
+    //Para guardar Spinner de estado de la tarea
 
-    private final MutableLiveData<Spinner> estadoTarea = new MutableLiveData<>();
+    private final MutableLiveData<String> estadoTarea = new MutableLiveData<>();
 
-    public void setEstadoTarea(Spinner estado){
+    public void setEstadoTarea(String estado){
         estadoTarea.setValue(estado);
     }
 
-    public  MutableLiveData<Spinner> getEstadoTarea(){return estadoTarea;}
+    public  MutableLiveData<String> getEstadoTarea(){return estadoTarea;}
+
+    //Para guardar la descripcion
+    private final MutableLiveData<String> Descrip = new MutableLiveData<>();
+
+    public void setDescip(String descripcion){
+        Descrip.setValue(descripcion);
+    }
+
+    public  MutableLiveData<String> getGetDescrip(){return Descrip;}
 
 
 

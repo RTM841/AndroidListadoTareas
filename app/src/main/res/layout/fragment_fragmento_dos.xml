@@ -11,129 +11,36 @@
         android:layout_height="match_parent">
 
         <TextView
-            android:id="@+id/textView7"
+            android:id="@+id/txtDesciprion"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="32dp"
-            android:text="Prioritaria:"
-            android:textSize="14sp"
-            app:layout_constraintBottom_toBottomOf="@+id/cbPrioritaria"
-            app:layout_constraintEnd_toStartOf="@+id/cbPrioritaria"
-            app:layout_constraintTop_toTopOf="@+id/cbPrioritaria"
-            app:layout_constraintVertical_bias="0.448" />
-
-        <TextView
-            android:id="@+id/textView6"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="12dp"
-            android:text="Progeso:"
-            android:textSize="14sp"
-            app:layout_constraintBottom_toBottomOf="@+id/spinerProgreso"
-            app:layout_constraintEnd_toStartOf="@+id/spinerProgreso"
-            app:layout_constraintTop_toTopOf="@+id/spinerProgreso"
-            app:layout_constraintVertical_bias="0.0" />
-
-        <TextView
-            android:id="@+id/txtNombreTarea"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
-            android:text="Nombre Tarea:"
-            android:textSize="16sp"
-            app:layout_constraintBottom_toBottomOf="@+id/editTetxtTituloTarea"
-            app:layout_constraintEnd_toStartOf="@+id/editTetxtTituloTarea"
-            app:layout_constraintTop_toTopOf="@+id/editTetxtTituloTarea"
-            app:layout_constraintVertical_bias="0.521" />
+            android:layout_marginStart="16dp"
+            android:text="Descripción"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="@+id/editTextText"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/editTextText" />
 
         <EditText
-            android:id="@+id/editTetxtTituloTarea"
+            android:id="@+id/editTextText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="68dp"
-            android:layout_marginEnd="28dp"
+            android:layout_marginTop="220dp"
             android:ems="10"
             android:inputType="text"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <EditText
-            android:id="@+id/editTextFechaCreacion"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="36dp"
-            android:layout_marginEnd="4dp"
-            android:clickable="true"
-            android:ems="10"
-            android:focusable="false"
-            android:inputType="text"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editTetxtTituloTarea" />
-
-        <TextView
-            android:id="@+id/textView2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="4dp"
-            android:text="Fecha Creación Tarea:"
-            android:textSize="14sp"
-            app:layout_constraintBottom_toBottomOf="@+id/editTextFechaCreacion"
-            app:layout_constraintEnd_toStartOf="@+id/editTextFechaCreacion"
-            app:layout_constraintTop_toTopOf="@+id/editTextFechaCreacion"
-            app:layout_constraintVertical_bias="0.307" />
-
-        <EditText
-            android:id="@+id/editTextFechaFinal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:layout_marginEnd="12dp"
-            android:clickable="true"
-            android:ems="10"
-            android:focusable="false"
-            android:inputType="text"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editTextFechaCreacion" />
-
-        <TextView
-            android:id="@+id/textView5"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="20dp"
-            android:text="Fecha Final Tarea:"
-            android:textSize="14sp"
-            app:layout_constraintBottom_toBottomOf="@+id/editTextFechaFinal"
-            app:layout_constraintEnd_toStartOf="@+id/editTextFechaFinal"
-            app:layout_constraintTop_toTopOf="@+id/editTextFechaFinal" />
-
-        <Spinner
-            android:id="@+id/spinerProgreso"
-            android:layout_width="155dp"
-            android:layout_height="22dp"
-            android:layout_marginTop="28dp"
-            android:layout_marginEnd="148dp"
-            android:entries="@array/EstadoBarra"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editTextFechaFinal" />
-
-        <CheckBox
-            android:id="@+id/cbPrioritaria"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:layout_marginEnd="224dp"
-            android:text="Sí"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/spinerProgreso" />
+            android:text="Name"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:layout_editor_absoluteX="165dp" />
 
         <Button
-            android:id="@+id/bt_siguiente"
+            android:id="@+id/bt_guardar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginBottom="192dp"
-            android:text="Siguiente"
+            android:layout_marginStart="16dp"
+            android:layout_marginBottom="372dp"
+            android:text="Guardar"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>

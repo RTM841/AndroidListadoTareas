@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.pantallatareas.fragmentos.FragmentoDos;
 import com.example.pantallatareas.fragmentos.FragmentoUno;
 
 public class CrearTareasActivity extends AppCompatActivity {
