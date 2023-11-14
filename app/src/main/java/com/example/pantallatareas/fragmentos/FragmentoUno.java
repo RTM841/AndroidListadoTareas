@@ -48,7 +48,7 @@ public class FragmentoUno extends Fragment implements View.OnClickListener {
 
     private CheckBox prioritaria;
 
-    private Button button;
+    private Button button1 , button2;
 
     public FragmentoUno() {
 
@@ -94,12 +94,24 @@ public class FragmentoUno extends Fragment implements View.OnClickListener {
         editTitulo.setText(compartirViewModel.getNombre().getValue()); //Leemos del ViewModel por si hay algo
 
 
-        button = fragmento1.findViewById(R.id.bt_siguiente);
-        button.setOnClickListener(this::siguiente);
+        button1 = fragmento1.findViewById(R.id.bt_siguiente);
+        button1.setOnClickListener(this::siguiente);
+
+        button2 = fragmento1.findViewById(R.id.bt_cancelar);
+        button2.setOnClickListener(this::cancelar);
 
 
 
         return fragmento1;
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        editTitulo.setText(compartirViewModel.getNombre().getValue());
+        editfechaincio.setText(compartirViewModel.getFechaIni().getValue());
+        editfechafin.setText(compartirViewModel.getFechaFin().getValue());
     }
 
     private void siguiente(View view) {
@@ -126,6 +138,10 @@ public class FragmentoUno extends Fragment implements View.OnClickListener {
         getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.contenedorFragmentos, new FragmentoDos()).commit();
 
 
+    }
+
+    private void cancelar(View view){
+        getActivity().finish();
     }
 
 

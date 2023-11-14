@@ -29,7 +29,7 @@ public class Tarea implements Parcelable {
         this.prioritaria = prioritaria;
     }
 
-    public Tarea(String nombreTarea, int porcentajeTarea, String fechaIni, String fechaFin, int diasTarea) {
+    public Tarea(String nombreTarea, int porcentajeTarea, String fechaIni, int diasTarea) {
         this.id = ++contador;
         this.nombreTarea = nombreTarea;
         this.porcentajeTarea = porcentajeTarea;

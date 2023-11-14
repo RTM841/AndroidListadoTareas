@@ -9,6 +9,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
@@ -18,6 +19,8 @@ import com.example.pantallatareas.fragmentos.FragmentoUno;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -29,7 +32,7 @@ public class CrearTareasActivity extends AppCompatActivity implements FragmentoD
     private Button continuar;
     private Button cancelar;
     private String nombreTarea, fechaIni, fechaFin, progesoBarra, descripcion;
-    private Integer numDias;
+    private Integer numDias, numeroProgreso;
     private Tarea tarealistado;
 
     @Override
@@ -72,11 +75,13 @@ public class CrearTareasActivity extends AppCompatActivity implements FragmentoD
         descripcion = compartirViewModel.getGetDescrip().getValue();
 
 
+
+
         Tarea tarealistado = null;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
             int contadorID = 1;
 
-            tarealistado = new Tarea(nombreTarea.toString(), 25);
+            tarealistado = new Tarea(nombreTarea.toString(), barraProgreso(progesoBarra), fechaIni);
         }
 
 
@@ -88,6 +93,31 @@ public class CrearTareasActivity extends AppCompatActivity implements FragmentoD
 
     }
 
+    public int barraProgreso(String nombre){
+        if (nombre.equals("No iniciada")){
+            numeroProgreso = 0;
+        } else if (nombre.equals("Iniciada")) {
+            numeroProgreso = 25;
+        } else if (nombre.equals("Avanzada")) {
+            numeroProgreso = 50;
+        } else if (nombre.equals("Casi finalizada")) {
+            numeroProgreso = 75;
+        }else{
+            numeroProgreso = 100;
+        }
+        return numeroProgreso;
+    }
+
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public int numeroDias(String fechainicio, String fechafinal) throws ParseException {
+
+        LocalDate localDate1 = LocalDate.parse(fechainicio, DateTimeFormatter.ISO_DATE);
+        LocalDate localDate2 = LocalDate.parse(fechafinal, DateTimeFormatter.ISO_DATE);
+        int diferenciaEnDias = Math.abs(localDate1.until(localDate2).getDays());
+
+    return  diferenciaEnDias;
+    }
 
 
 }

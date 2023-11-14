@@ -24,7 +24,7 @@ import java.util.Date;
 public class FragmentoDos extends Fragment {
 
     private TextView textoDescipcion;
-    private Button boton;
+    private Button boton, boton2;
     private CompartirViewModel compartirViewModel;
 
     public FragmentoDos() {
@@ -56,6 +56,7 @@ public class FragmentoDos extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
 
         /*//Obtenemos una referencia del ViewModel
          compartirViewModel = new ViewModelProvider(requireActivity()).get(CompartirViewModel.class);
@@ -107,6 +108,9 @@ public class FragmentoDos extends Fragment {
 
         //boton.setOnClickListener(this::guardar);
 
+        boton2 = fragmento2.findViewById(R.id.bt_volver);
+        boton2.setOnClickListener(this::volver);
+
         boton = fragmento2.findViewById(R.id.bt_guardar);
         boton.setOnClickListener( view -> {
             compartirViewModel.setDescip(textoDescipcion.getText().toString());
@@ -119,6 +123,14 @@ public class FragmentoDos extends Fragment {
         });
 
         return fragmento2;
+    }
+
+
+    private void volver(View view){
+
+        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.contenedorFragmentos, new FragmentoUno()).commit();
+
+
     }
 
    /* private void guardar(View view) {
