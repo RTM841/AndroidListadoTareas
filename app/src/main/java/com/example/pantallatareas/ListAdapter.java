@@ -1,7 +1,10 @@
 package com.example.pantallatareas;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -40,9 +43,20 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
 
 
     @Override
-    public void onBindViewHolder(final ListAdapter.ViewHolder holder, final int position)
+    public void onBindViewHolder(final ListAdapter.ViewHolder holder, @SuppressLint("RecyclerView") int position)
     {
+
         holder.bindData(datosTareas.get(position));
+        holder.posicion = position;
+        holder.itemView.setOnCreateContextMenuListener(new View.OnCreateContextMenuListener() {
+            @Override
+            public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+                MenuInflater inflater = new MenuInflater(context);
+                inflater.inflate(R.menu.menu_contextual,menu);
+                holder.posicion = position;
+                holder.bindData(datosTareas.get(position));
+            }
+        });
     }
 
 public void setItems(List<Tarea> items){ datosTareas = items;}
@@ -57,6 +71,8 @@ public void setItems(List<Tarea> items){ datosTareas = items;}
         ProgressBar barraProgreso;
 
         TextView fecha;
+
+        int posicion;
 
         ViewHolder(View itemView){
             super(itemView);

@@ -7,7 +7,6 @@ import androidx.activity.result.contract.ActivityResultContract;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
@@ -15,13 +14,17 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.LauncherActivityInfo;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.Toast;
+
+import com.google.android.material.textview.MaterialTextView;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -30,16 +33,15 @@ import java.util.Date;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
-    List<Tarea> elements;
-    Calendar calendar = Calendar.getInstance();
-    Calendar calendar2 = Calendar.getInstance();
-    Date date = calendar.getTime();
-    Date date2 = calendar2.getTime();
+    private List<Tarea> elements;
+    private Calendar calendar = Calendar.getInstance();
+    private Calendar calendar2 = Calendar.getInstance();
+    private Date date = calendar.getTime();
+    private Date date2 = calendar2.getTime();
+    private Menu mimenu;
+    private ListAdapter listAdapter;
 
-    Menu mimenu;
-    ListAdapter listAdapter;
-
-
+    private Tarea tareaSeleccionada;
 
     private RecyclerView rv;
     @SuppressLint("MissingInflatedId")
@@ -99,6 +101,8 @@ public class MainActivity extends AppCompatActivity {
         RecyclerView recyclerView = findViewById(R.id.recyclerVistaTareas);
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(listAdapter);
+
+        registerForContextMenu(recyclerView);
     }
 
 

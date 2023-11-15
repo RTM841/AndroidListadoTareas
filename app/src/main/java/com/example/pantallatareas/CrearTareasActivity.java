@@ -40,6 +40,7 @@ public class CrearTareasActivity extends AppCompatActivity implements FragmentoD
     @Override
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
+        getSupportActionBar().hide();
         setContentView(R.layout.activity_navigation);
 
         compartirViewModel = new ViewModelProvider(this).get(CompartirViewModel.class);

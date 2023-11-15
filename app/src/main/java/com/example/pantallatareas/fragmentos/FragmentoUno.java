@@ -69,6 +69,7 @@ public class FragmentoUno extends Fragment implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         fragmentoDos = new FragmentoDos();
         compartirViewModel = new ViewModelProvider(requireActivity()).get(CompartirViewModel.class);
+
     }
 
     @SuppressLint("MissingInflatedId")
