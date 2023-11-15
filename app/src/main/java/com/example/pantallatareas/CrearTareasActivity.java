@@ -1,6 +1,7 @@
 package com.example.pantallatareas;
 
 import android.content.Intent;
+import android.location.GnssMeasurementRequest;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -23,6 +24,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 public class CrearTareasActivity extends AppCompatActivity implements FragmentoDos.ComunicacionFragmento1{
 
@@ -49,7 +51,7 @@ public class CrearTareasActivity extends AppCompatActivity implements FragmentoD
     }
 
     @Override
-    public void onGuardar(){
+    public void onGuardar() throws ParseException {
 
        /* if (nombreTarea == null ) {
             Toast.makeText(this, "¡Nombre nulo!", Toast.LENGTH_SHORT).show();
@@ -69,19 +71,19 @@ public class CrearTareasActivity extends AppCompatActivity implements FragmentoD
         }*/
 
         nombreTarea = compartirViewModel.getNombre().getValue();
-        fechaIni = compartirViewModel.getFechaIni().getValue();
-        fechaFin = compartirViewModel.getFechaFin().getValue();
+        fechaIni = compartirViewModel.getFechaIni().getValue().toString();
+        fechaFin = compartirViewModel.getFechaFin().getValue().toString();
         progesoBarra = compartirViewModel.getEstadoTarea().getValue();
         descripcion = compartirViewModel.getGetDescrip().getValue();
 
 
-
+        int numD = numeroDias(fechaIni, fechaFin);
 
         Tarea tarealistado = null;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
             int contadorID = 1;
 
-            tarealistado = new Tarea(nombreTarea.toString(), barraProgreso(progesoBarra), fechaIni);
+            tarealistado = new Tarea(nombreTarea.toString(), barraProgreso(progesoBarra), fechaIni, numD);
         }
 
 
@@ -109,14 +111,30 @@ public class CrearTareasActivity extends AppCompatActivity implements FragmentoD
     }
 
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
     public int numeroDias(String fechainicio, String fechafinal) throws ParseException {
 
-        LocalDate localDate1 = LocalDate.parse(fechainicio, DateTimeFormatter.ISO_DATE);
-        LocalDate localDate2 = LocalDate.parse(fechafinal, DateTimeFormatter.ISO_DATE);
-        int diferenciaEnDias = Math.abs(localDate1.until(localDate2).getDays());
+        Date date1 = convertirStringADate(fechainicio);
+        Date date2 = convertirStringADate(fechafinal);
+
+        // Calcula la diferencia en milisegundos
+        long diferenciaEnMilisegundos = Math.abs(date2.getTime() - date1.getTime());
+
+        // Convierte la diferencia de milisegundos a días
+        int diferenciaEnDias = (int) (diferenciaEnMilisegundos / (24 * 60 * 60 * 1000));
+
 
     return  diferenciaEnDias;
+    }
+
+    private Date convertirStringADate(String fecha) throws ParseException {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd / MM / yyyy");
+        dateFormat.parse(fecha);
+        try {
+            return dateFormat.parse(fecha);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
 

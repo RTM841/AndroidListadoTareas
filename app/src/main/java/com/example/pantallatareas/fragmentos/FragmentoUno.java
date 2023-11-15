@@ -112,6 +112,20 @@ public class FragmentoUno extends Fragment implements View.OnClickListener {
         editTitulo.setText(compartirViewModel.getNombre().getValue());
         editfechaincio.setText(compartirViewModel.getFechaIni().getValue());
         editfechafin.setText(compartirViewModel.getFechaFin().getValue());
+        /*int rango = 0;
+        if (compartirViewModel.getEstadoTarea().getValue().equals("No iniciada")){
+            rango = 0;
+        } else if (compartirViewModel.getEstadoTarea().getValue().equals("Iniciada")) {
+            rango = 1;
+        } else if (compartirViewModel.getEstadoTarea().getValue().equals("Avanzada")) {
+            rango = 2;
+        } else if (compartirViewModel.getEstadoTarea().getValue()..equals("Casi finalizada")) {
+            rango = 3;
+        }else if (compartirViewModel.getEstadoTarea().getValue().toString().equals("Finalizada")){
+            rango = 4;
+        }
+        barra.setSelection(rango);*/
+
     }
 
     private void siguiente(View view) {

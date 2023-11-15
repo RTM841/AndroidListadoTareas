@@ -52,6 +52,8 @@ public void setItems(List<Tarea> items){ datosTareas = items;}
         ImageView iconImage;
         TextView nombreTarea;
 
+        TextView numDias;
+
         ProgressBar barraProgreso;
 
         TextView fecha;
@@ -62,12 +64,14 @@ public void setItems(List<Tarea> items){ datosTareas = items;}
             nombreTarea = itemView.findViewById(R.id.textoTarea);
             barraProgreso = itemView.findViewById(R.id.ProGresBar_barra);
             fecha = itemView.findViewById(R.id.textoFecha);
+            numDias = itemView.findViewById(R.id.textoNumDias);
         }
 
       void bindData(final Tarea item){
           barraProgreso.setProgress(item.porcentajeTarea);
           nombreTarea.setText(item.getNombreTarea());
           fecha.setText(item.getFechaIni());
+          numDias.setText(String.valueOf(item.diasTarea));
 
       }
 
