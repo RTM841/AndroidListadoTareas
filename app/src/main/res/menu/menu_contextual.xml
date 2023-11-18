@@ -2,17 +2,17 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/mcDescrip"
+        android:id="@+id/bt_descripcion"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:title="Descripción" />
     <item
-        android:id="@+id/mcEditar"
+        android:id="@+id/bt_editar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:title="Editar" />
     <item
-        android:id="@+id/mcBorrar"
+        android:id="@+id/bt_borrar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:title="Borrar" />

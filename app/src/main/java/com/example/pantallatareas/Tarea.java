@@ -19,6 +19,8 @@ public class Tarea implements Parcelable {
     public int diasTarea;
     public boolean prioritaria;
 
+    public String descripción;
+
     public Tarea(String nombreTarea, int porcentajeTarea, String fechaIni, String fechaFin, int diasTarea, boolean prioritaria) {
         this.id = ++contador;
         this.nombreTarea = nombreTarea;
