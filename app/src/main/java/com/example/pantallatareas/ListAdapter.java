@@ -86,6 +86,16 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
                     }
                 });
 
+                menu.findItem(R.id.bt_borrar).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        // Acción que se realiza cuando se hace clic en la opción de mostrar título
+                        long tareaId = (long) v.getTag(R.id.tarea_id_tag);
+                        borrarTarea(tareaId);
+                        return true;
+                    }
+                });
+
             }
         });
 
@@ -110,6 +120,32 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
         if (tareaSeleccionada != null) {
             String tituloTarea = tareaSeleccionada.nombreTarea;
             Toast.makeText(context.getApplicationContext(), "Título de la tarea: " + tituloTarea, Toast.LENGTH_LONG).show();
+        }
+    }
+
+    public void borrarTarea(long idTarea) {
+        int posicionTarea = -1;
+
+        // Buscar la posición de la tarea en la lista
+        for (int i = 0; i < datosTareas.size(); i++) {
+            if (datosTareas.get(i).getId() == idTarea) {
+                posicionTarea = i;
+                break;
+            }
+        }
+
+        // Verificar si la tarea se encontró antes de realizar la acción
+        if (posicionTarea != -1) {
+            Tarea tareaSelec = datosTareas.get(posicionTarea);
+
+            String tituloTarea = tareaSelec.nombreTarea;
+            Toast.makeText(context.getApplicationContext(), "La tarea borrada es:" + tituloTarea, Toast.LENGTH_LONG).show();
+
+            // Eliminar la tarea de la lista
+            datosTareas.remove(posicionTarea);
+
+            // Notificar al adaptador que la tarea ha sido eliminada
+            notifyItemRemoved(posicionTarea);
         }
     }
 
