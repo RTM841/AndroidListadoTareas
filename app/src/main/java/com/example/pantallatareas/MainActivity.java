@@ -41,9 +41,11 @@ public class MainActivity extends AppCompatActivity {
     private Menu mimenu;
     private ListAdapter listAdapter;
 
+    private  Boolean filtprio = false;
+
     private Tarea tareaSeleccionada;
 
-    private RecyclerView rv;
+    private RecyclerView recyclerView;
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,8 +91,8 @@ public class MainActivity extends AppCompatActivity {
         String formatoFecha2 = new SimpleDateFormat("dd/MM/yyyy").format(date2);
         elements = new ArrayList<>();
 
-        elements.add(new Tarea("Tarea01", 50, formatoFecha));
-        elements.add(new Tarea("Tarea02", 25, formatoFecha2));
+        elements.add(new Tarea("Tarea01", 50, formatoFecha, true));
+        elements.add(new Tarea("Tarea02", 25, formatoFecha2, false));
 
         if (elements.isEmpty()){
             Toast.makeText(this, "No hay tareas", Toast.LENGTH_SHORT).show();}
@@ -98,7 +100,7 @@ public class MainActivity extends AppCompatActivity {
 
 
        listAdapter = new ListAdapter(elements, this);
-        RecyclerView recyclerView = findViewById(R.id.recyclerVistaTareas);
+        recyclerView = findViewById(R.id.recyclerVistaTareas);
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(listAdapter);
 
@@ -134,6 +136,8 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, CrearTareasActivity.class);
         lan.launch(intent);
         return true;
+    }else if(id==R.id.Prio){
+        prioritarias();
     }
 
     return super.onOptionsItemSelected(opcion_menu);
@@ -153,6 +157,31 @@ public class MainActivity extends AppCompatActivity {
 
         AlertDialog dialog = builder.create();
         dialog.show();
+    }
+
+
+    public void prioritarias(){
+        filtprio = !filtprio;
+
+        if (filtprio){
+            listAdapter = new ListAdapter(listPrio(), this);
+        }else{
+            listAdapter = new ListAdapter(elements, this);
+        }
+
+        recyclerView.setAdapter(listAdapter);
+
+    }
+
+    public List<Tarea> listPrio(){
+        List<Tarea> tareaPrio = new ArrayList<>();
+
+        for (Tarea T: elements) {
+            if (T.isPrioritaria()){
+                tareaPrio.add(T);
+            }
+        }
+        return tareaPrio;
     }
 
 

@@ -1,5 +1,4 @@
 package com.example.pantallatareas;
-import android.widget.Spinner;
 
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -59,6 +58,20 @@ public class CompartirViewModel extends ViewModel {
     }
 
     public  MutableLiveData<Integer> getNumDias(){return numDias;}
+
+
+    private final MutableLiveData<Boolean> prioritaria = new MutableLiveData<>();
+
+    public void setPrioritaria(boolean prio){prioritaria.setValue(prio);
+    }
+
+    public boolean getPrioritariaValue(){
+        if (prioritaria.getValue() != null){
+            return prioritaria.getValue();
+        }else{
+            return false;
+        }
+    }
 
 
 

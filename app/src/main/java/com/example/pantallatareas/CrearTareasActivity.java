@@ -34,6 +34,8 @@ public class CrearTareasActivity extends AppCompatActivity implements FragmentoD
     private Button continuar;
     private Button cancelar;
     private String nombreTarea, fechaIni, fechaFin, progesoBarra, descripcion;
+
+    private Boolean esPrio;
     private Integer numDias, numeroProgreso;
     private Tarea tarealistado;
 
@@ -76,6 +78,7 @@ public class CrearTareasActivity extends AppCompatActivity implements FragmentoD
         fechaFin = compartirViewModel.getFechaFin().getValue().toString();
         progesoBarra = compartirViewModel.getEstadoTarea().getValue();
         descripcion = compartirViewModel.getGetDescrip().getValue();
+        esPrio = compartirViewModel.getPrioritariaValue();
 
 
         int numD = numeroDias(fechaIni, fechaFin);
@@ -83,8 +86,7 @@ public class CrearTareasActivity extends AppCompatActivity implements FragmentoD
         Tarea tarealistado = null;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
             int contadorID = 1;
-
-            tarealistado = new Tarea(nombreTarea.toString(), barraProgreso(progesoBarra), fechaIni, numD);
+            tarealistado = new Tarea(nombreTarea.toString(), barraProgreso(progesoBarra), fechaIni, numD, descripcion.toString(), esPrio);
         }
 
 

@@ -118,8 +118,8 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
 
         // Verificar si la tarea se encontró antes de realizar la acción
         if (tareaSeleccionada != null) {
-            String tituloTarea = tareaSeleccionada.nombreTarea;
-            Toast.makeText(context.getApplicationContext(), "Título de la tarea: " + tituloTarea, Toast.LENGTH_LONG).show();
+            String descrip = tareaSeleccionada.descripcion;
+            Toast.makeText(context.getApplicationContext(), "Título de la tarea: " + descrip, Toast.LENGTH_LONG).show();
         }
     }
 
@@ -186,10 +186,18 @@ public void setItems(List<Tarea> items){ datosTareas = items;}
         }
 
       void bindData(final Tarea item){
-          barraProgreso.setProgress(item.porcentajeTarea);
+          barraProgreso.setProgress(item.getPorcentajeTarea());
           nombreTarea.setText(item.getNombreTarea());
           fecha.setText(item.getFechaIni());
-          numDias.setText(String.valueOf(item.diasTarea));
+          numDias.setText(String.valueOf(item.getDiasTarea()));
+
+         if (item.isPrioritaria()){
+              iconImage.setImageResource(R.drawable.baseline_star_24);
+              iconImage.setVisibility(View.VISIBLE);
+          }else{
+              iconImage.setImageResource(R.drawable.baseline_star_outline_24);
+              iconImage.setVisibility(View.VISIBLE);
+          }
 
       }
 

@@ -21,7 +21,7 @@
         app:layout_constraintBottom_toBottomOf="@+id/textoTarea"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/baseline_stars_24" />
+        app:srcCompat="@drawable/baseline_star_outline_24" />
 
     <TextView
         android:id="@+id/textoFecha"

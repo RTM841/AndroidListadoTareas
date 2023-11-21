@@ -19,9 +19,9 @@ public class Tarea implements Parcelable {
     public int diasTarea;
     public boolean prioritaria;
 
-    public String descripción;
+    public String descripcion;
 
-    public Tarea(String nombreTarea, int porcentajeTarea, String fechaIni, String fechaFin, int diasTarea, boolean prioritaria) {
+    public Tarea(String nombreTarea, int porcentajeTarea, String fechaIni, String fechaFin, int diasTarea, boolean prioritaria, String descripcion) {
         this.id = ++contador;
         this.nombreTarea = nombreTarea;
         this.porcentajeTarea = porcentajeTarea;
@@ -29,24 +29,27 @@ public class Tarea implements Parcelable {
         this.fechaFin = fechaFin;
         this.diasTarea = diasTarea;
         this.prioritaria = prioritaria;
+        this.descripcion = descripcion;
     }
 
-    public Tarea(String nombreTarea, int porcentajeTarea, String fechaIni, int diasTarea) {
+    public Tarea(String nombreTarea, int porcentajeTarea, String fechaIni, int diasTarea, String descripcion, boolean prioritaria) {
         this.id = ++contador;
         this.nombreTarea = nombreTarea;
         this.porcentajeTarea = porcentajeTarea;
         this.fechaIni = fechaIni;
         this.fechaFin = fechaFin;
         this.diasTarea = diasTarea;
-    }
-    public Tarea(long id, String nombreTarea, int porcentajeTarea, String fechaIni, String fechaFin, int diasTarea) {
-        this.id = ++contador;
-        this.nombreTarea = nombreTarea;
-        this.porcentajeTarea = porcentajeTarea;
-        this.fechaIni = fechaIni;
-        this.fechaFin = fechaFin;
-        this.diasTarea = diasTarea;
+        this.descripcion = descripcion;
         this.prioritaria = prioritaria;
+    }
+    public Tarea(long id, String nombreTarea, int porcentajeTarea, String fechaIni, String fechaFin, int diasTarea, String descripcion) {
+        this.id = ++contador;
+        this.nombreTarea = nombreTarea;
+        this.porcentajeTarea = porcentajeTarea;
+        this.fechaIni = fechaIni;
+        this.fechaFin = fechaFin;
+        this.diasTarea = diasTarea;
+        this.descripcion = descripcion;
     }
 
     public Tarea(String nombreTarea) {
@@ -61,10 +64,11 @@ public class Tarea implements Parcelable {
         this.porcentajeTarea = porcentajeTarea;
     }
 
-    public Tarea(String nombreTarea, int porcentajeTarea, String fecha) {
+    public Tarea(String nombreTarea, int porcentajeTarea, String fecha, boolean prioritaria) {
         this.nombreTarea = nombreTarea;
         this.porcentajeTarea = porcentajeTarea;
         this.fechaIni = fecha;
+        this.prioritaria = prioritaria;
     }
 
     protected Tarea(Parcel in) {
@@ -75,6 +79,7 @@ public class Tarea implements Parcelable {
         fechaFin = in.readString();
         diasTarea = in.readInt();
         prioritaria = in.readByte() != 0;
+        descripcion = in.readString();
     }
 
     public static final Creator<Tarea> CREATOR = new Creator<Tarea>() {
@@ -144,6 +149,12 @@ public class Tarea implements Parcelable {
         this.fechaFin = fechaFin;
     }
 
+    public String getDescripcion() {return descripcion;}
+
+    public void setDescripcion(String descripcion) {this.descripcion = descripcion;}
+
+
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -180,5 +191,6 @@ public class Tarea implements Parcelable {
         parcel.writeString(this.fechaFin);
         parcel.writeInt(this.diasTarea);
         parcel.writeByte((byte) (prioritaria ? 1 : 0));
+        parcel.writeString(this.descripcion);
     }
 }

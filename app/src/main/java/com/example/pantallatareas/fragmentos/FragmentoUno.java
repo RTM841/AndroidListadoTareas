@@ -47,6 +47,7 @@ public class FragmentoUno extends Fragment implements View.OnClickListener {
     private Spinner barra;
 
     private CheckBox prioritaria;
+    private boolean esPriotaria;
 
     private Button button1 , button2;
 
@@ -94,6 +95,14 @@ public class FragmentoUno extends Fragment implements View.OnClickListener {
         editTitulo = fragmento1.findViewById(R.id.editTetxtTituloTarea);
         editTitulo.setText(compartirViewModel.getNombre().getValue()); //Leemos del ViewModel por si hay algo
 
+        prioritaria = fragmento1.findViewById(R.id.cbPrioritaria);
+        if (prioritaria.isChecked()){
+            esPriotaria = true;
+        }else{
+            esPriotaria = false;
+        }
+        prioritaria.setChecked(compartirViewModel.getPrioritariaValue());
+
 
         button1 = fragmento1.findViewById(R.id.bt_siguiente);
         button1.setOnClickListener(this::siguiente);
@@ -113,19 +122,6 @@ public class FragmentoUno extends Fragment implements View.OnClickListener {
         editTitulo.setText(compartirViewModel.getNombre().getValue());
         editfechaincio.setText(compartirViewModel.getFechaIni().getValue());
         editfechafin.setText(compartirViewModel.getFechaFin().getValue());
-        /*int rango = 0;
-        if (compartirViewModel.getEstadoTarea().getValue().equals("No iniciada")){
-            rango = 0;
-        } else if (compartirViewModel.getEstadoTarea().getValue().equals("Iniciada")) {
-            rango = 1;
-        } else if (compartirViewModel.getEstadoTarea().getValue().equals("Avanzada")) {
-            rango = 2;
-        } else if (compartirViewModel.getEstadoTarea().getValue()..equals("Casi finalizada")) {
-            rango = 3;
-        }else if (compartirViewModel.getEstadoTarea().getValue().toString().equals("Finalizada")){
-            rango = 4;
-        }
-        barra.setSelection(rango);*/
 
     }
 
@@ -134,6 +130,7 @@ public class FragmentoUno extends Fragment implements View.OnClickListener {
         compartirViewModel.setFechaIni(editfechaincio.getText().toString());
         compartirViewModel.setFechaFin(editfechafin.getText().toString());//Escribimos en el ViewModel
         compartirViewModel.setEstadoTarea(barra.getSelectedItem().toString());
+        compartirViewModel.setPrioritaria(prioritaria.isChecked());
         Toast.makeText(requireContext(), "¡Enviado!", Toast.LENGTH_SHORT).show();
 
         /*requireActivity().getSupportFragmentManager().beginTransaction().replace(R.id.segundo_fragment, new FragmentoDos()).addToBackStack(null).commit();
