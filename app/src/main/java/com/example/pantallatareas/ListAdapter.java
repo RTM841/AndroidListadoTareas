@@ -13,10 +13,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.google.android.material.snackbar.Snackbar;
 
 import java.util.List;
 
@@ -70,18 +67,9 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
                 menu.findItem(R.id.bt_descripcion).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
-                        // Acción que se realiza cuando se hace clic en la opción 1
-                        Toast.makeText(context.getApplicationContext(), "Has selecccionado la opción de descripción", Toast.LENGTH_LONG).show();
-                        return true;
-                    }
-                });
-
-                menu.findItem(R.id.bt_descripcion).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-                    @Override
-                    public boolean onMenuItemClick(MenuItem item) {
                         // Acción que se realiza cuando se hace clic en la opción de mostrar título
                         long tareaId = (long) v.getTag(R.id.tarea_id_tag);
-                        mostrarTituloDeTarea(tareaId);
+                        mostrarDescrpicion(tareaId);
                         return true;
                     }
                 });
@@ -92,6 +80,16 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
                         // Acción que se realiza cuando se hace clic en la opción de mostrar título
                         long tareaId = (long) v.getTag(R.id.tarea_id_tag);
                         borrarTarea(tareaId);
+                        return true;
+                    }
+                });
+
+                menu.findItem(R.id.bt_editar).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        // Acción que se realiza cuando se hace clic en la opción de mostrar título
+                        long tareaId = (long) v.getTag(R.id.tarea_id_tag);
+
                         return true;
                     }
                 });
@@ -112,7 +110,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
         return null; // Retorna null si la tarea no se encuentra
     }
 
-    private void mostrarTituloDeTarea(long tareaId) {
+    private void mostrarDescrpicion(long tareaId) {
         // Buscar la tarea correspondiente en la lista de datos
         Tarea tareaSeleccionada = buscarTareaPorId(tareaId);
 
