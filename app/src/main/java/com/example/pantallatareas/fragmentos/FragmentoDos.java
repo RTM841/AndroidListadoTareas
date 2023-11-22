@@ -1,7 +1,9 @@
 package com.example.pantallatareas.fragmentos;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -9,6 +11,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,6 +33,8 @@ public class FragmentoDos extends Fragment {
     public FragmentoDos() {
 
     }
+
+
 
     public interface ComunicacionFragmento1{
         //Definimos los prototipos de los métodos que se han de implementar
@@ -113,13 +118,17 @@ public class FragmentoDos extends Fragment {
 
         boton = fragmento2.findViewById(R.id.bt_guardar);
         boton.setOnClickListener( view -> {
-            compartirViewModel.setDescip(textoDescipcion.getText().toString());
-            try {
-                comunicador1.onGuardar();
-            } catch (ParseException e) {
-                throw new RuntimeException(e);
+            if(TextUtils.isEmpty(textoDescipcion.getText())){mostrarAlertDialog("Por favor, completa todos los campos.");}
+            else{
+                compartirViewModel.setDescip(textoDescipcion.getText().toString());
+                try {
+                    comunicador1.onGuardar();
+                } catch (ParseException e) {
+                    throw new RuntimeException(e);
+                }
+                getActivity().finish();//Guardo la descripción del fragmento
             }
-            getActivity().finish();//Guardo la descripción del fragmento
+
         });
 
         return fragmento2;
@@ -131,6 +140,20 @@ public class FragmentoDos extends Fragment {
         getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.contenedorFragmentos, new FragmentoUno()).commit();
 
 
+    }
+
+    public void mostrarAlertDialog(String mensaje) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
+        builder.setMessage(mensaje)
+                .setTitle("Campos Vacíos")
+                .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        // Acción cuando se hace clic en el botón Aceptar
+                        dialog.dismiss(); // Cierra el diálogo
+                    }
+                });
+
+        builder.create().show();
     }
 
    /* private void guardar(View view) {

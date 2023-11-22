@@ -1,17 +1,18 @@
 package com.example.pantallatareas.fragmentos;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.viewmodel.CreationExtras;
 
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,8 +27,6 @@ import android.widget.Toast;
 import com.example.pantallatareas.CompartirViewModel;
 import com.example.pantallatareas.DatePickerFragment;
 import com.example.pantallatareas.R;
-
-import java.util.Calendar;
 
 
 public class FragmentoUno extends Fragment implements View.OnClickListener {
@@ -126,12 +125,19 @@ public class FragmentoUno extends Fragment implements View.OnClickListener {
     }
 
     private void siguiente(View view) {
-        compartirViewModel.setNombre(editTitulo.getText().toString());
-        compartirViewModel.setFechaIni(editfechaincio.getText().toString());
-        compartirViewModel.setFechaFin(editfechafin.getText().toString());//Escribimos en el ViewModel
-        compartirViewModel.setEstadoTarea(barra.getSelectedItem().toString());
-        compartirViewModel.setPrioritaria(prioritaria.isChecked());
-        Toast.makeText(requireContext(), "¡Enviado!", Toast.LENGTH_SHORT).show();
+
+
+        if (TextUtils.isEmpty(editTitulo.getText()) || TextUtils.isEmpty(editfechaincio.getText()) || TextUtils.isEmpty(editfechafin.getText())){
+            mostrarAlertDialog("Por favor, completa todos los campos.");
+        }else{
+            compartirViewModel.setNombre(editTitulo.getText().toString());
+            compartirViewModel.setFechaIni(editfechaincio.getText().toString());
+            compartirViewModel.setFechaFin(editfechafin.getText().toString());//Escribimos en el ViewModel
+            compartirViewModel.setEstadoTarea(barra.getSelectedItem().toString());
+            compartirViewModel.setPrioritaria(prioritaria.isChecked());
+            Toast.makeText(requireContext(), "¡Enviado!", Toast.LENGTH_SHORT).show();
+            getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.contenedorFragmentos, new FragmentoDos()).commit();
+        }
 
         /*requireActivity().getSupportFragmentManager().beginTransaction().replace(R.id.segundo_fragment, new FragmentoDos()).addToBackStack(null).commit();
         View fragmentContanier1 = requireActivity().findViewById(R.id.primer_fragment);
@@ -147,11 +153,25 @@ public class FragmentoUno extends Fragment implements View.OnClickListener {
         fragmentTransaction.addToBackStack(null); // Opcional: Agregar a la pila de retroceso
         fragmentTransaction.commit();*/
 
-        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.contenedorFragmentos, new FragmentoDos()).commit();
+
 
 
     }
 
+
+    private void mostrarAlertDialog(String mensaje) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
+        builder.setMessage(mensaje)
+                .setTitle("Campos Vacíos")
+                .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        // Acción cuando se hace clic en el botón Aceptar
+                        dialog.dismiss(); // Cierra el diálogo
+                    }
+                });
+
+        builder.create().show();
+    }
     private void cancelar(View view){
         getActivity().finish();
     }
