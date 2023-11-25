@@ -119,10 +119,5 @@ public class FragmentoDos extends Fragment {
         builder.create().show();
     }
 
-   /* private void guardar(View view) {
 
-        compartirViewModel.setDescip(textoDescipcion.getText().toString());
-        comunicador1.onGuardar();
-        getActivity().finish();
-    }*/
 }

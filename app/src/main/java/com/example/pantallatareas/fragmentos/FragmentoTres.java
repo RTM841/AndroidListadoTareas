@@ -5,13 +5,6 @@ import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.viewmodel.CreationExtras;
-
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,12 +17,20 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.viewmodel.CreationExtras;
+
 import com.example.pantallatareas.CompartirViewModel;
 import com.example.pantallatareas.DatePickerFragment;
 import com.example.pantallatareas.R;
+import com.example.pantallatareas.Tarea;
+import com.example.pantallatareas.TareaAdapter;
 
 
-public class FragmentoUno extends Fragment implements View.OnClickListener {
+public class FragmentoTres extends Fragment implements View.OnClickListener {
 
     @NonNull
     @Override
@@ -51,17 +52,26 @@ public class FragmentoUno extends Fragment implements View.OnClickListener {
 
     private Button button1 , button2;
 
-    public FragmentoUno() {
+    public FragmentoTres() {
 
     }
 
 
+    /*public static FragmentoUno newInstance(String param1, String param2) {
+        FragmentoUno fragment = new FragmentoUno();
+        Bundle args = new Bundle();
+        args.putString(ARG_PARAM1, param1);
+        args.putString(ARG_PARAM2, param2);
+        fragment.setArguments(args);
+        return fragment;
+    }*/
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         fragmentoDos = new FragmentoDos();
         compartirViewModel = new ViewModelProvider(requireActivity()).get(CompartirViewModel.class);
+
 
     }
 
@@ -70,7 +80,7 @@ public class FragmentoUno extends Fragment implements View.OnClickListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View fragmento1 = inflater.inflate(R.layout.fragment_fragmento_uno, container, false);
+        View fragmento1 = inflater.inflate(R.layout.fragment_fragmento_tres, container, false);
 
         editfechaincio = (EditText) fragmento1.findViewById(R.id.editTextFechaCreacion);
         editfechaincio.setOnClickListener(this);
@@ -107,6 +117,28 @@ public class FragmentoUno extends Fragment implements View.OnClickListener {
 
         return fragmento1;
     }
+
+    public static FragmentoTres newInstance(Tarea tareaSeleccionada) {
+        FragmentoTres fragment = new FragmentoTres();
+        Bundle args = new Bundle();
+        args.putParcelable("tareaSeleccionada", tareaSeleccionada);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    // Método para cargar los datos de la tarea en los EditText
+    public void cargarDatosTarea(Tarea tarea) {
+        // Cargar los datos en los EditText
+        editTitulo.setText(tarea.getNombreTarea());
+        editfechaincio.setText(tarea.getFechaIni());
+        editfechafin.setText(tarea.getFechaFin());
+        prioritaria.isChecked();
+        // ... (Cargar otros datos según sea necesario)
+    }
+
+
+
+
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {

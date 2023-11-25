@@ -19,8 +19,8 @@
 
     <LinearLayout
         android:id="@+id/contenedorFragmentos"
-        android:layout_width="769dp"
-        android:layout_height="521dp"
+        android:layout_width="366dp"
+        android:layout_height="152dp"
         android:layout_marginTop="8dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -30,21 +30,39 @@
         app:layout_constraintTop_toBottomOf="@+id/txtVTarea"
         app:layout_constraintVertical_bias="0.0">
 
-        <fragment
-            android:id="@+id/primer_fragment"
-            android:name="com.example.pantallatareas.fragmentos.FragmentoUno"
-            android:layout_width="match_parent"
-            android:layout_height="498dp"
-            android:layout_weight="0"></fragment>
     </LinearLayout>
+
+    <fragment
+        android:id="@+id/primer_fragment"
+        android:name="com.example.pantallatareas.fragmentos.FragmentoUno"
+        android:layout_width="889dp"
+        android:layout_height="345dp"
+        android:layout_weight="0"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtVTarea"
+        tools:layout_editor_absoluteX="-79dp"
+        tools:ignore="MissingConstraints"></fragment>
 
     <fragment
         android:id="@+id/segundo_fragment"
         android:name="com.example.pantallatareas.fragmentos.FragmentoDos"
-        android:layout_width="772dp"
-        android:layout_height="501dp"
+        android:layout_width="826dp"
+        android:layout_height="314dp"
         android:layout_weight="0"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="78dp"></fragment>
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/primer_fragment"
+        tools:layout_editor_absoluteX="-34dp"
+        tools:ignore="MissingConstraints"></fragment>
+
+    <fragment
+        android:id="@+id/tercer_fragmento"
+        android:name="com.example.pantallatareas.fragmentos.FragmentoDos"
+        android:layout_width="826dp"
+        android:layout_height="314dp"
+        android:layout_weight="0"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/hola"
+        tools:layout_editor_absoluteX="-34dp"
+        tools:ignore="MissingConstraints"></fragment>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

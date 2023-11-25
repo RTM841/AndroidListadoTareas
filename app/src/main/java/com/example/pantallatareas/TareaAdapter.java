@@ -1,7 +1,9 @@
 package com.example.pantallatareas;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
+import android.os.Bundle;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
@@ -12,8 +14,12 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+import androidx.fragment.app.FragmentManager;
 
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.pantallatareas.fragmentos.FragmentoTres;
 
 import java.util.List;
 
@@ -42,6 +48,7 @@ public class TareaAdapter extends RecyclerView.Adapter<TareaAdapter.ViewHolder> 
 
     @Override
     public int getItemCount(){return datosTareas.size(); }
+
 
 
     @Override
@@ -87,8 +94,11 @@ public class TareaAdapter extends RecyclerView.Adapter<TareaAdapter.ViewHolder> 
                 menu.findItem(R.id.bt_editar).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
-                        // Acción que se realiza cuando se hace clic en la opción de mostrar título
+                        // Acción que se realiza cuando se hace clic en la opción de editar
                         long tareaId = (long) v.getTag(R.id.tarea_id_tag);
+
+
+
 
                         return true;
                     }
@@ -100,6 +110,11 @@ public class TareaAdapter extends RecyclerView.Adapter<TareaAdapter.ViewHolder> 
 
 
     }
+
+
+
+
+
 
     private Tarea buscarTareaPorId(long tareaId) {
         for (Tarea tarea : datosTareas) {
@@ -149,15 +164,7 @@ public class TareaAdapter extends RecyclerView.Adapter<TareaAdapter.ViewHolder> 
 
 
 
-    /*@Override
-    public boolean onContextItemSelected(@NonNull MenuItem item) {
-        int itemId = item.getItemId();
-        if (itemId == R.id.bt_descripcion) {
-            Toast.makeText(context.getApplicationContext(), "Has pulsado el botón descripción", Toast.LENGTH_LONG).show();
 
-        }
-        return super.onContextItemSelected(item);
-    }*/
 
 public void setItems(List<Tarea> items){ datosTareas = items;}
 
