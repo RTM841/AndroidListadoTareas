@@ -15,8 +15,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
-            android:text="Descripción"
+            android:text="@string/descripcion"
             android:textSize="20sp"
+            android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@+id/txtDescripcion"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/txtDescripcion" />
@@ -38,7 +39,8 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="40dp"
             android:layout_marginBottom="384dp"
-            android:text="Guardar"
+            android:text="@string/btGuardar"
+            android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
@@ -48,7 +50,8 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="36dp"
             android:layout_marginBottom="384dp"
-            android:text="Volver"
+            android:text="@string/btVolver"
+            android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 

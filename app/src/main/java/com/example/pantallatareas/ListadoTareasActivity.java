@@ -32,7 +32,7 @@ public class ListadoTareasActivity extends AppCompatActivity {
     private Date date = calendar.getTime();
     private Date date2 = calendar2.getTime();
     private Menu mimenu;
-    private ListAdapter listAdapter;
+    private TareaAdapter tareaAdapter;
 
     private  Boolean filtprio = false;
 
@@ -69,7 +69,7 @@ public class ListadoTareasActivity extends AppCompatActivity {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
                     elements.add(tareaD);
                 }
-                listAdapter.notifyDataSetChanged();
+                tareaAdapter.notifyDataSetChanged();
 
             }
 
@@ -92,10 +92,10 @@ public class ListadoTareasActivity extends AppCompatActivity {
 
 
 
-       listAdapter = new ListAdapter(elements, this);
+       tareaAdapter = new TareaAdapter(elements, this);
         recyclerView = findViewById(R.id.recyclerVistaTareas);
         recyclerView.setHasFixedSize(true);
-        recyclerView.setAdapter(listAdapter);
+        recyclerView.setAdapter(tareaAdapter);
 
         registerForContextMenu(recyclerView);
     }
@@ -157,12 +157,12 @@ public class ListadoTareasActivity extends AppCompatActivity {
         filtprio = !filtprio;
 
         if (filtprio){
-            listAdapter = new ListAdapter(listPrio(), this);
+            tareaAdapter = new TareaAdapter(listPrio(), this);
         }else{
-            listAdapter = new ListAdapter(elements, this);
+            tareaAdapter = new TareaAdapter(elements, this);
         }
 
-        recyclerView.setAdapter(listAdapter);
+        recyclerView.setAdapter(tareaAdapter);
 
     }
 

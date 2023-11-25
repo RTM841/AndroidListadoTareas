@@ -17,13 +17,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
-public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
+public class TareaAdapter extends RecyclerView.Adapter<TareaAdapter.ViewHolder> {
 
     private List<Tarea> datosTareas;
     private LayoutInflater inflador;
     private Context context;
 
-    public ListAdapter(List<Tarea> itemTarea, Context context)
+    public TareaAdapter(List<Tarea> itemTarea, Context context)
     {
         this.inflador = LayoutInflater.from(context);
         this.context = context;
@@ -31,10 +31,10 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
     }
 
     @Override
-    public  ListAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
+    public  TareaAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
     {
         View view = inflador.inflate(R.layout.vista_tareas, null);
-        return new ListAdapter.ViewHolder(view);
+        return new TareaAdapter.ViewHolder(view);
 
 
     }
@@ -45,7 +45,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
 
 
     @Override
-    public void onBindViewHolder(final ListAdapter.ViewHolder holder, @SuppressLint("RecyclerView") int position)
+    public void onBindViewHolder(final TareaAdapter.ViewHolder holder, @SuppressLint("RecyclerView") int position)
     {
 
         holder.bindData(datosTareas.get(position));

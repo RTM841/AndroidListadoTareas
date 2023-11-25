@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">PantallaTareas</string>
+    <string name="AcercaDe">About...</string>
+    <string name="Salir">Exit</string>
+    <string name="agregarT">AddTask</string>
+    <string name="priori">Priorities</string>
+    <string name="TextoInicial">Your tasks, your pace, your success.</string>
+    <string name="btInicio">Start</string>
+    <string name="anyadirTarea">Add Task</string>
+    <string name="descripcion">Description</string>
+    <string name="btVolver">Back</string>
+    <string name="btGuardar">Save</string>
+    <string name="nombreTarea">Task Name: </string>
+    <string name="fechaini">Start Date: </string>
+    <string name="fechafin">End Date: </string>
+    <string name="estadoTarea">Task Status: </string>
+    <string name="btCancelar">Cancel</string>
+    <string name="btSiguiente">Next</string>
+    <string name="prio">Priority: </string>
+    <string name="titulo">Task Title</string>
+    <string name="quedan">Remaining </string>
+    <string name="numero"> 00 </string>
+    <string name="dias"> days</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string-array name="EstadoBarra">
+        <item>Select</item>
+        <item>Not started</item>
+        <item>Started</item>
+        <item>Advanced</item>
+        <item>Nearly finished</item>
+        <item>Finished</item>
+    </string-array>
+    ```
+</resources>

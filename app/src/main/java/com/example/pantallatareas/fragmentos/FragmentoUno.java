@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
+import android.graphics.Paint;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -41,7 +42,8 @@ public class FragmentoUno extends Fragment implements View.OnClickListener {
 
     private CompartirViewModel compartirViewModel;
 
-    private EditText editTitulo, editfechaincio, editfechafin;
+    private EditText editTitulo, editfechaincio, editfechafin, titulo;
+
 
     private Spinner barra;
 
@@ -109,6 +111,7 @@ public class FragmentoUno extends Fragment implements View.OnClickListener {
         button2 = fragmento1.findViewById(R.id.bt_cancelar);
         button2.setOnClickListener(this::cancelar);
 
+        titulo = fragmento1.findViewById(R.id.editTetxtTituloTarea);
 
 
         return fragmento1;
@@ -138,23 +141,6 @@ public class FragmentoUno extends Fragment implements View.OnClickListener {
             Toast.makeText(requireContext(), "¡Enviado!", Toast.LENGTH_SHORT).show();
             getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.contenedorFragmentos, new FragmentoDos()).commit();
         }
-
-        /*requireActivity().getSupportFragmentManager().beginTransaction().replace(R.id.segundo_fragment, new FragmentoDos()).addToBackStack(null).commit();
-        View fragmentContanier1 = requireActivity().findViewById(R.id.primer_fragment);
-        View fragmetnContainer2 = requireActivity().findViewById(R.id.segundo_fragment);
-
-        fragmentContanier1.setVisibility(view.GONE);
-        fragmetnContainer2.setVisibility(view.VISIBLE);*/
-
-        // Cambiar al FragmentoDos al hacer clic en el botón "Siguiente"
-        /*FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.contenedorFragmentos, fragmentoDos);
-        fragmentTransaction.addToBackStack(null); // Opcional: Agregar a la pila de retroceso
-        fragmentTransaction.commit();*/
-
-
-
 
     }
 

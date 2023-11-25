@@ -62,43 +62,6 @@ public class FragmentoDos extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
-        /*//Obtenemos una referencia del ViewModel
-         compartirViewModel = new ViewModelProvider(requireActivity()).get(CompartirViewModel.class);
-
-        //Creamos un observador (de String) para implementar el método onChanged()
-        Observer<String> observadorNombre = new Observer<String>() {
-            @Override
-            public void onChanged(String text) {
-                textoNombreTarea.setText(text);
-
-            }
-        };
-
-        //Asignamos un observador al MutableLiveData
-        compartirViewModel.getNombre().observe(this, observadorNombre);
-
-        //Creamos un observador (de Date) para implementar el método onChanged()
-        Observer<Date> observadorFechaInicio = new Observer<Date>() {
-            @Override
-            public void onChanged(Date fecha) {
-                fechaini.setText(fecha.toString());
-            }
-        };
-        //Asignamos un observador al MutableLiveData
-        compartirViewModel.getFechaIni().observe(FragmentoDos.this, fecha -> fechaini.setText(fecha.toString()));
-
-        //Creamos un observador (de Date) para implementar el método onChanged()
-        Observer<Date> observadorFechaFin = new Observer<Date>() {
-            @Override
-            public void onChanged(Date fecha) {
-                fechafin.setText(fecha.toString());
-            }
-        };
-        //Asignamos un observador al MutableLiveData
-        compartirViewModel.getFechaFin().observe(FragmentoDos.this, fecha -> fechafin.setText(fecha.toString()));*/
-
-
     }
 
     @SuppressLint("MissingInflatedId")

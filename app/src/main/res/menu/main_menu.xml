@@ -18,13 +18,13 @@
     <item
         android:id="@+id/AgreTarea"
         android:icon="@drawable/baseline_add_task_24"
-        android:title="@string/AgreTarea"
+        android:title="@string/agregarT"
         app:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/Prio"
         android:icon="@drawable/baseline_star_outline_24"
-        android:title="@string/Prio"
+        android:title="@string/priori"
         app:showAsAction="ifRoom" />
 
 
