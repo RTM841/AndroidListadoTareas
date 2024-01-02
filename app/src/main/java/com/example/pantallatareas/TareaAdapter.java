@@ -1,7 +1,11 @@
 package com.example.pantallatareas;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
@@ -13,16 +17,25 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContract;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class TareaAdapter extends RecyclerView.Adapter<TareaAdapter.ViewHolder> {
 
     private List<Tarea> datosTareas;
     private LayoutInflater inflador;
     private Context context;
+    private Tarea tareaSeleccionada;
+
+    private ArrayList<Tarea> tareas = new ArrayList<>();
 
     public TareaAdapter(List<Tarea> itemTarea, Context context)
     {
@@ -91,10 +104,7 @@ public class TareaAdapter extends RecyclerView.Adapter<TareaAdapter.ViewHolder> 
                     public boolean onMenuItemClick(MenuItem item) {
                         // Acción que se realiza cuando se hace clic en la opción de editar
                         long tareaId = (long) v.getTag(R.id.tarea_id_tag);
-
-
-
-
+                        lanzadorActividadEditar.launch(tareaId);
                         return true;
                     }
                 });
@@ -159,13 +169,57 @@ public class TareaAdapter extends RecyclerView.Adapter<TareaAdapter.ViewHolder> 
 
 
     //Contrato para el lanzador hacia la actividad EditarTareaActivity
+    ActivityResultContract<Tarea, Tarea> contratoEditar = new ActivityResultContract<Tarea, Tarea>() {
+        @NonNull
+        @Override
+        public Intent createIntent(@NonNull Context context, Tarea tarea) {
+            Intent intent = new Intent(context, EditarTareaActivity.class);
+            Bundle bundle = new Bundle();
+            bundle.putParcelable("TareaEditable", tarea);
+            intent.putExtras(bundle);
+            return intent;
+        }
+
+        @Override
+        public Tarea parseResult(int i, @Nullable Intent intent) {
+            if (i == Activity.RESULT_OK && intent != null) {
+                try {
+                    return (Tarea) Objects.requireNonNull(intent.getExtras()).get("TareaEditada");
+                } catch (NullPointerException e) {
+                    Log.e("Error en intent devuelto", Objects.requireNonNull(e.getLocalizedMessage()));
+                }
+            }else if(i == Activity.RESULT_CANCELED){
+                Toast.makeText(context.getApplicationContext(),R.string.action_canceled, Toast.LENGTH_SHORT).show();
+            }
+            return null; // Devuelve null si no se pudo obtener una Tarea válida.
+        }
+    };
+
+    //Respuesta para el lanzador hacia la actividad EditarTareaActivity
+    ActivityResultCallback<Tarea> resultadoEditar = new ActivityResultCallback<Tarea>() {
+        @Override
+        public void onActivityResult(Tarea tareaEditada) {
+            if (tareaEditada != null) {
+                //Seteamos el id de la tarea recibida para que coincida con el de la tarea editada
+                tareaEditada.setId(tareaSeleccionada.getId());
+
+                //Procedemos a la sustitución de la tarea editada por la seleccionada.
+                int posicionEnColeccion = tareas.indexOf(tareaSeleccionada);
+                tareas.remove(tareaSeleccionada);
+                tareas.add(posicionEnColeccion, tareaEditada);
+
+                //Comunicamos que la tarea ha sido editada al usuario
+                Toast.makeText(context.getApplicationContext(), R.string.tarea_edit, Toast.LENGTH_SHORT).show();
+            }
+        }
+    };
+
+    //Registramos el lanzador hacia la actividad EditarTareaActivity con el contrato y respuesta personalizados
+    ActivityResultLauncher<Long> lanzadorActividadEditar = registerForActivityResult(contratoEditar, resultadoEditar);
 
 
 
-
-
-
-public void setItems(List<Tarea> items){ datosTareas = items;}
+    public void setItems(List<Tarea> items){ datosTareas = items;}
 
     public class ViewHolder extends RecyclerView.ViewHolder
     {
