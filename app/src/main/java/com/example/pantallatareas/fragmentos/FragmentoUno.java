@@ -28,6 +28,8 @@ import com.example.pantallatareas.CompartirViewModel;
 import com.example.pantallatareas.DatePickerFragment;
 import com.example.pantallatareas.R;
 
+import java.text.ParseException;
+
 
 public class FragmentoUno extends Fragment implements View.OnClickListener {
 
@@ -53,6 +55,13 @@ public class FragmentoUno extends Fragment implements View.OnClickListener {
 
     public FragmentoUno() {
 
+    }
+
+    public interface ComunicacionFragmento{
+        //Definimos los prototipos de los métodos que se han de implementar
+        //en este caso hay dos métodos
+
+        void siguiente();
     }
 
 
