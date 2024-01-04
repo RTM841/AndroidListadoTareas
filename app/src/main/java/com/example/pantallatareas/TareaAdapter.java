@@ -104,7 +104,7 @@ public class TareaAdapter extends RecyclerView.Adapter<TareaAdapter.ViewHolder> 
                     public boolean onMenuItemClick(MenuItem item) {
                         // Acción que se realiza cuando se hace clic en la opción de editar
                         long tareaId = (long) v.getTag(R.id.tarea_id_tag);
-                        lanzadorActividadEditar.launch(tareaId);
+                        //lanzadorActividadEditar.launch(tareaId);
                         return true;
                     }
                 });
@@ -215,7 +215,7 @@ public class TareaAdapter extends RecyclerView.Adapter<TareaAdapter.ViewHolder> 
     };
 
     //Registramos el lanzador hacia la actividad EditarTareaActivity con el contrato y respuesta personalizados
-    ActivityResultLauncher<Long> lanzadorActividadEditar = registerForActivityResult(contratoEditar, resultadoEditar);
+    //ActivityResultLauncher<Long> lanzadorActividadEditar = registerForActivityResult(contratoEditar, resultadoEditar);
 
 
 

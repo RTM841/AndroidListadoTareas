@@ -6,6 +6,11 @@
 
 
     <item
+        android:id="@+id/bt_preferencias"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:title="Preferencias" />
+    <item
         android:id="@+id/AcercaDe"
         android:title="@string/AcercaDe"
         app:showAsAction="never" />

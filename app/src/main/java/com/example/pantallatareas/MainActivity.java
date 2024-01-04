@@ -7,10 +7,12 @@ import android.view.View;
 import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.preference.PreferenceManager;
 
-public class MainActivity  extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity {
 
     private Button boton;
+    private SettingsActivity preferencias = new SettingsActivity();
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -18,9 +20,9 @@ public class MainActivity  extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.pantalla_incial);
 
+
         boton = findViewById(R.id.btInicio);
         boton.setOnClickListener(this::abrirListado);
-
     }
 
     public  void abrirListado(View view){

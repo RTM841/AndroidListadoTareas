@@ -6,6 +6,7 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContract;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
@@ -39,6 +40,8 @@ public class ListadoTareasActivity extends AppCompatActivity {
     private Tarea tareaSeleccionada;
 
     private RecyclerView recyclerView;
+
+
     @SuppressLint("MissingInflatedId")
     //@Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,8 +58,6 @@ public class ListadoTareasActivity extends AppCompatActivity {
         calendar2.set(Calendar.YEAR, 2023);
         calendar2.set(Calendar.MONTH, 12);
         calendar2.set(Calendar.DAY_OF_MONTH, 25);
-
-
     }
 
     ActivityResultContract<Intent, ActivityResult> contracto = new ActivityResultContracts.StartActivityForResult();
@@ -104,8 +105,6 @@ public class ListadoTareasActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main_menu, menu);
         return true;
-
-
     }
 
     public boolean onOptionsItemSelected(MenuItem opcion_menu){
@@ -131,9 +130,15 @@ public class ListadoTareasActivity extends AppCompatActivity {
         return true;
     }else if(id==R.id.Prio){
         prioritarias();
+    } else if (id==R.id.bt_preferencias) {
+        Toast.makeText(this, "Has seleccioando Preferencias", Toast.LENGTH_SHORT).show();
+        // Cuando se selecciona la opción del menú, inflar la SegundaActividad
+        Intent intent = new Intent(this, SettingsActivity.class);
+        startActivity(intent);
+        return true;
     }
 
-    return super.onOptionsItemSelected(opcion_menu);
+        return super.onOptionsItemSelected(opcion_menu);
     }
 
 

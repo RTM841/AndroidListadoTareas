@@ -33,4 +33,28 @@
         <item>Casi finalizada</item>
         <item>Finalizada</item>
     </string-array>
+
+
+    <string name="title_activity_settings" translatable="false">Preferencias</string>
+
+    <!-- Preferencias de Visualización -->
+    <string name="visual" translatable="false">Visualización</string>
+    <string name="oscuro" translatable="false">Tema Oscuro</string>
+    <string name="letra" translatable="false">Tamaño de la letra</string>
+
+
+    <!-- Preference Titles -->
+    <string name="messages_header" translatable="false">Messages</string>
+    <string name="sync_header" translatable="false">Sync</string>
+
+    <!-- Messages Preferences -->
+
+    <string name="reply_title" translatable="false">Default reply action</string>
+
+    <!-- Sync Preferences -->
+    <string name="sync_title" translatable="false">Sync email periodically</string>
+    <string name="attachment_title" translatable="false">Download incoming attachments</string>
+    <string name="attachment_summary_on" translatable="false">Automatically download attachments for incoming emails
+    </string>
+    <string name="attachment_summary_off" translatable="false">Only download attachments when manually requested</string>
 </resources>
