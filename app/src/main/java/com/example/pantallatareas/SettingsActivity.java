@@ -1,5 +1,6 @@
 package com.example.pantallatareas;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
 
@@ -10,13 +11,15 @@ import androidx.preference.PreferenceManager;
 
 public class SettingsActivity extends AppCompatActivity {
 
-    public void aplicarTema() {
+    public void aplicarTemaOscuro() {
         boolean modoOscuro = PreferenceManager.getDefaultSharedPreferences(this)
                 .getBoolean("modo_oscuro", false);
 
         if (modoOscuro) {
             setTheme(R.style.AppTheme_Dark);
-        }
+            aplicarTamanoLetraOscuro();
+            // Cambiado a R.style.AppTheme_Dark
+        }else{aplicarTamanoLetra();}
 
         // Escuchar cambios en la preferencia del modo oscuro
         PreferenceManager.getDefaultSharedPreferences(this)
@@ -27,9 +30,51 @@ public class SettingsActivity extends AppCompatActivity {
                 });
     }
 
+
+    public void aplicarTamanoLetra() {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        String fontSizePreference = sharedPreferences.getString("tipoLetra", "normal");
+
+        switch (fontSizePreference) {
+            case "small":
+                setTheme(R.style.Base_Theme_PantallaTareas_FuentePequena);
+                break;
+            case "normal":
+                setTheme(R.style.Base_Theme_PantallaTareas_FuenteMediana);
+                break;
+            case "large":
+                setTheme(R.style.Base_Theme_PantallaTareas_FuenteGrande);
+                break;
+            default:
+                setTheme(R.style.Base_Theme_PantallaTareas_FuenteMediana);
+        }
+    }
+
+    public void aplicarTamanoLetraOscuro() {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        String fontSizePreference = sharedPreferences.getString("tipoLetra", "normal");
+
+        switch (fontSizePreference) {
+            case "small":
+                setTheme(R.style.AppTheme_Dark_FuentePequena);
+                break;
+            case "normal":
+                setTheme(R.style.AppTheme_Dark_FuenteMediana);
+                break;
+            case "large":
+                setTheme(R.style.AppTheme_Dark_FuenteGrande);
+                break;
+            default:
+                setTheme(R.style.AppTheme_Dark_FuenteMediana);
+        }
+    }
+
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        aplicarTema();
+        aplicarTemaOscuro();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.settings_activity);
         if (savedInstanceState == null) {
@@ -62,4 +107,5 @@ public class SettingsActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
 }

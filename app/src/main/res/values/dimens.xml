@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="tamano_letra_pequena">10sp</dimen>
+    <dimen name="tamano_letra_mediana">14sp</dimen>
+    <dimen name="tamano_letra_grande">20sp</dimen>
+</resources>

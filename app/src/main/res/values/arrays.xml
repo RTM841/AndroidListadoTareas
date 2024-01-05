@@ -10,15 +10,15 @@
         <item>reply_all</item>
     </string-array>
 
-    <string-array name="tipoletra" translatable="false">
-        <item>Pequeña</item>
-        <item>Mediana</item>
+    <string-array name="tipoletraSelec">
+        <item>Pequeño</item>
+        <item>Normal</item>
         <item>Grande</item>
     </string-array>
 
-    <string-array name="tipo_letra_valores" translatable="false">
-        <item>pequeña</item>
-        <item>mediana</item>
-        <item>grande</item>
+    <string-array name="tipo_letra_valores">
+        <item>small</item>
+        <item>normal</item>
+        <item>large</item>
     </string-array>
 </resources>

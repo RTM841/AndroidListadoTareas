@@ -10,8 +10,9 @@
             android:title="@string/oscuro"
             android:key="modo_oscuro"/>
         <ListPreference
-            app:defaultValue="mediana"
-            app:entries="@array/tipoletra"
+            app:defaultValue="medium"
+            app:entries="@array/tipoletraSelec"
+            app:summary="Seleccione el tamaño de la letra"
             app:entryValues="@array/tipo_letra_valores"
             app:key="tipoLetra"
             app:title="@string/letra"

@@ -16,4 +16,34 @@
         <item name="android:textColorSecondary">@color/colorTextSecondaryDark</item>
     </style>
 
+    <!--Letras Modo Claro -->
+
+    <style name="Base.Theme.PantallaTareas.FuentePequena">
+        <item name="android:textSize">@dimen/tamano_letra_pequena</item>
+    </style>
+
+    <style name="Base.Theme.PantallaTareas.FuenteMediana">
+        <item name="android:textSize">@dimen/tamano_letra_mediana</item>
+    </style>
+
+    <style name="Base.Theme.PantallaTareas.FuenteGrande">
+        <item name="android:textSize">@dimen/tamano_letra_grande</item>
+    </style>
+
+    <!--Letras Modo Oscuro-->
+
+    <style name="AppTheme.Dark.FuentePequena">
+        <item name="android:textSize">@dimen/tamano_letra_pequena</item>
+    </style>
+
+    <style name="AppTheme.Dark.FuenteMediana">
+        <item name="android:textSize">@dimen/tamano_letra_mediana</item>
+    </style>
+
+    <style name="AppTheme.Dark.FuenteGrande">
+        <item name="android:textSize">@dimen/tamano_letra_grande</item>
+    </style>
+
+
+
 </resources>

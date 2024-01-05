@@ -14,10 +14,16 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
@@ -46,6 +52,7 @@ public class ListadoTareasActivity extends AppCompatActivity {
     //@Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        aplicarTema();
         setContentView(R.layout.activity_main);
 
         init();
@@ -182,6 +189,21 @@ public class ListadoTareasActivity extends AppCompatActivity {
         return tareaPrio;
     }
 
+    public void aplicarTema() {
+        boolean modoOscuro = PreferenceManager.getDefaultSharedPreferences(this)
+                .getBoolean("modo_oscuro", false);
 
+        if (modoOscuro) {
+            setTheme(R.style.AppTheme_Dark);
+        }
+
+        // Escuchar cambios en la preferencia del modo oscuro
+        PreferenceManager.getDefaultSharedPreferences(this)
+                .registerOnSharedPreferenceChangeListener((sharedPreferences, key) -> {
+                    if ("modo_oscuro".equals(key)) {
+                        recreate(); // Reiniciar la actividad para aplicar el nuevo tema
+                    }
+                });
+    }
 
 }
