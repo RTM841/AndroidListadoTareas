@@ -21,4 +21,18 @@
         <item>normal</item>
         <item>large</item>
     </string-array>
+
+    <string-array name="criterio">
+        <item>Alfabético</item>
+        <item>Fecha de Creación</item>
+        <item>Numero de días</item>
+        <item>Progreso</item>
+    </string-array>
+
+    <string-array name="criterio_valores">
+        <item>nombre</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+    </string-array>
 </resources>

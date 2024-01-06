@@ -29,6 +29,8 @@ import android.widget.Toast;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
@@ -92,8 +94,8 @@ public class ListadoTareasActivity extends AppCompatActivity {
         String formatoFecha2 = new SimpleDateFormat("dd/MM/yyyy").format(date2);
         elements = new ArrayList<>();
 
-        elements.add(new Tarea("Tarea01", 50, formatoFecha, true));
-        elements.add(new Tarea("Tarea02", 25, formatoFecha2, false));
+        elements.add(new Tarea("b", 50, formatoFecha, true));
+        elements.add(new Tarea("a", 25, formatoFecha2, false));
 
         if (elements.isEmpty()){
             Toast.makeText(this, "No hay tareas", Toast.LENGTH_SHORT).show();}
@@ -106,6 +108,34 @@ public class ListadoTareasActivity extends AppCompatActivity {
         recyclerView.setAdapter(tareaAdapter);
 
         registerForContextMenu(recyclerView);
+
+        // Obtén la preferencia de orden desde SharedPreferences
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        String preferenciaOrden = prefs.getString("tipoCriterio", "nombre"); // Cambia "nombre" por la opción predeterminada
+
+        // Crea el comparador correspondiente según la preferencia seleccionada
+        Comparator<Tarea> comparador = null;
+
+        switch (preferenciaOrden) {
+            case "nombre":
+                comparador = new NombreTareaComparator();
+                break;
+            case "pepe":
+                comparador = new DiasTareaComparator();
+                break;
+            // Agrega más casos según las opciones disponibles
+            default:
+                // Manejo predeterminado si la preferencia no es reconocida
+                break;
+        }
+
+// Ordena la lista de tareas usando el comparador seleccionado
+        if (comparador != null) {
+            Collections.sort(elements, comparador);
+        }
+
+// Actualiza tu RecyclerView con la lista ordenada
+        tareaAdapter.notifyDataSetChanged();
     }
 
 
@@ -206,4 +236,23 @@ public class ListadoTareasActivity extends AppCompatActivity {
                 });
     }
 
+
+
+
+
+
+}
+
+class NombreTareaComparator implements Comparator<Tarea> {
+    @Override
+    public int compare(Tarea tarea1, Tarea tarea2) {
+        return tarea1.getNombreTarea().compareTo(tarea2.getNombreTarea());
+    }
+}
+
+class DiasTareaComparator implements Comparator<Tarea> {
+    @Override
+    public int compare(Tarea tarea1, Tarea tarea2) {
+        return Integer.compare(tarea1.getDiasTarea(), tarea2.getDiasTarea());
+    }
 }

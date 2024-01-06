@@ -19,20 +19,18 @@
             app:useSimpleSummaryProvider="true" />
 
     </PreferenceCategory>
+    <PreferenceCategory
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:title="Ordenación">
 
-    <PreferenceCategory app:title="@string/sync_header">
-
-        <SwitchPreferenceCompat
-            app:key="sync"
-            app:title="@string/sync_title" />
-
-        <SwitchPreferenceCompat
-            app:dependency="sync"
-            app:key="attachment"
-            app:summaryOff="@string/attachment_summary_off"
-            app:summaryOn="@string/attachment_summary_on"
-            app:title="@string/attachment_title" />
-
+        <ListPreference
+            app:entries="@array/criterio"
+            app:summary="Seleccione el criterio"
+            app:entryValues="@array/criterio_valores"
+            app:key="tipoCriterio"
+            app:title="@string/criterio"
+            app:useSimpleSummaryProvider="true" />
     </PreferenceCategory>
 
 </PreferenceScreen>

@@ -42,6 +42,9 @@
     <string name="oscuro" translatable="false">Tema Oscuro</string>
     <string name="letra" translatable="false">Tamaño de la letra</string>
 
+    <!-- Preferncias de Ordenación -->
+    <string name="criterio" translatable="false">Seleccione el criterio para ordenar</string>
+
 
     <!-- Preference Titles -->
     <string name="messages_header" translatable="false">Messages</string>
