@@ -31,8 +31,8 @@
 
     <string-array name="criterio_valores">
         <item>nombre</item>
-        <item>2</item>
-        <item>3</item>
-        <item>4</item>
+        <item>fecha</item>
+        <item>numeroDias</item>
+        <item>progreso</item>
     </string-array>
 </resources>

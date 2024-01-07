@@ -39,11 +39,26 @@
 
     <!-- Preferencias de Visualización -->
     <string name="visual" translatable="false">Visualización</string>
-    <string name="oscuro" translatable="false">Tema Oscuro</string>
+    <string name="oscuro" translatable="false">Tema Aplicación</string>
     <string name="letra" translatable="false">Tamaño de la letra</string>
 
     <!-- Preferncias de Ordenación -->
+    <string name="ordenacion" translatable="false">Ordenación</string>
     <string name="criterio" translatable="false">Seleccione el criterio para ordenar</string>
+    <string name="orden" translatable="false">Orden</string>
+
+    <!-- Preferencias de Almacenamiento -->
+    <string name="almacenamiento" translatable="false">Almacenamiento</string>
+    <string name="tarjetaSD" translatable="false">Alamcenar en Tarjeta SD</string>
+    <string name="limpeza" translatable="false">Introduce el número para la limpieza de tareas</string>
+    <string name="bd" translatable="false">Base de Datos</string>
+    <string name="bdEx" translatable="false">Base de datos Externa</string>
+    <string name="nombreBD" translatable="false">Nombre de la BD</string>
+    <string name="ipBD" translatable="false">IP de la BD</string>
+    <string name="puertoBD" translatable="false">Puerto de la BD</string>
+    <string name="usuarioBD" translatable="false">Usuario BD</string>
+    <string name="contraBD" translatable="false">Contraseña BD</string>
+
 
 
     <!-- Preference Titles -->

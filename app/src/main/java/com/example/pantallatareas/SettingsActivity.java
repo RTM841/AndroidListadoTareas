@@ -1,5 +1,6 @@
 package com.example.pantallatareas;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -13,13 +14,12 @@ public class SettingsActivity extends AppCompatActivity {
 
     public void aplicarTemaOscuro() {
         boolean modoOscuro = PreferenceManager.getDefaultSharedPreferences(this)
-                .getBoolean("modo_oscuro", false);
+                .getBoolean("modo_oscuro", true);
 
         if (modoOscuro) {
-            setTheme(R.style.AppTheme_Dark);
-            aplicarTamanoLetraOscuro();
-            // Cambiado a R.style.AppTheme_Dark
-        }else{aplicarTamanoLetra();}
+            aplicarTamanoLetra();
+        }else{setTheme(R.style.AppTheme_Dark);
+            aplicarTamanoLetraOscuro();}
 
         // Escuchar cambios en la preferencia del modo oscuro
         PreferenceManager.getDefaultSharedPreferences(this)
@@ -87,6 +87,13 @@ public class SettingsActivity extends AppCompatActivity {
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
+        // Escucha cambios en las preferencias
+        PreferenceManager.getDefaultSharedPreferences(this)
+                .registerOnSharedPreferenceChangeListener((sharedPreferences, key) -> {
+                    // Notifica a ListadoTareasActivity sobre el cambio
+                    Intent intent = new Intent("com.example.ACTION_PREFERENCIAS_CAMBIADAS");
+                    sendBroadcast(intent);
+                });
     }
 
 

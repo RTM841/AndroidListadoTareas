@@ -26,6 +26,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -33,6 +34,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class ListadoTareasActivity extends AppCompatActivity {
     private List<Tarea> elements;
@@ -94,8 +96,9 @@ public class ListadoTareasActivity extends AppCompatActivity {
         String formatoFecha2 = new SimpleDateFormat("dd/MM/yyyy").format(date2);
         elements = new ArrayList<>();
 
-        elements.add(new Tarea("b", 50, formatoFecha, true));
-        elements.add(new Tarea("a", 25, formatoFecha2, false));
+        elements.add(new Tarea("b", 50, "12/03/2024",12,"Tarea1", true));
+        elements.add(new Tarea("a", 25, "24/01/2024",25, "Tarea2", false));
+        elements.add(new Tarea("alache", 25, "13/07/2024", 10, "Tarea3",false));
 
         if (elements.isEmpty()){
             Toast.makeText(this, "No hay tareas", Toast.LENGTH_SHORT).show();}
@@ -120,10 +123,13 @@ public class ListadoTareasActivity extends AppCompatActivity {
             case "nombre":
                 comparador = new NombreTareaComparator();
                 break;
-            case "pepe":
+            case "numeroDias":
                 comparador = new DiasTareaComparator();
                 break;
-            // Agrega más casos según las opciones disponibles
+            case "progreso":
+                comparador = new PorcentajeComparator();
+            case "fecha":
+                comparador = new FechaComparator();
             default:
                 // Manejo predeterminado si la preferencia no es reconocida
                 break;
@@ -221,11 +227,12 @@ public class ListadoTareasActivity extends AppCompatActivity {
 
     public void aplicarTema() {
         boolean modoOscuro = PreferenceManager.getDefaultSharedPreferences(this)
-                .getBoolean("modo_oscuro", false);
+                .getBoolean("modo_oscuro", true);
 
         if (modoOscuro) {
-            setTheme(R.style.AppTheme_Dark);
-        }
+            aplicarTamanoLetra();
+        }else{setTheme(R.style.AppTheme_Dark);
+            aplicarTamanoLetraOscuro();}
 
         // Escuchar cambios en la preferencia del modo oscuro
         PreferenceManager.getDefaultSharedPreferences(this)
@@ -238,10 +245,48 @@ public class ListadoTareasActivity extends AppCompatActivity {
 
 
 
+    public void aplicarTamanoLetra() {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        String fontSizePreference = sharedPreferences.getString("tipoLetra", "normal");
 
+        switch (fontSizePreference) {
+            case "small":
+                setTheme(R.style.Base_Theme_PantallaTareas_FuentePequena);
+                break;
+            case "normal":
+                setTheme(R.style.Base_Theme_PantallaTareas_FuenteMediana);
+                break;
+            case "large":
+                setTheme(R.style.Base_Theme_PantallaTareas_FuenteGrande);
+                break;
+            default:
+                setTheme(R.style.Base_Theme_PantallaTareas_FuenteMediana);
+        }
+    }
+
+    public void aplicarTamanoLetraOscuro() {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        String fontSizePreference = sharedPreferences.getString("tipoLetra", "normal");
+
+        switch (fontSizePreference) {
+            case "small":
+                setTheme(R.style.AppTheme_Dark_FuentePequena);
+                break;
+            case "normal":
+                setTheme(R.style.AppTheme_Dark_FuenteMediana);
+                break;
+            case "large":
+                setTheme(R.style.AppTheme_Dark_FuenteGrande);
+                break;
+            default:
+                setTheme(R.style.AppTheme_Dark_FuenteMediana);
+        }
+    }
 
 
 }
+
+
 
 class NombreTareaComparator implements Comparator<Tarea> {
     @Override
@@ -254,5 +299,29 @@ class DiasTareaComparator implements Comparator<Tarea> {
     @Override
     public int compare(Tarea tarea1, Tarea tarea2) {
         return Integer.compare(tarea1.getDiasTarea(), tarea2.getDiasTarea());
+    }
+}
+
+class PorcentajeComparator implements  Comparator<Tarea>{
+    @Override
+    public int compare(Tarea tarea1, Tarea tarea2){
+        return Integer.compare(tarea1.getPorcentajeTarea(), tarea2.getPorcentajeTarea());
+    }
+}
+
+
+class FechaComparator implements  Comparator<Tarea>{
+    @Override
+    public int compare(Tarea tarea1, Tarea tarea2){
+        // Asumiendo que las fechas son en formato String, debes convertirlas a objetos Date para una comparación adecuada
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+
+        try {
+            Date fecha1 = dateFormat.parse(tarea1.getFechaIni());
+            Date fecha2 = dateFormat.parse(tarea2.getFechaIni());
+            return fecha1.compareTo(fecha2);
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

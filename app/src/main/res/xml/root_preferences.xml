@@ -6,7 +6,7 @@
         <SwitchPreference
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:defaultValue="false"
+            android:defaultValue="true"
             android:title="@string/oscuro"
             android:key="modo_oscuro"/>
         <ListPreference
@@ -22,7 +22,7 @@
     <PreferenceCategory
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:title="Ordenación">
+        android:title="@string/ordenacion">
 
         <ListPreference
             app:entries="@array/criterio"
@@ -31,6 +31,88 @@
             app:key="tipoCriterio"
             app:title="@string/criterio"
             app:useSimpleSummaryProvider="true" />
+        <SwitchPreference
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:defaultValue="true"
+            android:title="@string/orden"
+            android:key="orden_criterios"/>
     </PreferenceCategory>
+    <PreferenceCategory
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:title="@string/almacenamiento">
+
+        <CheckBoxPreference
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:defaultValue="false"
+            android:title="@string/tarjetaSD" />
+        <EditTextPreference
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:defaultValue="Default value"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:title="@string/limpeza" />
+        <SwitchPreference
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:defaultValue="false"
+            android:title="@string/bd"
+            app:key="BD" />
+    </PreferenceCategory>
+    <PreferenceCategory app:title="@string/bdEx">
+
+        <EditTextPreference
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:defaultValue="InternalSQLite"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:title="@string/nombreBD"
+            app:dependency="BD"
+            app:icon="@android:drawable/ic_menu_edit"
+            app:key="NombreBD" />
+        <EditTextPreference
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:defaultValue=""
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:title="@string/ipBD"
+            app:dependency="BD"
+            app:icon="@android:drawable/ic_menu_mapmode"
+            app:key="IpBD" />
+        <EditTextPreference
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:defaultValue=""
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:title="@string/puertoBD"
+            app:dependency="BD"
+            app:key="IpBD" />
+        <EditTextPreference
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:defaultValue=""
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:title="@string/usuarioBD"
+            app:dependency="BD"
+            app:key="IpBD" />
+        <EditTextPreference
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:defaultValue=""
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:title="@string/contraBD"
+            app:dependency="BD"
+            app:key="IpBD" />
+
+    </PreferenceCategory>
+
 
 </PreferenceScreen>
