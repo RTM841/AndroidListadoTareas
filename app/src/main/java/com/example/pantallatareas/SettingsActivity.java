@@ -13,7 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceManager;
 
-public class SettingsActivity extends AppCompatActivity {
+public class SettingsActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
 
     public void aplicarTemaOscuro() {
         boolean modoOscuro = PreferenceManager.getDefaultSharedPreferences(this)
@@ -22,15 +22,7 @@ public class SettingsActivity extends AppCompatActivity {
         if (modoOscuro) {
             aplicarTamanoLetra();
         }else{setTheme(R.style.AppTheme_Dark);
-            aplicarTamanoLetraOscuro();}
-
-        // Escuchar cambios en la preferencia del modo oscuro
-        PreferenceManager.getDefaultSharedPreferences(this)
-                .registerOnSharedPreferenceChangeListener((sharedPreferences, key) -> {
-                    if ("modo_oscuro".equals(key)) {
-                        recreate(); // Reiniciar la actividad para aplicar el nuevo tema
-                    }
-                });
+            aplicarTamanoLetra();}
     }
 
 
@@ -44,40 +36,18 @@ public class SettingsActivity extends AppCompatActivity {
         switch (fontSizePreference) {
             case "small":
                 configuration.fontScale = 0.8f;
-                setTheme(R.style.Base_Theme_PantallaTareas_FuentePequena);
                 break;
             case "normal":
-                setTheme(R.style.Base_Theme_PantallaTareas_FuenteMediana);
+                configuration.fontScale = 1f;
                 break;
             case "large":
-                setTheme(R.style.Base_Theme_PantallaTareas_FuenteGrande);
+                configuration.fontScale = 3f;
                 break;
             default:
-                setTheme(R.style.Base_Theme_PantallaTareas_FuenteMediana);
+                configuration.fontScale = 1f;
         }
         resources.updateConfiguration(configuration, displayMetrics);
     }
-
-    public void aplicarTamanoLetraOscuro() {
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        String fontSizePreference = sharedPreferences.getString("tipoLetra", "normal");
-
-        switch (fontSizePreference) {
-            case "small":
-                setTheme(R.style.AppTheme_Dark_FuentePequena);
-                break;
-            case "normal":
-                setTheme(R.style.AppTheme_Dark_FuenteMediana);
-                break;
-            case "large":
-                setTheme(R.style.AppTheme_Dark_FuenteGrande);
-                break;
-            default:
-                setTheme(R.style.AppTheme_Dark_FuenteMediana);
-        }
-    }
-
-
 
 
     @Override
@@ -91,10 +61,11 @@ public class SettingsActivity extends AppCompatActivity {
                     .replace(R.id.settings, new SettingsFragment())
                     .commit();
         }
-        ActionBar actionBar = getSupportActionBar();
+       ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
+
         // Escucha cambios en las preferencias
         PreferenceManager.getDefaultSharedPreferences(this)
                 .registerOnSharedPreferenceChangeListener((sharedPreferences, key) -> {
@@ -102,6 +73,20 @@ public class SettingsActivity extends AppCompatActivity {
                     Intent intent = new Intent("com.example.ACTION_PREFERENCIAS_CAMBIADAS");
                     sendBroadcast(intent);
                 });
+
+
+    }
+
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        // Aquí puedes aplicar lógica para manejar cambios en preferencias específicas
+        if ("modo_oscuro".equals(key)) {
+            // Aplicar tema oscuro
+            aplicarTemaOscuro();
+        } else if ("tipoLetra".equals(key)) {
+            aplicarTamanoLetra();
+        }
+        recreate();
     }
 
 

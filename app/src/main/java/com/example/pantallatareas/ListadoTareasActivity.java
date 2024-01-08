@@ -15,9 +15,11 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -52,6 +54,14 @@ public class ListadoTareasActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
 
 
+
+    public void notificarCambiosEnAdaptador() {
+        // Notifica al adaptador de que los datos han cambiado
+        // (Asume que tienes una referencia al adaptador)
+        tareaAdapter.notificarCambios();
+    }
+
+
     @SuppressLint("MissingInflatedId")
     //@Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +80,8 @@ public class ListadoTareasActivity extends AppCompatActivity {
         calendar2.set(Calendar.MONTH, 12);
         calendar2.set(Calendar.DAY_OF_MONTH, 25);
     }
+
+
 
     ActivityResultContract<Intent, ActivityResult> contracto = new ActivityResultContracts.StartActivityForResult();
     ActivityResultCallback<ActivityResult> respuesta = new ActivityResultCallback<ActivityResult>() {
@@ -230,10 +242,11 @@ public class ListadoTareasActivity extends AppCompatActivity {
                 .getBoolean("modo_oscuro", true);
 
         if (modoOscuro) {
-            aplicarTamanoLetra();
-        }else{setTheme(R.style.AppTheme_Dark);
-            aplicarTamanoLetraOscuro();}
 
+        }else {
+            setTheme(R.style.AppTheme_Dark);
+            aplicarTamanoLetra();
+        }
         // Escuchar cambios en la preferencia del modo oscuro
         PreferenceManager.getDefaultSharedPreferences(this)
                 .registerOnSharedPreferenceChangeListener((sharedPreferences, key) -> {
@@ -244,47 +257,39 @@ public class ListadoTareasActivity extends AppCompatActivity {
     }
 
 
-
     public void aplicarTamanoLetra() {
+        Resources resources = getResources();
+        Configuration configuration = resources.getConfiguration();
+        DisplayMetrics displayMetrics = resources.getDisplayMetrics();
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         String fontSizePreference = sharedPreferences.getString("tipoLetra", "normal");
 
         switch (fontSizePreference) {
             case "small":
-                setTheme(R.style.Base_Theme_PantallaTareas_FuentePequena);
+                configuration.fontScale = 0.8f;
                 break;
             case "normal":
-                setTheme(R.style.Base_Theme_PantallaTareas_FuenteMediana);
+                configuration.fontScale = 1f;
                 break;
             case "large":
-                setTheme(R.style.Base_Theme_PantallaTareas_FuenteGrande);
+                configuration.fontScale = 3f;
                 break;
             default:
-                setTheme(R.style.Base_Theme_PantallaTareas_FuenteMediana);
+                configuration.fontScale = 1f;
         }
+        resources.updateConfiguration(configuration, displayMetrics);
     }
 
-    public void aplicarTamanoLetraOscuro() {
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        String fontSizePreference = sharedPreferences.getString("tipoLetra", "normal");
-
-        switch (fontSizePreference) {
-            case "small":
-                setTheme(R.style.AppTheme_Dark_FuentePequena);
-                break;
-            case "normal":
-                setTheme(R.style.AppTheme_Dark_FuenteMediana);
-                break;
-            case "large":
-                setTheme(R.style.AppTheme_Dark_FuenteGrande);
-                break;
-            default:
-                setTheme(R.style.AppTheme_Dark_FuenteMediana);
-        }
+    public void actualizarConfiguracion() {
+        // Actualiza la configuración según tus necesidades
+        // Recrea la actividad para aplicar los cambios
+        recreate();
     }
 
 
 }
+
+
 
 
 
@@ -310,9 +315,9 @@ class PorcentajeComparator implements  Comparator<Tarea>{
 }
 
 
-class FechaComparator implements  Comparator<Tarea>{
+class FechaComparator implements  Comparator<Tarea> {
     @Override
-    public int compare(Tarea tarea1, Tarea tarea2){
+    public int compare(Tarea tarea1, Tarea tarea2) {
         // Asumiendo que las fechas son en formato String, debes convertirlas a objetos Date para una comparación adecuada
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
 

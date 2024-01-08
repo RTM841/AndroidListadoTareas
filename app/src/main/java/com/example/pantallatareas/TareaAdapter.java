@@ -37,6 +37,11 @@ public class TareaAdapter extends RecyclerView.Adapter<TareaAdapter.ViewHolder> 
 
     private ArrayList<Tarea> tareas = new ArrayList<>();
 
+    public void notificarCambios() {
+        // Notifica al adaptador de que los datos han cambiado
+        notifyDataSetChanged();
+    }
+
     public TareaAdapter(List<Tarea> itemTarea, Context context)
     {
         this.inflador = LayoutInflater.from(context);
