@@ -2,7 +2,10 @@ package com.example.pantallatareas;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.view.MenuItem;
 
 import androidx.appcompat.app.ActionBar;
@@ -32,11 +35,15 @@ public class SettingsActivity extends AppCompatActivity {
 
 
     public void aplicarTamanoLetra() {
+        Resources resources = getResources();
+        Configuration configuration = resources.getConfiguration();
+        DisplayMetrics displayMetrics = resources.getDisplayMetrics();
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         String fontSizePreference = sharedPreferences.getString("tipoLetra", "normal");
 
         switch (fontSizePreference) {
             case "small":
+                configuration.fontScale = 0.8f;
                 setTheme(R.style.Base_Theme_PantallaTareas_FuentePequena);
                 break;
             case "normal":
@@ -48,6 +55,7 @@ public class SettingsActivity extends AppCompatActivity {
             default:
                 setTheme(R.style.Base_Theme_PantallaTareas_FuenteMediana);
         }
+        resources.updateConfiguration(configuration, displayMetrics);
     }
 
     public void aplicarTamanoLetraOscuro() {
