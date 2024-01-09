@@ -59,20 +59,10 @@
     <string name="usuarioBD" translatable="false">Usuario BD</string>
     <string name="contraBD" translatable="false">Contraseña BD</string>
 
+    <!-- Botones de Ficheros -->
+    <string name="documento" translatable="false">Documento</string>
+    <string name="imagen" translatable="false">Imagen</string>
+    <string name="audio" translatable="false">Audio</string>
+    <string name="video" translatable="false">Vídeo</string>
 
-
-    <!-- Preference Titles -->
-    <string name="messages_header" translatable="false">Messages</string>
-    <string name="sync_header" translatable="false">Sync</string>
-
-    <!-- Messages Preferences -->
-
-    <string name="reply_title" translatable="false">Default reply action</string>
-
-    <!-- Sync Preferences -->
-    <string name="sync_title" translatable="false">Sync email periodically</string>
-    <string name="attachment_title" translatable="false">Download incoming attachments</string>
-    <string name="attachment_summary_on" translatable="false">Automatically download attachments for incoming emails
-    </string>
-    <string name="attachment_summary_off" translatable="false">Only download attachments when manually requested</string>
 </resources>
