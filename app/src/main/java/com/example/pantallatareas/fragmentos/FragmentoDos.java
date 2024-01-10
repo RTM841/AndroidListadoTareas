@@ -41,6 +41,7 @@ public class FragmentoDos extends Fragment {
     private Button boton, boton2, btDocumentos, btImagenes, btAudios, btVídeos;
     private CompartirViewModel compartirViewModel;
     private static final int PICK_DOCUMENT_REQUEST = 1;
+    private static final int PICK_IMAGE_REQUEST = 2;
     private static final int READ_EXTERNAL_STORAGE_PERMISSION_CODE = 1;
 
     public FragmentoDos() {
@@ -153,7 +154,11 @@ public class FragmentoDos extends Fragment {
     }
 
     public void selecImagen(View view) {
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
 
+        intent.setType("img/*");
+
+        startActivityForResult(intent, PICK_IMAGE_REQUEST);
     }
 
     public void selecAudio(View view) {
@@ -191,17 +196,26 @@ public class FragmentoDos extends Fragment {
 
             // Ahora puedes realizar acciones con el URI del documento seleccionado
             // Por ejemplo, copiarlo a la carpeta deseada en la memoria interna
-            copyFileToInternalStorage(selectedDocumentUri);
+            copyFileToInternalStorageDocumentos(selectedDocumentUri);
+        } else if (requestCode == PICK_DOCUMENT_REQUEST) {
+            // Aquí manejas el resultado de la selección del documento
+            Uri selectedDocumentUri = data.getData();
+
+            // Ahora puedes realizar acciones con el URI del documento seleccionado
+            // Por ejemplo, copiarlo a la carpeta deseada en la memoria interna
+            copyFileToInternalStorageImagenes(selectedDocumentUri);
         }
     }
 
-    private void copyFileToInternalStorage(Uri sourceUri) {
+
+
+    private void copyFileToInternalStorageDocumentos(Uri sourceUri) {
         try {
             // Abre un flujo de entrada desde el Uri proporcionado
             InputStream inputStream = requireContext().getContentResolver().openInputStream(sourceUri);
 
             // Define la ubicación de destino en la memoria interna
-            String destinationPath = "/data/data/com.example.pantallatareas/documentos/documento.txt";
+            String destinationPath = "/data/data/com.example.pantallatareas/archivosTareas/documento.txt";
 
             // Abre un flujo de salida hacia la ubicación de destino
             OutputStream outputStream = new FileOutputStream(destinationPath);
@@ -219,6 +233,38 @@ public class FragmentoDos extends Fragment {
 
             // Notificar al usuario que la operación fue exitosa
             Toast.makeText(requireContext(), "Archivo guardado correctamente en la carpeta interna", Toast.LENGTH_SHORT).show();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            // Manejar cualquier excepción que pueda ocurrir durante la copia del archivo
+            Toast.makeText(requireContext(), "Error al guardar el archivo", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void copyFileToInternalStorageImagenes(Uri sourceUri) {
+        try {
+            // Abre un flujo de entrada desde el Uri proporcionado
+            InputStream inputStream = requireContext().getContentResolver().openInputStream(sourceUri);
+
+            // Define la ubicación de destino en la memoria interna
+            String destinationPath = "/data/data/com.example.pantallatareas/archivosTareas/image.png";
+
+            // Abre un flujo de salida hacia la ubicación de destino
+            OutputStream outputStream = new FileOutputStream(destinationPath);
+
+            // Copia los datos del InputStream al OutputStream
+            byte[] buffer = new byte[4096];
+            int bytesRead;
+            while ((bytesRead = inputStream.read(buffer)) != -1) {
+                outputStream.write(buffer, 0, bytesRead);
+            }
+
+            // Cierra los flujos
+            inputStream.close();
+            outputStream.close();
+
+            // Notificar al usuario que la operación fue exitosa
+            Toast.makeText(requireContext(), "Imagen guardada correctamente en la carpeta interna", Toast.LENGTH_SHORT).show();
 
         } catch (IOException e) {
             e.printStackTrace();

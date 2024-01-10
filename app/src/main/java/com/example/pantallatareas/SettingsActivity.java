@@ -10,19 +10,20 @@ import android.view.MenuItem;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceManager;
 
-public class SettingsActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
+public class SettingsActivity extends AppCompatActivity {
 
     public void aplicarTemaOscuro() {
         boolean modoOscuro = PreferenceManager.getDefaultSharedPreferences(this)
                 .getBoolean("modo_oscuro", true);
 
         if (modoOscuro) {
-            aplicarTamanoLetra();
-        }else{setTheme(R.style.AppTheme_Dark);
-            aplicarTamanoLetra();}
+            AppCompatDelegate.setDefaultNightMode(modoOscuro ? AppCompatDelegate.MODE_NIGHT_YES
+                    : AppCompatDelegate.MODE_NIGHT_NO);
+        }
     }
 
 
@@ -52,7 +53,7 @@ public class SettingsActivity extends AppCompatActivity implements SharedPrefere
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        aplicarTemaOscuro();
+        //aplicarTemaOscuro();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.settings_activity);
         if (savedInstanceState == null) {
@@ -77,23 +78,51 @@ public class SettingsActivity extends AppCompatActivity implements SharedPrefere
 
     }
 
-    @Override
-    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-        // Aquí puedes aplicar lógica para manejar cambios en preferencias específicas
-        if ("modo_oscuro".equals(key)) {
-            // Aplicar tema oscuro
-            aplicarTemaOscuro();
-        } else if ("tipoLetra".equals(key)) {
-            aplicarTamanoLetra();
-        }
-        recreate();
-    }
 
 
-    public static class SettingsFragment extends PreferenceFragmentCompat {
+
+    public static class SettingsFragment extends PreferenceFragmentCompat implements SharedPreferences.OnSharedPreferenceChangeListener  {
         @Override
         public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
             setPreferencesFromResource(R.xml.root_preferences, rootKey);
+        }
+
+        @Override
+        public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+            // Aquí puedes aplicar lógica para manejar cambios en preferencias específicas
+            if (key.equals("modo_oscuro")) {
+                boolean modoOscuro = sharedPreferences.getBoolean("modo_oscuro", true);
+
+                if (modoOscuro) {
+
+                    AppCompatDelegate.setDefaultNightMode(modoOscuro ? AppCompatDelegate.MODE_NIGHT_YES
+                            : AppCompatDelegate.MODE_NIGHT_NO);
+                    // Aplicar tu tema oscuro personalizado
+                    requireActivity().setTheme(R.style.AppTheme_Dark);
+                }
+            } else if (key.equals("tipoLetra")) {
+                Resources resources = getResources();
+                Configuration configuration = resources.getConfiguration();
+                DisplayMetrics displayMetrics = resources.getDisplayMetrics();
+                String fontSizePreference = sharedPreferences.getString("tipoLetra", "normal");
+
+                switch (fontSizePreference) {
+                    case "small":
+                        configuration.fontScale = 0.8f;
+                        break;
+                    case "normal":
+                        configuration.fontScale = 1f;
+                        break;
+                    case "large":
+                        configuration.fontScale = 3f;
+                        break;
+                    default:
+                        configuration.fontScale = 1f;
+                }
+                resources.updateConfiguration(configuration, displayMetrics);
+            }
+            requireActivity().recreate();
+
         }
     }
 
