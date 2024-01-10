@@ -66,7 +66,7 @@ public class ListadoTareasActivity extends AppCompatActivity {
     //@Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        aplicarTema();
+
         setContentView(R.layout.activity_main);
 
         init();
@@ -236,57 +236,6 @@ public class ListadoTareasActivity extends AppCompatActivity {
         }
         return tareaPrio;
     }
-
-    public void aplicarTema() {
-        boolean modoOscuro = PreferenceManager.getDefaultSharedPreferences(this)
-                .getBoolean("modo_oscuro", true);
-
-        if (modoOscuro) {
-
-        }else {
-            setTheme(R.style.AppTheme_Dark);
-            aplicarTamanoLetra();
-        }
-        // Escuchar cambios en la preferencia del modo oscuro
-        PreferenceManager.getDefaultSharedPreferences(this)
-                .registerOnSharedPreferenceChangeListener((sharedPreferences, key) -> {
-                    if ("modo_oscuro".equals(key)) {
-                        recreate(); // Reiniciar la actividad para aplicar el nuevo tema
-                    }
-                });
-    }
-
-
-    public void aplicarTamanoLetra() {
-        Resources resources = getResources();
-        Configuration configuration = resources.getConfiguration();
-        DisplayMetrics displayMetrics = resources.getDisplayMetrics();
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        String fontSizePreference = sharedPreferences.getString("tipoLetra", "normal");
-
-        switch (fontSizePreference) {
-            case "small":
-                configuration.fontScale = 0.8f;
-                break;
-            case "normal":
-                configuration.fontScale = 1f;
-                break;
-            case "large":
-                configuration.fontScale = 3f;
-                break;
-            default:
-                configuration.fontScale = 1f;
-        }
-        resources.updateConfiguration(configuration, displayMetrics);
-    }
-
-    public void actualizarConfiguracion() {
-        // Actualiza la configuración según tus necesidades
-        // Recrea la actividad para aplicar los cambios
-        recreate();
-    }
-
-
 }
 
 

@@ -1,7 +1,12 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <!--<style name="Base.Theme.PantallaTareas" parent="Theme.Material3.DayNight">
+    <style name="Base.Theme.PantallaTareas" parent="Theme.Material3.DayNight">
          Customize your dark theme here.
-        <item name="colorPrimary">@color/my_dark_primary</item>
-    </style> -->
+    <item name="android:windowBackground">@color/colorBackgroundDark</item>
+    <item name="colorPrimary">@color/colorPrimaryDark</item>
+    <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+    <item name="colorAccent">@color/colorAccentDark</item>
+    <item name="android:textColorPrimary">@color/colorTextPrimaryDark</item>
+    <item name="android:textColorSecondary">@color/colorTextSecondaryDark</item>
+    </style>
 </resources>
