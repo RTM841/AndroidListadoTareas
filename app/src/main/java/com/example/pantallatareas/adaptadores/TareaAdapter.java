@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
@@ -38,6 +39,9 @@ public class TareaAdapter extends RecyclerView.Adapter<TareaAdapter.ViewHolder> 
     private Context context;
     private Tarea tareaSeleccionada;
 
+    private int posicion;
+
+
     private ArrayList<Tarea> tareas = new ArrayList<>();
 
     public void notificarCambios() {
@@ -51,6 +55,19 @@ public class TareaAdapter extends RecyclerView.Adapter<TareaAdapter.ViewHolder> 
         this.context = context;
         this.datosTareas = itemTarea;
     }
+
+    public List<Tarea> getDatosTareas(){return datosTareas;}
+
+    public void setDatosTareas(List<Tarea> datosTarea){this.datosTareas = datosTarea; notifyDataSetChanged();}
+
+    public int getPosicion() {
+        return posicion;
+    }
+
+    public void setPosicion(int posicion) {
+        this.posicion = posicion;
+    }
+
 
     @Override
     public  TareaAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
@@ -183,7 +200,7 @@ public class TareaAdapter extends RecyclerView.Adapter<TareaAdapter.ViewHolder> 
         public Intent createIntent(@NonNull Context context, Tarea tarea) {
             Intent intent = new Intent(context, EditarTareaActivity.class);
             Bundle bundle = new Bundle();
-            bundle.putParcelable("TareaEditable", tarea);
+            bundle.putParcelable("TareaEditable", (Parcelable) tarea);
             intent.putExtras(bundle);
             return intent;
         }

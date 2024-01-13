@@ -3,6 +3,7 @@ package com.example.pantallatareas.actividades;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.util.Log;
 import android.widget.TextView;
 
@@ -156,7 +157,7 @@ public class EditarTareaActivity extends AppCompatActivity implements FragmentoD
         Intent aListado = new Intent();
         //Creamos un Bundle para introducir la tarea editada
         Bundle bundle = new Bundle();
-        bundle.putParcelable("TareaEditada", tareaEditada);
+        bundle.putParcelable("TareaEditada", (Parcelable) tareaEditada);
         aListado.putExtras(bundle);
         //Indicamos que el resultado ha sido OK
         setResult(RESULT_OK, aListado);

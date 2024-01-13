@@ -6,6 +6,7 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContract;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.LiveData;
 import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -24,6 +25,7 @@ import android.widget.Toast;
 import com.example.pantallatareas.Modelos.Tarea;
 import com.example.pantallatareas.R;
 import com.example.pantallatareas.adaptadores.TareaAdapter;
+import com.example.pantallatareas.basedatos.BaseDatosApp;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -37,6 +39,8 @@ import java.util.Locale;
 
 public class ListadoTareasActivity extends AppCompatActivity {
     private List<Tarea> elements;
+
+    private LiveData<List<Tarea>> tareas;
     private Calendar calendar = Calendar.getInstance();
     private Calendar calendar2 = Calendar.getInstance();
     private Date date = calendar.getTime();
@@ -113,6 +117,8 @@ public class ListadoTareasActivity extends AppCompatActivity {
         if (elements.isEmpty()){
             Toast.makeText(this, "No hay tareas", Toast.LENGTH_SHORT).show();}
 
+        tareas = BaseDatosApp.getInstance(this).tareaDao().listadoTareas();
+
 
 
        tareaAdapter = new TareaAdapter(elements, this);
@@ -153,6 +159,8 @@ public class ListadoTareasActivity extends AppCompatActivity {
 // Actualiza tu RecyclerView con la lista ordenada
         tareaAdapter.notifyDataSetChanged();
     }
+
+    public LiveData<List<Tarea>> getTareas(){return tareas;}
 
 
     public boolean onCreateOptionsMenu(Menu menu) {

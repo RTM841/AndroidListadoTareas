@@ -1,10 +1,15 @@
 package com.example.pantallatareas.actividades;
 
+import static com.google.android.material.internal.ContextUtils.getActivity;
+
+import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -16,12 +21,15 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.pantallatareas.Modelos.Tarea;
 import com.example.pantallatareas.R;
+import com.example.pantallatareas.basedatos.BaseDatosApp;
 import com.example.pantallatareas.fragmentos.FragmentoDos;
 import com.example.pantallatareas.fragmentos.FragmentoUno;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 public class CrearTareasActivity extends AppCompatActivity implements FragmentoDos.ComunicacionFragmento1{
 
@@ -37,6 +45,10 @@ private EditText titulo;
     private Integer numDias, numeroProgreso;
     private Tarea tarealistado;
 
+    private BaseDatosApp baseDatosApp;
+    private Context activity;
+
+    @SuppressLint("RestrictedApi")
     @Override
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
@@ -48,6 +60,10 @@ private EditText titulo;
         fragmentoUno = new FragmentoUno();
 
         getSupportFragmentManager().beginTransaction().replace(R.id.contenedorFragmentos,fragmentoUno).commit();
+
+        baseDatosApp = BaseDatosApp.getInstance(getActivity(this).getApplicationContext());
+
+
 
     }
 
@@ -91,10 +107,18 @@ private EditText titulo;
         }
 
 
+        //Creamos el objeto que vamos a insertar
+        tarealistado = new Tarea(nombreTarea.toString(), barraProgreso(progesoBarra), fechaIni, fechaFin, numD, esPrio, descripcion.toString());
 
-        Intent intentVuelta = new Intent();
-        intentVuelta.putExtra("TareaSeteada", tarealistado);
-        setResult(RESULT_OK, intentVuelta);
+        //Creamos un objeto de la clase que realiza la inserción en un hilo aparte Executor
+        Executor executor = Executors.newSingleThreadExecutor();
+        executor.execute(new InsertarProducto(tarealistado));
+
+
+
+        //Intent intentVuelta = new Intent();
+        //intentVuelta.putExtra("TareaSeteada", tarealistado);
+        //setResult(RESULT_OK, intentVuelta);
         finish();
 
     }
@@ -154,6 +178,22 @@ private EditText titulo;
         } catch (ParseException e) {
             e.printStackTrace();
             return null;
+        }
+    }
+
+
+    //Clase que inserta un objeto producto en la base de datos usando un hilo diferente al principal.
+    class InsertarProducto implements Runnable {
+
+        private Tarea tarea;
+
+        public InsertarProducto(Tarea tarea) {
+            this.tarea = tarea;
+        }
+
+        @Override
+        public void run() {
+            baseDatosApp.tareaDao().insertarTarea(tarea);
         }
     }
 

@@ -26,6 +26,7 @@ import android.widget.Toast;
 
 import com.example.pantallatareas.actividades.CompartirViewModel;
 import com.example.pantallatareas.R;
+import com.example.pantallatareas.basedatos.BaseDatosApp;
 
 import java.text.ParseException;
 
@@ -42,6 +43,8 @@ public class FragmentoDos extends Fragment {
     private static final int PICK_DOCUMENT_REQUEST = 1;
     private static final int PICK_IMAGE_REQUEST = 2;
     private static final int READ_EXTERNAL_STORAGE_PERMISSION_CODE = 1;
+
+    private BaseDatosApp baseDatosApp;
 
     public FragmentoDos() {
 
@@ -82,6 +85,7 @@ public class FragmentoDos extends Fragment {
                              Bundle savedInstanceState) {
         View fragmento2 = inflater.inflate(R.layout.fragment_fragmento_dos, container, false);
         compartirViewModel = new ViewModelProvider(requireActivity()).get(CompartirViewModel.class);
+        baseDatosApp = BaseDatosApp.getInstance(getActivity().getApplicationContext());
 
         textoDescipcion = fragmento2.findViewById(R.id.txtDescripcion);
         textoDescipcion.setText(compartirViewModel.getGetDescrip().getValue());
@@ -110,6 +114,8 @@ public class FragmentoDos extends Fragment {
             } else {
                 compartirViewModel.setDescip(textoDescipcion.getText().toString());
                 try {
+                    //Nos vamos al método OnGuardar para poder hacer la acción
+
                     comunicador1.onGuardar();
                 } catch (ParseException e) {
                     throw new RuntimeException(e);

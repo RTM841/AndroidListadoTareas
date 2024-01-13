@@ -8,6 +8,10 @@ import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
+import androidx.room.TypeConverter;
+import androidx.room.TypeConverters;
+
+import com.example.pantallatareas.convertidores.Converters;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -74,6 +78,10 @@ public class Tarea {
         this.descripcion = descripcion;
     }
 
+
+
+    
+
     public Tarea(long id, @NotNull String nombreTarea, int porcentajeTarea, String fechaIni, String fechaFin, int diasTarea, boolean prioritaria, String descripcion, String URL_doc, String URL_img, String URL_aud, String URL_vid) {
         this.id = id;
         this.nombreTarea = nombreTarea;
@@ -137,6 +145,8 @@ public class Tarea {
         this.fechaIni = validarFecha(fecha);
         this.prioritaria = prioritaria;
     }
+
+
 
     public String getNombreTarea() {
         return nombreTarea;
