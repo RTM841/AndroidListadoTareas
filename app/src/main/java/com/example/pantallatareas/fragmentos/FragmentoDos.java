@@ -16,7 +16,6 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import android.renderscript.ScriptGroup;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,7 +24,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.pantallatareas.CompartirViewModel;
+import com.example.pantallatareas.actividades.CompartirViewModel;
 import com.example.pantallatareas.R;
 
 import java.text.ParseException;

@@ -24,11 +24,8 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.example.pantallatareas.CompartirViewModel;
-import com.example.pantallatareas.DatePickerFragment;
+import com.example.pantallatareas.actividades.CompartirViewModel;
 import com.example.pantallatareas.R;
-
-import java.text.ParseException;
 
 
 public class FragmentoUno extends Fragment implements View.OnClickListener {

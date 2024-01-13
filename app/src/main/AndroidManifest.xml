@@ -15,17 +15,17 @@
         android:theme="@style/Theme.PantallaTareas"
         tools:targetApi="31">
         <activity
-            android:name=".SettingsActivity"
+            android:name=".actividades.SettingsActivity"
             android:exported="false"
             android:label="@string/title_activity_settings" />
         <activity
-            android:name=".CrearTareasActivity"
+            android:name=".actividades.CrearTareasActivity"
             android:exported="true" />
         <activity
-            android:name=".ListadoTareasActivity"
+            android:name=".actividades.ListadoTareasActivity"
             android:exported="true"></activity>
         <activity
-            android:name=".MainActivity"
+            android:name=".actividades.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

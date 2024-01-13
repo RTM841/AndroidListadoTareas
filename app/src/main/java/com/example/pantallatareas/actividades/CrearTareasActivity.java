@@ -1,38 +1,27 @@
-package com.example.pantallatareas;
+package com.example.pantallatareas.actividades;
 
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.location.GnssMeasurementRequest;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Parcelable;
-import android.speech.tts.TextToSpeech;
-import android.text.style.StrikethroughSpan;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
 
 
+import com.example.pantallatareas.Modelos.Tarea;
+import com.example.pantallatareas.R;
 import com.example.pantallatareas.fragmentos.FragmentoDos;
 import com.example.pantallatareas.fragmentos.FragmentoUno;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import android.text.SpannableString;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 
 public class CrearTareasActivity extends AppCompatActivity implements FragmentoDos.ComunicacionFragmento1{
 

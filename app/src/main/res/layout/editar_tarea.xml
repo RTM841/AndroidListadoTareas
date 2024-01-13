@@ -5,7 +5,7 @@
     android:id="@+id/cl_editar"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".CrearTareasActivity">
+    tools:context=".actividades.CrearTareasActivity">
 
     <TextView
         android:id="@+id/tv_editar_tarea"

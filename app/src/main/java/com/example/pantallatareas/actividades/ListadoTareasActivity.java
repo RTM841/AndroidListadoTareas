@@ -1,4 +1,4 @@
-package com.example.pantallatareas;
+package com.example.pantallatareas.actividades;
 
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
@@ -15,18 +15,15 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.Configuration;
-import android.content.res.Resources;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.DisplayMetrics;
-import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.pantallatareas.Modelos.Tarea;
+import com.example.pantallatareas.R;
+import com.example.pantallatareas.adaptadores.TareaAdapter;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -108,9 +105,9 @@ public class ListadoTareasActivity extends AppCompatActivity {
         String formatoFecha2 = new SimpleDateFormat("dd/MM/yyyy").format(date2);
         elements = new ArrayList<>();
 
-        elements.add(new Tarea("b", 50, "12/03/2024",12,"Tarea1", true));
-        elements.add(new Tarea("a", 25, "24/01/2024",25, "Tarea2", false));
-        elements.add(new Tarea("alache", 25, "13/07/2024", 10, "Tarea3",false));
+        elements.add(new Tarea(1,"b", 50, "12/03/2024",12,"Tarea1", true));
+        elements.add(new Tarea(2,"a", 25, "24/01/2024",25, "Tarea2", false));
+        elements.add(new Tarea(3,"alache", 25, "13/07/2024", 10, "Tarea3",false));
 
         if (elements.isEmpty()){
             Toast.makeText(this, "No hay tareas", Toast.LENGTH_SHORT).show();}

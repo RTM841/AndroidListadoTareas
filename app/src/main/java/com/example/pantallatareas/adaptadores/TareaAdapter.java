@@ -1,4 +1,4 @@
-package com.example.pantallatareas;
+package com.example.pantallatareas.adaptadores;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -18,11 +18,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultCallback;
-import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContract;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.pantallatareas.Modelos.Tarea;
+import com.example.pantallatareas.R;
+import com.example.pantallatareas.actividades.EditarTareaActivity;
 
 import java.util.ArrayList;
 import java.util.List;

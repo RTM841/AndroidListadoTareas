@@ -1,4 +1,4 @@
-package com.example.pantallatareas;
+package com.example.pantallatareas.actividades;
 
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
