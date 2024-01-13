@@ -2,8 +2,6 @@ package com.example.pantallatareas.Modelos;
 
 import static java.time.LocalDate.*;
 
-import android.os.Parcel;
-import android.os.Parcelable;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -23,7 +21,7 @@ import java.util.regex.Pattern;
 
 //Anotación para decir que es una entidada de Room
 @Entity
-public class Tarea implements Parcelable {
+public class Tarea {
 
     //Anotación para indicar la clave primaria de la tabla
     @PrimaryKey(autoGenerate = true)
@@ -37,18 +35,34 @@ public class Tarea implements Parcelable {
     public String nombreTarea;
 
 
+    @ColumnInfo(name = "progresoTarea", defaultValue = "0")
     public int porcentajeTarea;
     @NotNull
-    @ColumnInfo(name = "fechaCreación")
+    @ColumnInfo(name = "fechaCreación", defaultValue = "CURRENT_TIMESTAMP")
     public Date fechaIni ;
 
     @NotNull
     @ColumnInfo(name = "fechaObjetivo")
     public  Date fechaFin;
+
+    @NotNull
+    @ColumnInfo(name = "diasTarea")
     public int diasTarea;
+
+
+    @ColumnInfo(name = "prioritaia", defaultValue = "false")
     public boolean prioritaria;
 
+    @ColumnInfo(name = "descripcion")
     public String descripcion;
+    @ColumnInfo(name = "UrlDocuemntos")
+    public String URL_doc;
+    @ColumnInfo(name = "UrlImagenes")
+    public String URL_img;
+    @ColumnInfo(name = "UrlAudio")
+    public String URL_aud;
+    @ColumnInfo(name = "UrlVideo")
+    public String URL_vid;
 
     public Tarea(String nombreTarea, int porcentajeTarea, String fechaIni, String fechaFin, int diasTarea, boolean prioritaria, String descripcion) {
         this.nombreTarea = nombreTarea;
@@ -58,6 +72,21 @@ public class Tarea implements Parcelable {
         this.diasTarea = diasTarea;
         this.prioritaria = prioritaria;
         this.descripcion = descripcion;
+    }
+
+    public Tarea(long id, @NotNull String nombreTarea, int porcentajeTarea, String fechaIni, String fechaFin, int diasTarea, boolean prioritaria, String descripcion, String URL_doc, String URL_img, String URL_aud, String URL_vid) {
+        this.id = id;
+        this.nombreTarea = nombreTarea;
+        this.porcentajeTarea = porcentajeTarea;
+        this.fechaIni = validarFecha(fechaIni);
+        this.fechaFin = validarFecha(fechaFin);
+        this.diasTarea = diasTarea;
+        this.prioritaria = prioritaria;
+        this.descripcion = descripcion;
+        this.URL_doc = URL_doc;
+        this.URL_img = URL_img;
+        this.URL_aud = URL_aud;
+        this.URL_vid = URL_vid;
     }
 
     //Constructor completo
@@ -108,31 +137,6 @@ public class Tarea implements Parcelable {
         this.fechaIni = validarFecha(fecha);
         this.prioritaria = prioritaria;
     }
-
-    protected Tarea(Parcel in) {
-        id = in.readLong();
-        nombreTarea = in.readString();
-        porcentajeTarea = in.readInt();
-        long tmpFechaCreacion = in.readLong();
-        fechaIni = tmpFechaCreacion == -1 ? null : new Date(tmpFechaCreacion);
-        long tmpFechaObjetivo = in.readLong();
-        fechaFin = tmpFechaObjetivo == -1 ? null : new Date(tmpFechaObjetivo);
-        diasTarea = in.readInt();
-        prioritaria = in.readByte() != 0;
-        descripcion = in.readString();
-    }
-
-    public static final Creator<Tarea> CREATOR = new Creator<Tarea>() {
-        @Override
-        public Tarea createFromParcel(Parcel in) {
-            return new Tarea(in);
-        }
-
-        @Override
-        public Tarea[] newArray(int size) {
-            return new Tarea[size];
-        }
-    };
 
     public String getNombreTarea() {
         return nombreTarea;
@@ -189,6 +193,37 @@ public class Tarea implements Parcelable {
 
     public void setDescripcion(String descripcion) {this.descripcion = descripcion;}
 
+    public String getURL_doc() {
+        return URL_doc;
+    }
+
+    public void setURL_doc(String URL_doc) {
+        this.URL_doc = URL_doc;
+    }
+
+    public String getURL_img() {
+        return URL_img;
+    }
+
+    public void setURL_img(String URL_img) {
+        this.URL_img = URL_img;
+    }
+
+    public String getURL_aud() {
+        return URL_aud;
+    }
+
+    public void setURL_aud(String URL_aud) {
+        this.URL_aud = URL_aud;
+    }
+
+    public String getURL_vid() {
+        return URL_vid;
+    }
+
+    public void setURL_vid(String URL_vid) {
+        this.URL_vid = URL_vid;
+    }
 
     public Date validarFecha(@NonNull String fechaCreacion){
         Date fecha = new Date(); //Para evitar devolver null
@@ -227,21 +262,4 @@ public class Tarea implements Parcelable {
         return Objects.hash(id);
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(@NonNull Parcel parcel, int i) {
-
-        parcel.writeLong(this.id);
-        parcel.writeString(this.nombreTarea);
-        parcel.writeInt(this.porcentajeTarea);
-        parcel.writeLong(this.fechaIni != null ? this.fechaIni.getTime() : -1);
-        parcel.writeLong(this.fechaFin != null ? this.fechaFin.getTime() : -1);
-        parcel.writeInt(this.diasTarea);
-        parcel.writeByte((byte) (prioritaria ? 1 : 0));
-        parcel.writeString(this.descripcion);
-    }
 }

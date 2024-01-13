@@ -76,6 +76,7 @@ public class ListadoTareasActivity extends AppCompatActivity {
         calendar2.set(Calendar.YEAR, 2023);
         calendar2.set(Calendar.MONTH, 12);
         calendar2.set(Calendar.DAY_OF_MONTH, 25);
+
     }
 
 
@@ -157,6 +158,7 @@ public class ListadoTareasActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main_menu, menu);
         return true;
+
     }
 
     public boolean onOptionsItemSelected(MenuItem opcion_menu){
