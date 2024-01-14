@@ -22,11 +22,14 @@ import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.contract.ActivityResultContract;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.lifecycle.LiveData;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.pantallatareas.Modelos.Tarea;
 import com.example.pantallatareas.R;
 import com.example.pantallatareas.actividades.EditarTareaActivity;
+import com.example.pantallatareas.basedatos.BaseDatosApp;
+import com.example.pantallatareas.daos.TareaDao;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,6 +38,9 @@ import java.util.Objects;
 public class TareaAdapter extends RecyclerView.Adapter<TareaAdapter.ViewHolder> {
 
     private List<Tarea> datosTareas;
+
+    private LiveData<List<Tarea>> tareasLista;
+    private TareaDao tareaDao;
     private LayoutInflater inflador;
     private Context context;
     private Tarea tareaSeleccionada;
@@ -49,12 +55,13 @@ public class TareaAdapter extends RecyclerView.Adapter<TareaAdapter.ViewHolder> 
         notifyDataSetChanged();
     }
 
-    public TareaAdapter(List<Tarea> itemTarea, Context context)
+    public TareaAdapter(Context context, List<Tarea> datos)
     {
-        this.inflador = LayoutInflater.from(context);
+        this.datosTareas = datos;
+        inflador = LayoutInflater.from(context);
         this.context = context;
-        this.datosTareas = itemTarea;
     }
+
 
     public List<Tarea> getDatosTareas(){return datosTareas;}
 
@@ -87,8 +94,9 @@ public class TareaAdapter extends RecyclerView.Adapter<TareaAdapter.ViewHolder> 
     @Override
     public void onBindViewHolder(final TareaAdapter.ViewHolder holder, @SuppressLint("RecyclerView") int position)
     {
+        Tarea tarea = datosTareas.get(position);
 
-        holder.bindData(datosTareas.get(position));
+        holder.bindData(tarea);
         holder.posicion = position;
         holder.itemView.setOnCreateContextMenuListener(new View.OnCreateContextMenuListener() {
             @Override
@@ -167,7 +175,7 @@ public class TareaAdapter extends RecyclerView.Adapter<TareaAdapter.ViewHolder> 
     }
 
     public void borrarTarea(long idTarea) {
-        int posicionTarea = -1;
+        /*int posicionTarea = -1;
 
         // Buscar la posición de la tarea en la lista
         for (int i = 0; i < datosTareas.size(); i++) {
@@ -189,7 +197,10 @@ public class TareaAdapter extends RecyclerView.Adapter<TareaAdapter.ViewHolder> 
 
             // Notificar al adaptador que la tarea ha sido eliminada
             notifyItemRemoved(posicionTarea);
-        }
+        }*/
+
+
+
     }
 
 
