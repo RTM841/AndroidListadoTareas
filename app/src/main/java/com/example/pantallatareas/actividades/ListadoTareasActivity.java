@@ -147,7 +147,7 @@ public class ListadoTareasActivity extends AppCompatActivity {
         registerForContextMenu(recyclerView);
 
 
-// Observa los cambios en la lista de tareas
+        // Observa los cambios en la lista de tareas
         tareas.observe(this, tareaAdapter::setDatosTareas);
 
 
@@ -244,12 +244,34 @@ public class ListadoTareasActivity extends AppCompatActivity {
         filtprio = !filtprio;
 
         if (filtprio) {
-            List<Tarea> tareasPrio = tareaDao.listadorPrio().getValue();
-            tareaAdapter.setDatosTareas(tareasPrio);
-            //tareaAdapter = new TareaAdapter(listPrio(), this);
+            tareas = baseDatosApp.getInstance(this).tareaDao().listadorPrio();
+
+
+            tareaAdapter = new TareaAdapter(this, elements);
+            recyclerView = findViewById(R.id.recyclerVistaTareas);
+            recyclerView.setHasFixedSize(true);
+            recyclerView.setAdapter(tareaAdapter);
+
+            registerForContextMenu(recyclerView);
+
+
+            // Observa los cambios en la lista de tareas
+            tareas.observe(this, tareaAdapter::setDatosTareas);
         } else {
-            tareaAdapter.setDatosTareas(tareaDao.listadoTareas().getValue());
-            //tareaAdapter = new TareaAdapter(elements, this);
+
+            tareas = baseDatosApp.getInstance(this).tareaDao().listadoTareas();
+
+
+            tareaAdapter = new TareaAdapter(this, elements);
+            recyclerView = findViewById(R.id.recyclerVistaTareas);
+            recyclerView.setHasFixedSize(true);
+            recyclerView.setAdapter(tareaAdapter);
+
+            registerForContextMenu(recyclerView);
+
+
+            // Observa los cambios en la lista de tareas
+            tareas.observe(this, tareaAdapter::setDatosTareas);
         }
 
         recyclerView.setAdapter(tareaAdapter);
