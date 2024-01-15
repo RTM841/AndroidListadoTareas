@@ -46,10 +46,10 @@ public class CompartirViewModel extends ViewModel {
     private final MutableLiveData<String> Descrip = new MutableLiveData<>();
 
     public void setDescip(String descripcion){
-        Descrip.setValue(descripcion);
+        urlImagen.setValue(descripcion);
     }
 
-    public  MutableLiveData<String> getGetDescrip(){return Descrip;}
+    public  MutableLiveData<String> getGetDescrip(){return urlImagen;}
 
     //Para número de dias
     private final MutableLiveData<Integer> numDias = new MutableLiveData<>();
@@ -72,6 +72,48 @@ public class CompartirViewModel extends ViewModel {
             return false;
         }
     }
+
+
+
+    //Para la URL del documento
+    private final MutableLiveData<String> urlDocumento = new MutableLiveData<>();
+
+    public void setUrlDocumento(String urlD){
+        urlDocumento.setValue(urlD);
+    }
+
+    public  MutableLiveData<String> geturlDocumento(){return urlDocumento;}
+
+
+    //Para la URL de imagen
+
+    private final MutableLiveData<String> urlImagen = new MutableLiveData<>();
+
+    public void setUrlImagen(String urlI){
+        urlImagen.setValue(urlI);
+    }
+
+    public  MutableLiveData<String> getUrlImagen(){return urlImagen;}
+
+    //Para la URL del audio
+
+    private final MutableLiveData<String> urlAudio = new MutableLiveData<>();
+
+    public void setUrlAudio(String urlA){
+        urlAudio.setValue(urlA);
+    }
+
+    public  MutableLiveData<String> getUrlAudio(){return urlAudio;}
+
+    //Para la URL del video
+
+    private final MutableLiveData<String> urlVideo = new MutableLiveData<>();
+
+    public void setUrlVideo(String url){
+        urlVideo.setValue(url);
+    }
+
+    public  MutableLiveData<String> getUrlVideo(){return urlVideo;}
 
 
 

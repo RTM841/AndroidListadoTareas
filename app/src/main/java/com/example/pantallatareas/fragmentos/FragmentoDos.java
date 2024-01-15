@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -16,6 +17,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.provider.OpenableColumns;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -42,6 +44,10 @@ public class FragmentoDos extends Fragment {
     private CompartirViewModel compartirViewModel;
     private static final int PICK_DOCUMENT_REQUEST = 1;
     private static final int PICK_IMAGE_REQUEST = 2;
+
+    private static final int PICK_AUDIO_REQUEST = 3;
+
+    private static final int PICK_VIDEO_REQUEST = 4;
     private static final int READ_EXTERNAL_STORAGE_PERMISSION_CODE = 1;
 
     private BaseDatosApp baseDatosApp;
@@ -115,7 +121,6 @@ public class FragmentoDos extends Fragment {
                 compartirViewModel.setDescip(textoDescipcion.getText().toString());
                 try {
                     //Nos vamos al método OnGuardar para poder hacer la acción
-
                     comunicador1.onGuardar();
                 } catch (ParseException e) {
                     throw new RuntimeException(e);
@@ -153,7 +158,7 @@ public class FragmentoDos extends Fragment {
     public void selecDocumento(View view) {
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
 
-        intent.setType("text/*");
+        intent.setType("application/pdf");
 
         startActivityForResult(intent, PICK_DOCUMENT_REQUEST);
     }
@@ -168,9 +173,20 @@ public class FragmentoDos extends Fragment {
 
     public void selecAudio(View view) {
 
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+
+
+        startActivityForResult(intent, PICK_AUDIO_REQUEST);
+
     }
 
     public void selecVideo(View view) {
+
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+
+        intent.setType("video/*");
+
+        startActivityForResult(intent, PICK_VIDEO_REQUEST);
 
     }
 
@@ -202,13 +218,27 @@ public class FragmentoDos extends Fragment {
             // Ahora puedes realizar acciones con el URI del documento seleccionado
             // Por ejemplo, copiarlo a la carpeta deseada en la memoria interna
             copyFileToInternalStorageDocumentos(selectedDocumentUri);
-        } else if (requestCode == PICK_DOCUMENT_REQUEST) {
+        } else if (requestCode == PICK_IMAGE_REQUEST) {
             // Aquí manejas el resultado de la selección del documento
-            Uri selectedDocumentUri = data.getData();
+            Uri selectedImagenUri = data.getData();
 
             // Ahora puedes realizar acciones con el URI del documento seleccionado
             // Por ejemplo, copiarlo a la carpeta deseada en la memoria interna
-            copyFileToInternalStorageImagenes(selectedDocumentUri);
+            copyFileToInternalStorageImagenes(selectedImagenUri);
+        } else if (requestCode == PICK_AUDIO_REQUEST) {
+            // Aquí manejas el resultado de la selección del documento
+            Uri selectedAudioUri = data.getData();
+
+            // Ahora puedes realizar acciones con el URI del documento seleccionado
+            // Por ejemplo, copiarlo a la carpeta deseada en la memoria interna
+            copyFileToInternalStorageAudios(selectedAudioUri);
+        } else if (requestCode == PICK_VIDEO_REQUEST) {
+            // Aquí manejas el resultado de la selección del documento
+            Uri selectedVideoUri = data.getData();
+
+            // Ahora puedes realizar acciones con el URI del documento seleccionado
+            // Por ejemplo, copiarlo a la carpeta deseada en la memoria interna
+            copyFileToInternalStorageVideos(selectedVideoUri);
         }
     }
 
@@ -219,8 +249,11 @@ public class FragmentoDos extends Fragment {
             // Abre un flujo de entrada desde el Uri proporcionado
             InputStream inputStream = requireContext().getContentResolver().openInputStream(sourceUri);
 
+            // Obtiene el nombre del archivo desde la Uri
+            String fileName = getFileNameFromUri(sourceUri);
+
             // Define la ubicación de destino en la memoria interna
-            String destinationPath = "/data/data/com.example.pantallatareas/archivosTareas/documento.txt";
+            String destinationPath = "/data/data/com.example.pantallatareas/archivosTareas/" + fileName;
 
             // Abre un flujo de salida hacia la ubicación de destino
             OutputStream outputStream = new FileOutputStream(destinationPath);
@@ -238,12 +271,36 @@ public class FragmentoDos extends Fragment {
 
             // Notificar al usuario que la operación fue exitosa
             Toast.makeText(requireContext(), "Archivo guardado correctamente en la carpeta interna", Toast.LENGTH_SHORT).show();
+            compartirViewModel.setUrlDocumento(destinationPath);
 
         } catch (IOException e) {
             e.printStackTrace();
             // Manejar cualquier excepción que pueda ocurrir durante la copia del archivo
             Toast.makeText(requireContext(), "Error al guardar el archivo", Toast.LENGTH_SHORT).show();
+
         }
+    }
+
+
+    @SuppressLint("Range")
+    private String getFileNameFromUri(Uri uri) {
+        String result = null;
+        if (uri.getScheme().equals("content")) {
+            Cursor cursor = requireContext().getContentResolver().query(uri, null, null, null, null);
+            try {
+                if (cursor != null && cursor.moveToFirst()) {
+                    result = cursor.getString(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME));
+                }
+            } finally {
+                if (cursor != null) {
+                    cursor.close();
+                }
+            }
+        }
+        if (result == null) {
+            result = uri.getLastPathSegment();
+        }
+        return result;
     }
 
     private void copyFileToInternalStorageImagenes(Uri sourceUri) {
@@ -251,8 +308,11 @@ public class FragmentoDos extends Fragment {
             // Abre un flujo de entrada desde el Uri proporcionado
             InputStream inputStream = requireContext().getContentResolver().openInputStream(sourceUri);
 
+            // Obtiene el nombre del archivo desde la Uri
+            String fileName = getFileNameFromUri(sourceUri);
+
             // Define la ubicación de destino en la memoria interna
-            String destinationPath = "/data/data/com.example.pantallatareas/archivosTareas/image.png";
+            String destinationPath = "/data/data/com.example.pantallatareas/archivosTareas/" + fileName;
 
             // Abre un flujo de salida hacia la ubicación de destino
             OutputStream outputStream = new FileOutputStream(destinationPath);
@@ -277,4 +337,80 @@ public class FragmentoDos extends Fragment {
             Toast.makeText(requireContext(), "Error al guardar el archivo", Toast.LENGTH_SHORT).show();
         }
     }
+
+    private void copyFileToInternalStorageAudios(Uri sourceUri) {
+        try {
+            // Abre un flujo de entrada desde el Uri proporcionado
+            InputStream inputStream = requireContext().getContentResolver().openInputStream(sourceUri);
+
+            // Obtiene el nombre del archivo desde la Uri
+            String fileName = getFileNameFromUri(sourceUri);
+
+            // Define la ubicación de destino en la memoria interna
+            String destinationPath = "/data/data/com.example.pantallatareas/archivosTareas/" + fileName;
+
+            // Abre un flujo de salida hacia la ubicación de destino
+            OutputStream outputStream = new FileOutputStream(destinationPath);
+
+            // Copia los datos del InputStream al OutputStream
+            byte[] buffer = new byte[4096];
+            int bytesRead;
+            while ((bytesRead = inputStream.read(buffer)) != -1) {
+                outputStream.write(buffer, 0, bytesRead);
+            }
+
+            // Cierra los flujos
+            inputStream.close();
+            outputStream.close();
+
+            // Notificar al usuario que la operación fue exitosa
+            Toast.makeText(requireContext(), "Audio guardada correctamente en la carpeta interna", Toast.LENGTH_SHORT).show();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            // Manejar cualquier excepción que pueda ocurrir durante la copia del archivo
+            Toast.makeText(requireContext(), "Error al guardar el archivo", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+
+
+    private void copyFileToInternalStorageVideos(Uri sourceUri) {
+        try {
+            // Abre un flujo de entrada desde el Uri proporcionado
+            InputStream inputStream = requireContext().getContentResolver().openInputStream(sourceUri);
+
+            // Obtiene el nombre del archivo desde la Uri
+            String fileName = getFileNameFromUri(sourceUri);
+
+            // Define la ubicación de destino en la memoria interna
+            String destinationPath = "/data/data/com.example.pantallatareas/archivosTareas/" + fileName;
+
+            // Abre un flujo de salida hacia la ubicación de destino
+            OutputStream outputStream = new FileOutputStream(destinationPath);
+
+            // Copia los datos del InputStream al OutputStream
+            byte[] buffer = new byte[4096];
+            int bytesRead;
+            while ((bytesRead = inputStream.read(buffer)) != -1) {
+                outputStream.write(buffer, 0, bytesRead);
+            }
+
+            // Cierra los flujos
+            inputStream.close();
+            outputStream.close();
+
+            // Notificar al usuario que la operación fue exitosa
+            Toast.makeText(requireContext(), "Video guardada correctamente en la carpeta interna", Toast.LENGTH_SHORT).show();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            // Manejar cualquier excepción que pueda ocurrir durante la copia del archivo
+            Toast.makeText(requireContext(), "Error al guardar el archivo", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+
+
+
 }

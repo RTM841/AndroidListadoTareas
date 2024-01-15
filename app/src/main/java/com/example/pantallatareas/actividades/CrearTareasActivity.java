@@ -38,7 +38,7 @@ public class CrearTareasActivity extends AppCompatActivity implements FragmentoD
     private FragmentManager fragmentManager;
     private Button continuar;
     private Button cancelar;
-    private String nombreTarea, fechaIni, fechaFin, progesoBarra, descripcion;
+    private String nombreTarea, fechaIni, fechaFin, progesoBarra, descripcion, urlDocumento, urlImagen, urlAudio, urlVideo;
 
 private EditText titulo;
     private Boolean esPrio;
@@ -78,6 +78,11 @@ private EditText titulo;
         progesoBarra = compartirViewModel.getEstadoTarea().getValue();
         descripcion = compartirViewModel.getGetDescrip().getValue();
         esPrio = compartirViewModel.getPrioritariaValue();
+        urlDocumento = compartirViewModel.geturlDocumento().getValue();
+        urlImagen = compartirViewModel.getUrlImagen().getValue();
+        urlAudio = compartirViewModel.getUrlAudio().getValue();
+        urlVideo = compartirViewModel.getUrlVideo().getValue();
+
 
 
 
