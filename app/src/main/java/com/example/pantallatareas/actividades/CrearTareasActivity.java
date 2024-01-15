@@ -113,7 +113,7 @@ private EditText titulo;
 
 
         //Creamos el objeto que vamos a insertar
-        tarealistado = new Tarea(nombreTarea.toString(), barraProgreso(progesoBarra), fechaIni, fechaFin, numD, esPrio, descripcion.toString());
+        tarealistado = new Tarea(nombreTarea.toString(), barraProgreso(progesoBarra), fechaIni, fechaFin, numD, esPrio, descripcion.toString(), urlDocumento, urlImagen, urlAudio, urlVideo);
 
         //Creamos un objeto de la clase que realiza la inserción en un hilo aparte Executor
         Executor executor = Executors.newSingleThreadExecutor();

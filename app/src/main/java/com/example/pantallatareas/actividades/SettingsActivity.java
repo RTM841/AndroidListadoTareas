@@ -66,8 +66,6 @@ public class SettingsActivity extends AppCompatActivity {
             // Aquí puedes aplicar lógica para manejar cambios en preferencias específicas
             if (key.equals("modo_oscuro")) {
                 boolean modoOscuro = sharedPreferences.getBoolean("modo_oscuro", true);
-
-
                     AppCompatDelegate.setDefaultNightMode(modoOscuro ? AppCompatDelegate.MODE_NIGHT_NO
                             :  AppCompatDelegate.MODE_NIGHT_YES);
                 }

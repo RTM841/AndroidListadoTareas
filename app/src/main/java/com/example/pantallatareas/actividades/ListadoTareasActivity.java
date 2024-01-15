@@ -139,7 +139,7 @@ public class ListadoTareasActivity extends AppCompatActivity {
         tareas = baseDatosApp.getInstance(this).tareaDao().listadoTareas();
 
 
-        tareaAdapter = new TareaAdapter(this, elements);
+        tareaAdapter = new TareaAdapter(this, elements, baseDatosApp);
         recyclerView = findViewById(R.id.recyclerVistaTareas);
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(tareaAdapter);
@@ -182,6 +182,8 @@ public class ListadoTareasActivity extends AppCompatActivity {
 // Actualiza tu RecyclerView con la lista ordenada
         tareaAdapter.notifyDataSetChanged();
     }
+
+
 
 
 
@@ -247,7 +249,7 @@ public class ListadoTareasActivity extends AppCompatActivity {
             tareas = baseDatosApp.getInstance(this).tareaDao().listadorPrio();
 
 
-            tareaAdapter = new TareaAdapter(this, elements);
+            tareaAdapter = new TareaAdapter(this, elements,baseDatosApp);
             recyclerView = findViewById(R.id.recyclerVistaTareas);
             recyclerView.setHasFixedSize(true);
             recyclerView.setAdapter(tareaAdapter);
@@ -262,7 +264,7 @@ public class ListadoTareasActivity extends AppCompatActivity {
             tareas = baseDatosApp.getInstance(this).tareaDao().listadoTareas();
 
 
-            tareaAdapter = new TareaAdapter(this, elements);
+            tareaAdapter = new TareaAdapter(this, elements, baseDatosApp);
             recyclerView = findViewById(R.id.recyclerVistaTareas);
             recyclerView.setHasFixedSize(true);
             recyclerView.setAdapter(tareaAdapter);

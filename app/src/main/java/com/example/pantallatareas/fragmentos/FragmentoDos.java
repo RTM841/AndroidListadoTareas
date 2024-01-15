@@ -158,7 +158,7 @@ public class FragmentoDos extends Fragment {
     public void selecDocumento(View view) {
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
 
-        intent.setType("application/pdf");
+        intent.setType("*/*");
 
         startActivityForResult(intent, PICK_DOCUMENT_REQUEST);
     }
@@ -253,7 +253,7 @@ public class FragmentoDos extends Fragment {
             String fileName = getFileNameFromUri(sourceUri);
 
             // Define la ubicación de destino en la memoria interna
-            String destinationPath = "/data/data/com.example.pantallatareas/archivosTareas/" + fileName;
+            String destinationPath = "/data/data/com.example.pantallatareas/files/" + fileName;
 
             // Abre un flujo de salida hacia la ubicación de destino
             OutputStream outputStream = new FileOutputStream(destinationPath);
@@ -330,7 +330,7 @@ public class FragmentoDos extends Fragment {
 
             // Notificar al usuario que la operación fue exitosa
             Toast.makeText(requireContext(), "Imagen guardada correctamente en la carpeta interna", Toast.LENGTH_SHORT).show();
-
+            compartirViewModel.setUrlImagen(destinationPath);
         } catch (IOException e) {
             e.printStackTrace();
             // Manejar cualquier excepción que pueda ocurrir durante la copia del archivo
@@ -365,7 +365,7 @@ public class FragmentoDos extends Fragment {
 
             // Notificar al usuario que la operación fue exitosa
             Toast.makeText(requireContext(), "Audio guardada correctamente en la carpeta interna", Toast.LENGTH_SHORT).show();
-
+            compartirViewModel.setUrlAudio(destinationPath);
         } catch (IOException e) {
             e.printStackTrace();
             // Manejar cualquier excepción que pueda ocurrir durante la copia del archivo
@@ -402,7 +402,7 @@ public class FragmentoDos extends Fragment {
 
             // Notificar al usuario que la operación fue exitosa
             Toast.makeText(requireContext(), "Video guardada correctamente en la carpeta interna", Toast.LENGTH_SHORT).show();
-
+            compartirViewModel.setUrlVideo(destinationPath);
         } catch (IOException e) {
             e.printStackTrace();
             // Manejar cualquier excepción que pueda ocurrir durante la copia del archivo

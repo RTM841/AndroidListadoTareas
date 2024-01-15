@@ -1,5 +1,7 @@
 package com.example.pantallatareas.adaptadores;
 
+import static com.google.android.material.internal.ContextUtils.getActivity;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
@@ -27,20 +29,24 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.pantallatareas.Modelos.Tarea;
 import com.example.pantallatareas.R;
+import com.example.pantallatareas.actividades.CrearTareasActivity;
 import com.example.pantallatareas.actividades.EditarTareaActivity;
 import com.example.pantallatareas.basedatos.BaseDatosApp;
 import com.example.pantallatareas.daos.TareaDao;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 public class TareaAdapter extends RecyclerView.Adapter<TareaAdapter.ViewHolder> {
 
     private List<Tarea> datosTareas;
 
     private LiveData<List<Tarea>> tareasLista;
-    private TareaDao tareaDao;
+    private BaseDatosApp baseDatosApp;
     private LayoutInflater inflador;
     private Context context;
     private Tarea tareaSeleccionada;
@@ -55,11 +61,12 @@ public class TareaAdapter extends RecyclerView.Adapter<TareaAdapter.ViewHolder> 
         notifyDataSetChanged();
     }
 
-    public TareaAdapter(Context context, List<Tarea> datos)
+    public TareaAdapter(Context context, List<Tarea> datos, BaseDatosApp baseDatosApp)
     {
         this.datosTareas = datos;
         inflador = LayoutInflater.from(context);
         this.context = context;
+        this.baseDatosApp = baseDatosApp;
     }
 
 
@@ -76,18 +83,19 @@ public class TareaAdapter extends RecyclerView.Adapter<TareaAdapter.ViewHolder> 
     }
 
 
+    @SuppressLint("RestrictedApi")
     @Override
     public  TareaAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
     {
         View view = inflador.inflate(R.layout.vista_tareas, null);
         return new TareaAdapter.ViewHolder(view);
 
-
     }
 
 
     @Override
     public int getItemCount(){return datosTareas.size(); }
+
 
 
 
@@ -149,11 +157,6 @@ public class TareaAdapter extends RecyclerView.Adapter<TareaAdapter.ViewHolder> 
 
     }
 
-
-
-
-
-
     private Tarea buscarTareaPorId(long tareaId) {
         for (Tarea tarea : datosTareas) {
             if (tarea.getId() == tareaId) {
@@ -175,7 +178,7 @@ public class TareaAdapter extends RecyclerView.Adapter<TareaAdapter.ViewHolder> 
     }
 
     public void borrarTarea(long idTarea) {
-        /*int posicionTarea = -1;
+        int posicionTarea = -1;
 
         // Buscar la posición de la tarea en la lista
         for (int i = 0; i < datosTareas.size(); i++) {
@@ -190,18 +193,26 @@ public class TareaAdapter extends RecyclerView.Adapter<TareaAdapter.ViewHolder> 
             Tarea tareaSelec = datosTareas.get(posicionTarea);
 
             String tituloTarea = tareaSelec.nombreTarea;
+
+            //Creamos un objeto de la clase que realiza la inserción en un hilo aparte Executor
+            Executor executor = Executors.newSingleThreadExecutor();
+            executor.execute(new BorrarTarea(tareaSelec));
+
+
             Toast.makeText(context.getApplicationContext(), "La tarea borrada es:" + tituloTarea, Toast.LENGTH_LONG).show();
 
-            // Eliminar la tarea de la lista
-            datosTareas.remove(posicionTarea);
 
             // Notificar al adaptador que la tarea ha sido eliminada
             notifyItemRemoved(posicionTarea);
-        }*/
+        }
 
 
 
     }
+
+
+
+
 
 
     //Contrato para el lanzador hacia la actividad EditarTareaActivity
@@ -296,5 +307,22 @@ public class TareaAdapter extends RecyclerView.Adapter<TareaAdapter.ViewHolder> 
       }
 
     }
+
+    //Clase que inserta un objeto producto en la base de datos usando un hilo diferente al principal.
+    class BorrarTarea implements Runnable {
+
+        private Tarea tarea;
+
+        public BorrarTarea(Tarea tarea) {
+            this.tarea = tarea;
+        }
+
+        @Override
+        public void run() {
+            baseDatosApp.tareaDao().borrarTarea(tarea);
+        }
+    }
+
+
 
 }

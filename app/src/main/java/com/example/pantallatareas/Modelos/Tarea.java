@@ -1,22 +1,15 @@
 package com.example.pantallatareas.Modelos;
 
-import static java.time.LocalDate.*;
-
 import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
-import androidx.room.TypeConverter;
-import androidx.room.TypeConverters;
-
-import com.example.pantallatareas.convertidores.Converters;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.util.Date;
 import java.util.Locale;
 import java.util.Objects;
@@ -68,7 +61,7 @@ public class Tarea {
     @ColumnInfo(name = "UrlVideo")
     public String URL_vid;
 
-    public Tarea(String nombreTarea, int porcentajeTarea, String fechaIni, String fechaFin, int diasTarea, boolean prioritaria, String descripcion) {
+    public Tarea(String nombreTarea, int porcentajeTarea, String fechaIni, String fechaFin, int diasTarea, boolean prioritaria, String descripcion, String urlDocumento, String urlImagen, String urlAudio, String urlVideo) {
         this.nombreTarea = nombreTarea;
         this.porcentajeTarea = porcentajeTarea;
         this.fechaIni = validarFecha(fechaIni);

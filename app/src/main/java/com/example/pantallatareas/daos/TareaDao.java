@@ -20,7 +20,7 @@ public interface TareaDao {
 
     //Anotacion que podemos utilizar para buscar una tarea por su id
     @Query("SELECT * FROM Tarea WHERE _id IN (:tareaIds)")
-    List<Tarea> buscarporID(int[] tareaIds);
+    LiveData<List<Tarea>> listadorPorId(int tareaIds);
 
     //Anotación para poder insertar una tarea
     @Insert
@@ -31,6 +31,11 @@ public interface TareaDao {
     @Delete
     //Metodo
     void borrarTarea(Tarea tarea);
+
+    //Anotación para borrar tarea
+    @Query("DELETE FROM Tarea WHERE _id = :tareaId")
+    void borrarPorID(int tareaId);
+
 
 
     //Anotación para consultar tareas Prioritarias
