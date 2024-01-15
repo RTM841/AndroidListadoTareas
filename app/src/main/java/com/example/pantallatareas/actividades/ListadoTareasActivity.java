@@ -208,7 +208,6 @@ public class ListadoTareasActivity extends AppCompatActivity {
             return true;
         } else if (id == R.id.AgreTarea) {
             Toast.makeText(this, "Has seleccioando añadir tarea", Toast.LENGTH_SHORT).show();
-
             Intent intent = new Intent(this, CrearTareasActivity.class);
             lan.launch(intent);
             return true;
@@ -220,6 +219,10 @@ public class ListadoTareasActivity extends AppCompatActivity {
             Intent intent = new Intent(this, SettingsActivity.class);
             startActivity(intent);
             return true;
+        } else if (id == R.id.bt_estadisticas) {
+            Toast.makeText(this, "Has seleccionado estadisticas", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(this, EstadisticasActivity.class);
+            startActivity(intent);
         }
 
         return super.onOptionsItemSelected(opcion_menu);

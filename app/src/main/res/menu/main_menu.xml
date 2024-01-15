@@ -16,6 +16,11 @@
         app:showAsAction="never" />
 
     <item
+        android:id="@+id/bt_estadisticas"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:title="Estadísticas" />
+    <item
         android:id="@+id/Salir"
         android:title="@string/Salir"
         app:showAsAction="never" />
