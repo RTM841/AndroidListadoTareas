@@ -45,7 +45,7 @@ public interface TareaDao {
     //Anotaciones para la pestaña de Estadísticas.
 
     //Anotación para contar el numero de tareas iniciadas
-    @Query("SELECT COUNT(*) FROM Tarea WHERE progresoTarea = 25")
+    @Query("SELECT COUNT(*) FROM Tarea WHERE progresoTarea >= 25")
     int listadorTareasInciadas();
 
     //Anotación de tareas finalizadas
@@ -57,7 +57,7 @@ public interface TareaDao {
     float obtenerPromedioProgreso();
 
     //Anotación para saber la fecha de finalización promedia
-    @Query("SELECT AVG(fechaObjetivo) FROM Tarea")
+    @Query("SELECT AVG(diasTarea) FROM Tarea")
     float obtenerPromedioFechaObjetivo();
 
 }

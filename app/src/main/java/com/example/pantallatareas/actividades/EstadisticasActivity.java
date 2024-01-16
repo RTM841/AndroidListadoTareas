@@ -4,11 +4,12 @@ import static com.google.android.material.internal.ContextUtils.getActivity;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.pantallatareas.Modelos.Tarea;
 import com.example.pantallatareas.R;
 import com.example.pantallatareas.basedatos.BaseDatosApp;
 
@@ -20,6 +21,8 @@ public class EstadisticasActivity  extends AppCompatActivity {
     private BaseDatosApp baseDatosApp;
 
     private TextView tInici, tFin, prompro, promFechObj;
+
+    private Button btVovler;
 
     @SuppressLint("RestrictedApi")
     @Override
@@ -35,9 +38,18 @@ public class EstadisticasActivity  extends AppCompatActivity {
         tFin  = findViewById(R.id.numeroFin);
         prompro = findViewById(R.id.numeroProPro);
         promFechObj = findViewById(R.id.numeroFechPro);
+        btVovler = findViewById(R.id.btVolver);
+        btVovler.setOnClickListener(this::volver);
+
+
 
         inicio();
 
+    }
+
+    @SuppressLint("RestrictedApi")
+    public void volver(View view){
+        getActivity(this).finish();
     }
 
 
@@ -49,59 +61,71 @@ public class EstadisticasActivity  extends AppCompatActivity {
         executor.execute(new listar1());
 
         //Listado de Tareas Finalizadas
-        //Executor executor2 = Executors.newSingleThreadExecutor();
-        //executor2.execute(new listar2());
+        Executor executor2 = Executors.newSingleThreadExecutor();
+        executor2.execute(new listar2());
 
         //Promedio de Progresos de las tareas
-        /*Executor executor3 = Executors.newSingleThreadExecutor();
+        Executor executor3 = Executors.newSingleThreadExecutor();
         executor3.execute(new listar3());
 
         //Promedio de Fehcas objetivo
         Executor executor4 = Executors.newSingleThreadExecutor();
-        executor4.execute(new listar4());*/
+        executor4.execute(new listar4());
     }
 
     class listar1 implements Runnable {
 
         @Override
         public void run() {
-            baseDatosApp.tareaDao().listadorTareasInciadas();
+
+            int resultado = obtenerResultado();
+            tInici.setText(String.valueOf(resultado));
+        }
+
+        private int obtenerResultado() {
+            return baseDatosApp.tareaDao().listadorTareasInciadas();
         }
     }
 
     class listar2 implements Runnable {
-
         @Override
         public void run() {
-            baseDatosApp.tareaDao().listadoTareasFinalizadas();
+
+            int resultado = obtenerResultado();
+            tFin.setText(String.valueOf(resultado));
         }
+
+        private int obtenerResultado() {
+            return baseDatosApp.tareaDao().listadoTareasFinalizadas();
+        }
+
     }
 
     class listar3 implements Runnable {
 
-        private Tarea tarea;
-
-        public listar3() {
-
-        }
-
         @Override
         public void run() {
-            baseDatosApp.tareaDao().obtenerPromedioProgreso();
+
+            int resultado = obtenerResultado();
+            prompro.setText(String.valueOf(resultado));
+        }
+
+        private int obtenerResultado() {
+            return (int) baseDatosApp.tareaDao().obtenerPromedioProgreso();
         }
     }
 
     class listar4 implements Runnable {
 
-        private Tarea tarea;
-
-        public listar4() {
-
-        }
-
         @Override
         public void run() {
-            baseDatosApp.tareaDao().obtenerPromedioFechaObjetivo();
+
+            int resultado = obtenerResultado();
+            promFechObj.setText(String.valueOf(resultado));
+        }
+
+        private int obtenerResultado() {
+            return (int) baseDatosApp.tareaDao().obtenerPromedioFechaObjetivo();
         }
     }
 }
