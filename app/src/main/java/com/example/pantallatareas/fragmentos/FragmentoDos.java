@@ -166,7 +166,7 @@ public class FragmentoDos extends Fragment {
     public void selecImagen(View view) {
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
 
-        intent.setType("img/*");
+        intent.setType("image/*");
 
         startActivityForResult(intent, PICK_IMAGE_REQUEST);
     }
@@ -312,7 +312,7 @@ public class FragmentoDos extends Fragment {
             String fileName = getFileNameFromUri(sourceUri);
 
             // Define la ubicación de destino en la memoria interna
-            String destinationPath = "/data/data/com.example.pantallatareas/archivosTareas/" + fileName;
+            String destinationPath = "/data/data/com.example.pantallatareas/files/" + fileName;
 
             // Abre un flujo de salida hacia la ubicación de destino
             OutputStream outputStream = new FileOutputStream(destinationPath);
@@ -347,7 +347,7 @@ public class FragmentoDos extends Fragment {
             String fileName = getFileNameFromUri(sourceUri);
 
             // Define la ubicación de destino en la memoria interna
-            String destinationPath = "/data/data/com.example.pantallatareas/archivosTareas/" + fileName;
+            String destinationPath = "/data/data/com.example.pantallatareas/files/" + fileName;
 
             // Abre un flujo de salida hacia la ubicación de destino
             OutputStream outputStream = new FileOutputStream(destinationPath);
@@ -384,7 +384,7 @@ public class FragmentoDos extends Fragment {
             String fileName = getFileNameFromUri(sourceUri);
 
             // Define la ubicación de destino en la memoria interna
-            String destinationPath = "/data/data/com.example.pantallatareas/archivosTareas/" + fileName;
+            String destinationPath = "/data/data/com.example.pantallatareas/files/" + fileName;
 
             // Abre un flujo de salida hacia la ubicación de destino
             OutputStream outputStream = new FileOutputStream(destinationPath);

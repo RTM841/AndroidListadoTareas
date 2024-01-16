@@ -152,11 +152,11 @@ public class ListadoTareasActivity extends AppCompatActivity {
 
 
         // Obtén la preferencia de orden desde SharedPreferences
-       /* SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         String preferenciaOrden = prefs.getString("tipoCriterio", "nombre"); // Cambia "nombre" por la opción predeterminada
 
         // Crea el comparador correspondiente según la preferencia seleccionada
-        Comparator<Tarea> comparador = null;
+        /*Comparator<Tarea> comparador = null;
 
         switch (preferenciaOrden) {
             case "nombre":
@@ -174,12 +174,12 @@ public class ListadoTareasActivity extends AppCompatActivity {
                 break;
         }
 
-// Ordena la lista de tareas usando el comparador seleccionado
+    // Ordena la lista de tareas usando el comparador seleccionado
         if (comparador != null) {
             Collections.sort(elements, comparador);
         }*/
 
-// Actualiza tu RecyclerView con la lista ordenada
+    // Actualiza tu RecyclerView con la lista ordenada
         tareaAdapter.notifyDataSetChanged();
     }
 
