@@ -37,6 +37,8 @@
 
     <string name="title_activity_settings" translatable="false">Preferencias</string>
     <string name="tituloEsta" translatable="false">Estadísticas</string>
+    <string name="tituloDetalle" translatable="false">Detalles</string>
+    <string name="titulotareAdapter" translatable="false">Adaptador</string>
 
     <!-- Preferencias de Visualización -->
     <string name="visual" translatable="false">Visualización</string>

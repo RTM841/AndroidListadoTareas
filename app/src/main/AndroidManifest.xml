@@ -19,6 +19,14 @@
             android:exported="false"
             android:label="@string/title_activity_settings" />
         <activity
+            android:name=".adaptadores.TareaAdapter"
+            android:exported="false"
+            android:label="@string/titulotareAdapter" />
+        <activity
+            android:name=".actividades.DetalleActivity"
+            android:exported="false"
+            android:label="@string/tituloDetalle" />
+        <activity
             android:name=".actividades.EstadisticasActivity"
             android:exported="false"
             android:label="@string/tituloEsta" />

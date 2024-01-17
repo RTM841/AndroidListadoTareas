@@ -1,6 +1,6 @@
 package com.example.pantallatareas.adaptadores;
 
-import static com.google.android.material.internal.ContextUtils.getActivity;
+import static androidx.activity.result.ActivityResultCallerKt.registerForActivityResult;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -21,27 +21,27 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContract;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.LiveData;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.pantallatareas.Modelos.Tarea;
 import com.example.pantallatareas.R;
-import com.example.pantallatareas.actividades.CrearTareasActivity;
+import com.example.pantallatareas.actividades.DetalleActivity;
 import com.example.pantallatareas.actividades.EditarTareaActivity;
 import com.example.pantallatareas.basedatos.BaseDatosApp;
-import com.example.pantallatareas.daos.TareaDao;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
-public class TareaAdapter extends RecyclerView.Adapter<TareaAdapter.ViewHolder> {
+public class TareaAdapter extends RecyclerView.Adapter<TareaAdapter.ViewHolder>{
 
     private List<Tarea> datosTareas;
 
@@ -120,12 +120,16 @@ public class TareaAdapter extends RecyclerView.Adapter<TareaAdapter.ViewHolder> 
                 holder.bindData(datosTareas.get(position));
 
                 // Agrega un OnMenuItemClickListener al menú contextual
-                menu.findItem(R.id.bt_descripcion).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+                menu.findItem(R.id.bt_detalle).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
                         // Acción que se realiza cuando se hace clic en la opción de mostrar título
                         long tareaId = (long) v.getTag(R.id.tarea_id_tag);
-                        mostrarDescrpicion(tareaId);
+                        //mostrarDescrpicion(tareaId);
+                        Intent intent = new Intent(context, DetalleActivity.class);
+                        context.startActivity(intent);
+
+
                         return true;
                     }
                 });
@@ -166,15 +170,11 @@ public class TareaAdapter extends RecyclerView.Adapter<TareaAdapter.ViewHolder> 
         return null; // Retorna null si la tarea no se encuentra
     }
 
-    private void mostrarDescrpicion(long tareaId) {
+    private Tarea mostrarDescrpicion(long tareaId) {
         // Buscar la tarea correspondiente en la lista de datos
         Tarea tareaSeleccionada = buscarTareaPorId(tareaId);
 
-        // Verificar si la tarea se encontró antes de realizar la acción
-        if (tareaSeleccionada != null) {
-            String descrip = tareaSeleccionada.descripcion;
-            Toast.makeText(context.getApplicationContext(), "Título de la tarea: " + descrip, Toast.LENGTH_LONG).show();
-        }
+        return tareaSeleccionada;
     }
 
     public void borrarTarea(long idTarea) {
