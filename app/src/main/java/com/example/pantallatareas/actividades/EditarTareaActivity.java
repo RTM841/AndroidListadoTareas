@@ -59,11 +59,10 @@ public class EditarTareaActivity extends AppCompatActivity implements FragmentoD
         //Instanciamos el ViewModel
         tareaViewModel = new ViewModelProvider(this).get(CompartirViewModel.class);
 
-        //Instanciamos el gestor de fragmentos
-        fragmentManager = getSupportFragmentManager();
+       getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_frag,fragmento1).commit();
 
         //Si hay estado guardado
-        if (savedInstanceState != null) {
+        /*if (savedInstanceState != null) {
             // Recuperar el ID o información del fragmento
             int fragmentId = savedInstanceState.getInt("fragmentoId", -1);
 
@@ -84,7 +83,7 @@ public class EditarTareaActivity extends AppCompatActivity implements FragmentoD
             tareaViewModel.setEstadoTarea(String.valueOf(tareaEditable.getPorcentajeTarea()));
             tareaViewModel.setPrioritaria(tareaEditable.isPrioritaria());
             tareaViewModel.setDescip(tareaEditable.getDescripcion());
-        }
+        }*/
     }
 
     @Override

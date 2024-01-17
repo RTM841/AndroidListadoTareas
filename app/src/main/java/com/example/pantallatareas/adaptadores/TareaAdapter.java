@@ -146,6 +146,8 @@ public class TareaAdapter extends RecyclerView.Adapter<TareaAdapter.ViewHolder>{
                         // Acción que se realiza cuando se hace clic en la opción de editar
                         long tareaId = (long) v.getTag(R.id.tarea_id_tag);
                         //lanzadorActividadEditar.launch(tareaId);
+                        Intent intent = new Intent(context, EditarTareaActivity.class);
+                        context.startActivity(intent);
                         return true;
                     }
                 });
@@ -171,16 +173,6 @@ public class TareaAdapter extends RecyclerView.Adapter<TareaAdapter.ViewHolder>{
         Tarea tareaSeleccionada = buscarTareaPorId(tareaId);
 
         Intent intent = new Intent(context, DetalleActivity.class);
-        /*intent.putExtra("tareaNombre", tareaSeleccionada.getNombreTarea());
-        intent.putExtra("tareaDias", tareaSeleccionada.getDiasTarea());
-        intent.putExtra("tareaDescripcion", tareaSeleccionada.getDescripcion());
-
-
-        intent.putExtra("tareaUrlD", tareaSeleccionada.getURL_doc());
-        intent.putExtra("tareaUrlD", tareaSeleccionada.getURL_img());
-        intent.putExtra("tareaUrlD", tareaSeleccionada.getURL_aud());
-        intent.putExtra("tareaUrlD", tareaSeleccionada.getURL_vid());*/
-
         intent.putExtra("tarea", (Parcelable) tareaSeleccionada);
         context.startActivity(intent);
 

@@ -27,27 +27,7 @@ public class DetalleActivity extends AppCompatActivity {
         setContentView(R.layout.detalle);
 
 
-
-        // Recuperar la tarea en formato String del Intent
-        //String tareaString = getIntent().("tarea");
-
         Tarea tarea = getIntent().getParcelableExtra("tarea");
-
-
-
-        // Convertir la cadena a un objeto Tarea
-        /*String tareaNombre = getIntent().getStringExtra("tareaNombre");
-        int tareaDias = getIntent().getIntExtra("tareaDias", 0);
-        String tareaDescrip = getIntent().getStringExtra("tareaDescripcion");
-
-        String tareaUrlD = getIntent().getStringExtra("tareaUrlD");
-        String tareaUrlI = getIntent().getStringExtra("tareaUrlI");
-        String tareaUrlA = getIntent().getStringExtra("tareaUrlA");
-        String tareaUrlV = getIntent().getStringExtra("tareaUrlV");*/
-
-
-
-
 
 
 
