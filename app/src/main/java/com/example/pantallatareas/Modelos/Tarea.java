@@ -69,55 +69,10 @@ public class Tarea {
         this.diasTarea = diasTarea;
         this.prioritaria = prioritaria;
         this.descripcion = descripcion;
-    }
-
-
-
-    
-
-    public Tarea(long id, @NotNull String nombreTarea, int porcentajeTarea, String fechaIni, String fechaFin, int diasTarea, boolean prioritaria, String descripcion, String URL_doc, String URL_img, String URL_aud, String URL_vid) {
-        this.id = id;
-        this.nombreTarea = nombreTarea;
-        this.porcentajeTarea = porcentajeTarea;
-        this.fechaIni = validarFecha(fechaIni);
-        this.fechaFin = validarFecha(fechaFin);
-        this.diasTarea = diasTarea;
-        this.prioritaria = prioritaria;
-        this.descripcion = descripcion;
-        this.URL_doc = URL_doc;
-        this.URL_img = URL_img;
-        this.URL_aud = URL_aud;
-        this.URL_vid = URL_vid;
-    }
-
-    //Constructor completo
-    public Tarea(int id, String nombreTarea, int porcentajeTarea, String fechaIni, int diasTarea, String descripcion, boolean prioritaria) {
-        this.id = id;
-        this.nombreTarea = nombreTarea;
-        this.porcentajeTarea = porcentajeTarea;
-        this.fechaIni = validarFecha(fechaIni);
-        this.diasTarea = diasTarea;
-        this.descripcion = descripcion;
-        this.prioritaria = prioritaria;
-    }
-
-
-    public Tarea(String nombreTarea, int porcentajeTarea, String fechaIni, int diasTarea, String descripcion, boolean prioritaria) {
-        this.nombreTarea = nombreTarea;
-        this.porcentajeTarea = porcentajeTarea;
-        this.fechaIni = validarFecha(fechaIni);
-        this.diasTarea = diasTarea;
-        this.descripcion = descripcion;
-        this.prioritaria = prioritaria;
-    }
-    public Tarea(long id, String nombreTarea, int porcentajeTarea, String fechaIni, String fechaFin, int diasTarea, String descripcion) {
-        this.id = id;
-        this.nombreTarea = nombreTarea;
-        this.porcentajeTarea = porcentajeTarea;
-        this.fechaIni = validarFecha(fechaIni);
-        this.fechaFin = validarFecha(fechaFin);
-        this.diasTarea = diasTarea;
-        this.descripcion = descripcion;
+        this.URL_doc = urlDocumento;
+        this.URL_img = urlImagen;
+        this.URL_aud = urlAudio;
+        this.URL_vid = urlVideo;
     }
 
     public Tarea(String nombreTarea) {

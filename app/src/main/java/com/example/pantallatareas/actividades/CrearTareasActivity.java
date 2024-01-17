@@ -4,12 +4,10 @@ import static com.google.android.material.internal.ContextUtils.getActivity;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -17,7 +15,6 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
-
 
 import com.example.pantallatareas.Modelos.Tarea;
 import com.example.pantallatareas.R;
@@ -40,7 +37,7 @@ public class CrearTareasActivity extends AppCompatActivity implements FragmentoD
     private Button cancelar;
     private String nombreTarea, fechaIni, fechaFin, progesoBarra, descripcion, urlDocumento, urlImagen, urlAudio, urlVideo;
 
-private EditText titulo;
+    private EditText titulo;
     private Boolean esPrio;
     private Integer numDias, numeroProgreso;
     private Tarea tarealistado;
@@ -102,11 +99,11 @@ private EditText titulo;
                 paint.setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
                 paint.setAntiAlias(false);
 
-                tarealistado = new Tarea(nombreTarea, barraProgreso(progesoBarra), fechaIni, 0, descripcion.toString(), esPrio);
+                //tarealistado = new Tarea(nombreTarea, barraProgreso(progesoBarra), fechaIni, 0, descripcion.toString(), esPrio);
 
 
             } else {
-                tarealistado = new Tarea(nombreTarea.toString(), barraProgreso(progesoBarra), fechaIni, numD, descripcion.toString(), esPrio);
+//                tarealistado = new Tarea(nombreTarea.toString(), barraProgreso(progesoBarra), fechaIni, numD, descripcion.toString(), esPrio);
 
             }
         }

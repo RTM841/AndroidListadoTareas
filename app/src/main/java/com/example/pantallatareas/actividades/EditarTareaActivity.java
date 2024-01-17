@@ -151,13 +151,13 @@ public class EditarTareaActivity extends AppCompatActivity implements FragmentoD
         //Leemos los valores del formulario del fragmento 2
         descripcion = tareaViewModel.getGetDescrip().getValue();
         //Creamos un nuevo objeto tarea con los campos editados
-        Tarea tareaEditada = new Tarea(titulo, progreso, fechaCreacion,numD, descripcion, prioritaria);
+        //Tarea tareaEditada = new Tarea(titulo, progreso, fechaCreacion,numD, descripcion, prioritaria);
 
         //Creamos un intent de vuelta para la actividad Listado
         Intent aListado = new Intent();
         //Creamos un Bundle para introducir la tarea editada
         Bundle bundle = new Bundle();
-        bundle.putParcelable("TareaEditada", (Parcelable) tareaEditada);
+        //bundle.putParcelable("TareaEditada", (Parcelable) tareaEditada);
         aListado.putExtras(bundle);
         //Indicamos que el resultado ha sido OK
         setResult(RESULT_OK, aListado);
