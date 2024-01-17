@@ -125,11 +125,7 @@ public class TareaAdapter extends RecyclerView.Adapter<TareaAdapter.ViewHolder>{
                     public boolean onMenuItemClick(MenuItem item) {
                         // Acción que se realiza cuando se hace clic en la opción de mostrar título
                         long tareaId = (long) v.getTag(R.id.tarea_id_tag);
-                        //mostrarDescrpicion(tareaId);
-                        Intent intent = new Intent(context, DetalleActivity.class);
-                        context.startActivity(intent);
-
-
+                        mostrarDescrpicion(tareaId);
                         return true;
                     }
                 });
@@ -173,6 +169,20 @@ public class TareaAdapter extends RecyclerView.Adapter<TareaAdapter.ViewHolder>{
     private Tarea mostrarDescrpicion(long tareaId) {
         // Buscar la tarea correspondiente en la lista de datos
         Tarea tareaSeleccionada = buscarTareaPorId(tareaId);
+
+        Intent intent = new Intent(context, DetalleActivity.class);
+        /*intent.putExtra("tareaNombre", tareaSeleccionada.getNombreTarea());
+        intent.putExtra("tareaDias", tareaSeleccionada.getDiasTarea());
+        intent.putExtra("tareaDescripcion", tareaSeleccionada.getDescripcion());
+
+
+        intent.putExtra("tareaUrlD", tareaSeleccionada.getURL_doc());
+        intent.putExtra("tareaUrlD", tareaSeleccionada.getURL_img());
+        intent.putExtra("tareaUrlD", tareaSeleccionada.getURL_aud());
+        intent.putExtra("tareaUrlD", tareaSeleccionada.getURL_vid());*/
+
+        intent.putExtra("tarea", (Parcelable) tareaSeleccionada);
+        context.startActivity(intent);
 
         return tareaSeleccionada;
     }

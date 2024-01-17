@@ -46,10 +46,10 @@ public class CompartirViewModel extends ViewModel {
     private final MutableLiveData<String> Descrip = new MutableLiveData<>();
 
     public void setDescip(String descripcion){
-        urlImagen.setValue(descripcion);
+        Descrip.setValue(descripcion);
     }
 
-    public  MutableLiveData<String> getGetDescrip(){return urlImagen;}
+    public  MutableLiveData<String> getGetDescrip(){return Descrip;}
 
     //Para número de dias
     private final MutableLiveData<Integer> numDias = new MutableLiveData<>();

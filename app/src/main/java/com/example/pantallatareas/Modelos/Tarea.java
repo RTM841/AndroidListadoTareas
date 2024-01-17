@@ -1,5 +1,8 @@
 package com.example.pantallatareas.Modelos;
 
+import android.annotation.SuppressLint;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -17,8 +20,12 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 //Anotación para decir que es una entidada de Room
+
+
 @Entity
-public class Tarea {
+public class Tarea implements Parcelable {
+
+
 
     //Anotación para indicar la clave primaria de la tabla
     @PrimaryKey(autoGenerate = true)
@@ -75,25 +82,15 @@ public class Tarea {
         this.URL_vid = urlVideo;
     }
 
-    public Tarea(String nombreTarea) {
-        this.nombreTarea = nombreTarea;
-    }
-
     public Tarea() {
 
     }
-    public Tarea(String nombreTarea, int porcentajeTarea) {
-        this.nombreTarea = nombreTarea;
-        this.porcentajeTarea = porcentajeTarea;
+
+    public Tarea(String tareaString) {
     }
 
-    public Tarea(String nombreTarea, int porcentajeTarea, String fecha, boolean prioritaria) {
-        this.nombreTarea = nombreTarea;
-        this.porcentajeTarea = porcentajeTarea;
-        this.fechaIni = validarFecha(fecha);
-        this.prioritaria = prioritaria;
+    public Tarea(String nombre, int dias, String descripcion, String urlDoc, String urlImg, String urlAud, String urlVid) {
     }
-
 
 
     public String getNombreTarea() {
@@ -220,4 +217,56 @@ public class Tarea {
         return Objects.hash(id);
     }
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    // Método para escribir los atributos a un Parcel
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeLong(id);
+        dest.writeString(nombreTarea);
+        dest.writeInt(porcentajeTarea);
+        dest.writeLong(fechaIni.getTime());
+        dest.writeLong(fechaFin.getTime());
+        dest.writeInt(diasTarea);
+        dest.writeByte((byte) (prioritaria ? 1 : 0));
+        dest.writeString(descripcion);
+        dest.writeString(URL_doc);
+        dest.writeString(URL_img);
+        dest.writeString(URL_aud);
+        dest.writeString(URL_vid);
+    }
+
+    // Constructor Parcelable
+    protected Tarea(Parcel in) {
+        id = in.readLong();
+        nombreTarea = in.readString();
+        porcentajeTarea = in.readInt();
+        fechaIni = new Date(in.readLong());
+        fechaFin = new Date(in.readLong());
+        diasTarea = in.readInt();
+        prioritaria = in.readByte() != 0;
+        descripcion = in.readString();
+        URL_doc = in.readString();
+        URL_img = in.readString();
+        URL_aud = in.readString();
+        URL_vid = in.readString();
+    }
+
+
+
+    // Campo CREATOR necesario para Parcelable
+    public static final Creator<Tarea> CREATOR = new Creator<Tarea>() {
+        @Override
+        public Tarea createFromParcel(Parcel in) {
+            return new Tarea(in);
+        }
+
+        @Override
+        public Tarea[] newArray(int size) {
+            return new Tarea[size];
+        }
+    };
 }
