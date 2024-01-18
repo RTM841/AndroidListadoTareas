@@ -136,7 +136,11 @@ public class FragmentoDos extends Fragment {
 
                 }else if("Clase2".equals(tag))
                 {
-                    editarTareaActivity.onGuardar();
+                    try {
+                        editarTareaActivity.onGuardar();
+                    } catch (ParseException e) {
+                        throw new RuntimeException(e);
+                    }
                 }
 
 

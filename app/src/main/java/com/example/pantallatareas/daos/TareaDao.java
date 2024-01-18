@@ -5,6 +5,7 @@ import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
+import androidx.room.Update;
 
 import com.example.pantallatareas.Modelos.Tarea;
 
@@ -31,6 +32,11 @@ public interface TareaDao {
     @Delete
     //Metodo
     void borrarTarea(Tarea tarea);
+
+    //Anotación para actualizar la tarea
+    @Update
+    //Metodo
+    void actualizarTarea(Tarea tarea);
 
     //Anotación para borrar tarea
     @Query("DELETE FROM Tarea WHERE _id = :tareaId")

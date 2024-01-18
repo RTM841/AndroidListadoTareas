@@ -1,5 +1,7 @@
 package com.example.pantallatareas.actividades;
 
+import static com.google.android.material.internal.ContextUtils.getActivity;
+
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Color;
@@ -20,6 +22,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.pantallatareas.Modelos.Tarea;
 import com.example.pantallatareas.R;
+import com.example.pantallatareas.basedatos.BaseDatosApp;
 import com.example.pantallatareas.fragmentos.FragmentoDos;
 import com.example.pantallatareas.fragmentos.FragmentoUno;
 
@@ -27,27 +30,31 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Objects;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 public class EditarTareaActivity extends AppCompatActivity implements FragmentoDos.ComunicacionFragmento1, FragmentoUno.ComunicacionFragmento{
 
     private Tarea tareaEditable;
     private CompartirViewModel tareaViewModel;
-    private String titulo, descripcion;
-    private String fechaCreacion, fechaObjetivo;
+    private String nombreTarea, fechaIni, fechaFin, progesoBarra, descripcion, urlDocumento, urlImagen, urlAudio, urlVideo, titulo;
 
-    private Integer progreso, idPro;
+    private Boolean esPrio;
+    private Integer progreso, idPro, numeroProgreso;
     private Boolean prioritaria;
     private FragmentManager fragmentManager;
     private FragmentoUno fragmento1;
     private final Fragment fragmento2 = new FragmentoDos();
 
-    private TextView nombreTarea, fechaIni, fechaFin, tituloT;
+    private TextView tituloT;
 
     private Spinner progresoTarea;
 
     private CheckBox prio;
 
     private Button siguiente;
+
+    private BaseDatosApp baseDatosApp;
 
 
 
@@ -57,19 +64,20 @@ public class EditarTareaActivity extends AppCompatActivity implements FragmentoD
     }
 
 
-    @SuppressLint("MissingInflatedId")
+    @SuppressLint({"MissingInflatedId", "RestrictedApi"})
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getSupportActionBar().hide();
-        setContentView(R.layout.activity_navigation);
 
+        //tituloT = findViewById(R.id.txtVTarea);
+        //tituloT.setText("Editar Tarea");
 
-        tituloT = findViewById(R.id.txtVTarea);
-        tituloT.setText("Editar Tarea");
         Tarea tarea = getIntent().getParcelableExtra("tareaEditar");
         fragmento1 = FragmentoUno.newInstance(tarea);
         getSupportFragmentManager().beginTransaction().replace(R.id.contenedorFragmentos,fragmento1).commit();
+        baseDatosApp = BaseDatosApp.getInstance(getActivity(this).getApplicationContext());
+        setContentView(R.layout.activity_navigation);
 
         //Recibimos la tarea que va a ser editada
        /* Bundle bundle = getIntent().getExtras();
@@ -190,23 +198,29 @@ public class EditarTareaActivity extends AppCompatActivity implements FragmentoD
     int numD = numeroDias(fechaObjetivo);*/
 
     @Override
-    public void onGuardar() {
-        //Leemos los valores del formulario del fragmento 2
+    public void onGuardar() throws ParseException {
+        nombreTarea = tareaViewModel.getNombre().getValue();
+        fechaIni = tareaViewModel.getFechaIni().getValue().toString();
+        fechaFin = tareaViewModel.getFechaFin().getValue().toString();
+        progesoBarra = tareaViewModel.getEstadoTarea().getValue();
         descripcion = tareaViewModel.getGetDescrip().getValue();
-        //Creamos un nuevo objeto tarea con los campos editados
-        //Tarea tareaEditada = new Tarea(titulo, progreso, fechaCreacion,numD, descripcion, prioritaria);
+        esPrio = tareaViewModel.getPrioritariaValue();
+        urlDocumento = tareaViewModel.geturlDocumento().getValue();
+        urlImagen = tareaViewModel.getUrlImagen().getValue();
+        urlAudio = tareaViewModel.getUrlAudio().getValue();
+        urlVideo = tareaViewModel.getUrlVideo().getValue();
 
-        //Creamos un intent de vuelta para la actividad Listado
-        Intent aListado = new Intent();
-        //Creamos un Bundle para introducir la tarea editada
-        Bundle bundle = new Bundle();
-        //bundle.putParcelable("TareaEditada", (Parcelable) tareaEditada);
-        aListado.putExtras(bundle);
-        //Indicamos que el resultado ha sido OK
-        setResult(RESULT_OK, aListado);
+        int numD = numeroDias(fechaFin);
+        Tarea tarealistadoE = null;
+        tarealistadoE = new Tarea(nombreTarea.toString(), barraProgreso(progesoBarra), fechaIni, fechaFin, numD, esPrio, descripcion.toString(), urlDocumento, urlImagen, urlAudio, urlVideo);
 
-        //Volvemos a la actividad Listado
-        finish();
+        //Creamos un objeto de la clase que realiza la inserción en un hilo aparte Executor
+        Executor executor = Executors.newSingleThreadExecutor();
+        executor.execute(new InsertarProducto(tarealistadoE));
+
+
+    finish();
+
     }
 
 
@@ -218,7 +232,7 @@ public class EditarTareaActivity extends AppCompatActivity implements FragmentoD
         }
     }
 
-    @Override
+    /*@Override
     public void siguiente() {
 
         //Leemos los valores del formulario del fragmento 1
@@ -230,21 +244,71 @@ public class EditarTareaActivity extends AppCompatActivity implements FragmentoD
 
         //Cambiamos el fragmento
         cambiarFragmento(fragmento2);
+    }*/
+
+
+    public int barraProgreso(String nombre){
+        if (nombre.equals("No iniciada")){
+            numeroProgreso = 0;
+        } else if (nombre.equals("Iniciada")) {
+            numeroProgreso = 25;
+        } else if (nombre.equals("Avanzada")) {
+            numeroProgreso = 50;
+        } else if (nombre.equals("Casi finalizada")) {
+            numeroProgreso = 75;
+        }else{
+            numeroProgreso = 100;
+        }
+        return numeroProgreso;
     }
 
+    @Override
+    public void siguiente() {
 
-    public int barraProgreso(int progre){
-        if (progre == 0){
-             idPro = 0;
-        } else if (progre == 25) {
-            idPro = 1;
-        } else if (progre == 50) {
-            idPro = 2;
-        } else if (progre == 75) {
-            idPro = 3;
-        }else{
-            idPro = 4;
+    }
+
+    public int numeroDias(String fecha) throws ParseException {
+        Date date1 = convertirStringADate(fecha);
+        Date date2 = new Date(); // La fecha actual
+
+        // Calcula la diferencia en milisegundos
+        long diferenciaEnMilisegundos = Math.abs(date2.getTime() - date1.getTime());
+
+        // Convierte la diferencia de milisegundos a días
+        int diferenciaEnDias = (int) (diferenciaEnMilisegundos / (24 * 60 * 60 * 1000));
+
+        TextView resultadoTextView = new TextView(this);
+
+
+// Establece el resultado en el TextView
+        resultadoTextView.setText(String.valueOf(diferenciaEnDias));
+
+        return diferenciaEnDias;
+    }
+
+    private Date convertirStringADate(String fecha) throws ParseException {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd / MM / yyyy");
+        dateFormat.parse(fecha);
+        try {
+            return dateFormat.parse(fecha);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return null;
         }
-        return idPro;
+    }
+
+    //Clase que inserta un objeto producto en la base de datos usando un hilo diferente al principal.
+    class InsertarProducto implements Runnable {
+
+        private Tarea tarea;
+
+        public InsertarProducto(Tarea tarea) {
+            this.tarea = tarea;
+        }
+
+        @Override
+        public void run() {
+            baseDatosApp.tareaDao().insertarTarea(tarea);
+        }
     }
 }
