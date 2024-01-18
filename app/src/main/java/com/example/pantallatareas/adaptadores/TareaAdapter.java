@@ -145,9 +145,7 @@ public class TareaAdapter extends RecyclerView.Adapter<TareaAdapter.ViewHolder>{
                     public boolean onMenuItemClick(MenuItem item) {
                         // Acción que se realiza cuando se hace clic en la opción de editar
                         long tareaId = (long) v.getTag(R.id.tarea_id_tag);
-                        //lanzadorActividadEditar.launch(tareaId);
-                        Intent intent = new Intent(context, EditarTareaActivity.class);
-                        context.startActivity(intent);
+                        editarTarea(tareaId);
                         return true;
                     }
                 });
@@ -178,6 +176,18 @@ public class TareaAdapter extends RecyclerView.Adapter<TareaAdapter.ViewHolder>{
 
         return tareaSeleccionada;
     }
+
+    private Tarea editarTarea(long tareaId) {
+        // Buscar la tarea correspondiente en la lista de datos
+        Tarea tareaSeleccionada = buscarTareaPorId(tareaId);
+
+        Intent intent = new Intent(context, EditarTareaActivity.class);
+        intent.putExtra("tareaEditar", (Parcelable) tareaSeleccionada);
+        context.startActivity(intent);
+
+        return tareaSeleccionada;
+    }
+
 
     public void borrarTarea(long idTarea) {
         int posicionTarea = -1;

@@ -28,6 +28,7 @@ import android.widget.Toast;
 
 import com.example.pantallatareas.actividades.CompartirViewModel;
 import com.example.pantallatareas.R;
+import com.example.pantallatareas.actividades.EditarTareaActivity;
 import com.example.pantallatareas.basedatos.BaseDatosApp;
 
 import java.text.ParseException;
@@ -51,6 +52,8 @@ public class FragmentoDos extends Fragment {
     private static final int READ_EXTERNAL_STORAGE_PERMISSION_CODE = 1;
 
     private BaseDatosApp baseDatosApp;
+
+    private EditarTareaActivity editarTareaActivity;
 
     public FragmentoDos() {
 
@@ -114,17 +117,30 @@ public class FragmentoDos extends Fragment {
         boton2.setOnClickListener(this::volver);
 
         boton = fragmento2.findViewById(R.id.bt_guardar);
+        boton.setTag("Clase1");
         boton.setOnClickListener(view -> {
             if (TextUtils.isEmpty(textoDescipcion.getText())) {
                 mostrarAlertDialog("Por favor, completa todos los campos.");
             } else {
-                compartirViewModel.setDescip(textoDescipcion.getText().toString());
-                try {
-                    //Nos vamos al método OnGuardar para poder hacer la acción
-                    comunicador1.onGuardar();
-                } catch (ParseException e) {
-                    throw new RuntimeException(e);
+                String tag = (String) view.getTag();
+                if ("Clase1".equals(tag))
+                {
+                    compartirViewModel.setDescip(textoDescipcion.getText().toString());
+                    try {
+                        //Nos vamos al método OnGuardar para poder hacer la acción
+                        comunicador1.onGuardar();
+                    } catch (ParseException e) {
+                        throw new RuntimeException(e);
+                    }
+
+
+                }else if("Clase2".equals(tag))
+                {
+                    editarTareaActivity.onGuardar();
                 }
+
+
+
                 getActivity().finish();//Guardo la descripción del fragmento
             }
 

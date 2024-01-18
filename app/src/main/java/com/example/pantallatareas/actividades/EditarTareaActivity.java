@@ -1,10 +1,14 @@
 package com.example.pantallatareas.actividades;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.util.Log;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -31,35 +35,75 @@ public class EditarTareaActivity extends AppCompatActivity implements FragmentoD
     private String titulo, descripcion;
     private String fechaCreacion, fechaObjetivo;
 
-    private Integer progreso;
+    private Integer progreso, idPro;
     private Boolean prioritaria;
     private FragmentManager fragmentManager;
-    private final Fragment fragmento1 = new FragmentoUno();
+    private FragmentoUno fragmento1;
     private final Fragment fragmento2 = new FragmentoDos();
+
+    private TextView nombreTarea, fechaIni, fechaFin, tituloT;
+
+    private Spinner progresoTarea;
+
+    private CheckBox prio;
+
+    private Button siguiente;
+
+
+
+
 
     public EditarTareaActivity() throws ParseException {
     }
 
 
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.editar_tarea);
+        getSupportActionBar().hide();
+        setContentView(R.layout.activity_navigation);
+
+
+        tituloT = findViewById(R.id.txtVTarea);
+        tituloT.setText("Editar Tarea");
+        Tarea tarea = getIntent().getParcelableExtra("tareaEditar");
+        fragmento1 = FragmentoUno.newInstance(tarea);
+        getSupportFragmentManager().beginTransaction().replace(R.id.contenedorFragmentos,fragmento1).commit();
 
         //Recibimos la tarea que va a ser editada
-        Bundle bundle = getIntent().getExtras();
+       /* Bundle bundle = getIntent().getExtras();
         try {
             if (bundle != null) {
                 this.tareaEditable = bundle.getParcelable("TareaEditable");
             }
         }catch (NullPointerException e){
             Log.e("Bundle recibido nulo", e.toString());
-        }
+        }*/
 
         //Instanciamos el ViewModel
         tareaViewModel = new ViewModelProvider(this).get(CompartirViewModel.class);
 
-       getSupportFragmentManager().beginTransaction().replace(R.id.contenedor_frag,fragmento1).commit();
+
+
+
+
+       /*nombreTarea = findViewById(R.id.editTetxtTituloTarea);
+       fechaIni = findViewById(R.id.editTextFechaCreacion);
+       fechaFin = findViewById(R.id.editTextFechaFinal);
+       progresoTarea = findViewById(R.id.spinerProgreso);
+       prio = findViewById(R.id.cbPrioritaria);
+
+
+
+
+       nombreTarea.setText(tarea.getNombreTarea());
+       fechaIni.setText(tarea.getFechaIni());
+       fechaFin.setText(tarea.getFechaFin());
+       progresoTarea.setSelection(barraProgreso(tarea.getPorcentajeTarea()));
+       if (tarea.isPrioritaria()){
+           prio.isChecked();
+       }*/
 
         //Si hay estado guardado
         /*if (savedInstanceState != null) {
@@ -90,7 +134,7 @@ public class EditarTareaActivity extends AppCompatActivity implements FragmentoD
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         int fragmentID = Objects.requireNonNull(getSupportFragmentManager().
-                findFragmentById(R.id.contenedor_frag)).getId();
+                findFragmentById(R.id.contenedorFragmentos)).getId();
         outState.putInt("fragmentoId", fragmentID);
     }
 
@@ -102,7 +146,7 @@ public class EditarTareaActivity extends AppCompatActivity implements FragmentoD
         finish();
     }*/
 
-    private Date convertirStringADate(String fecha) throws ParseException {
+   /* private Date convertirStringADate(String fecha) throws ParseException {
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd / MM / yyyy");
         dateFormat.parse(fecha);
         try {
@@ -143,7 +187,7 @@ public class EditarTareaActivity extends AppCompatActivity implements FragmentoD
         return diferenciaEnDias;
     }
 
-    int numD = numeroDias(fechaObjetivo);
+    int numD = numeroDias(fechaObjetivo);*/
 
     @Override
     public void onGuardar() {
@@ -186,5 +230,21 @@ public class EditarTareaActivity extends AppCompatActivity implements FragmentoD
 
         //Cambiamos el fragmento
         cambiarFragmento(fragmento2);
+    }
+
+
+    public int barraProgreso(int progre){
+        if (progre == 0){
+             idPro = 0;
+        } else if (progre == 25) {
+            idPro = 1;
+        } else if (progre == 50) {
+            idPro = 2;
+        } else if (progre == 75) {
+            idPro = 3;
+        }else{
+            idPro = 4;
+        }
+        return idPro;
     }
 }

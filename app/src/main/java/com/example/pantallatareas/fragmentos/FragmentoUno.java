@@ -24,11 +24,14 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.example.pantallatareas.Modelos.Tarea;
 import com.example.pantallatareas.actividades.CompartirViewModel;
 import com.example.pantallatareas.R;
 
 
 public class FragmentoUno extends Fragment implements View.OnClickListener {
+
+    private Tarea tarea;
 
     @NonNull
     @Override
@@ -50,8 +53,15 @@ public class FragmentoUno extends Fragment implements View.OnClickListener {
 
     private Button button1 , button2;
 
-    public FragmentoUno() {
+    private Integer idPro;
 
+
+    public static FragmentoUno newInstance(Tarea tarea) {
+        FragmentoUno fragmento = new FragmentoUno();
+        Bundle args = new Bundle();
+        args.putParcelable("tareaEditar", tarea);
+        fragmento.setArguments(args);
+        return fragmento;
     }
 
     public interface ComunicacionFragmento{
@@ -68,6 +78,10 @@ public class FragmentoUno extends Fragment implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         fragmentoDos = new FragmentoDos();
         compartirViewModel = new ViewModelProvider(requireActivity()).get(CompartirViewModel.class);
+
+        if (getArguments() != null) {
+            tarea = getArguments().getParcelable("tareaEditar");
+        }
 
     }
 
@@ -111,10 +125,20 @@ public class FragmentoUno extends Fragment implements View.OnClickListener {
         titulo = fragmento1.findViewById(R.id.editTetxtTituloTarea);
 
 
+        // Actualizar vistas con los datos de la tarea
+        if (tarea != null) {
+            editTitulo.setText(tarea.getNombreTarea());
+            editfechaincio.setText(tarea.getFechaIni());
+            editfechafin.setText(tarea.getFechaFin());
+            barra.setSelection(barraProgreso(tarea.getPorcentajeTarea()));
+            prioritaria.setChecked(tarea.isPrioritaria());
+        }
+
+
         return fragmento1;
     }
 
-    @Override
+    /*@Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
@@ -122,7 +146,7 @@ public class FragmentoUno extends Fragment implements View.OnClickListener {
         editfechaincio.setText(compartirViewModel.getFechaIni().getValue());
         editfechafin.setText(compartirViewModel.getFechaFin().getValue());
 
-    }
+    }*/
 
     private void siguiente(View view) {
 
@@ -192,7 +216,20 @@ public class FragmentoUno extends Fragment implements View.OnClickListener {
         newFragment.show(getActivity().getSupportFragmentManager(), "datePicker");
     }
 
-
+    public int barraProgreso(int progre){
+        if (progre == 0){
+            idPro = 0;
+        } else if (progre == 25) {
+            idPro = 1;
+        } else if (progre == 50) {
+            idPro = 2;
+        } else if (progre == 75) {
+            idPro = 3;
+        }else{
+            idPro = 4;
+        }
+        return idPro;
+    }
 
 
 }
