@@ -3,7 +3,9 @@ package com.example.pantallatareas.fragmentos;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -12,6 +14,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.viewmodel.CreationExtras;
 
+import android.os.Parcelable;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -54,6 +57,8 @@ public class FragmentoUno extends Fragment implements View.OnClickListener {
     private Button button1 , button2;
 
     private Integer idPro;
+    private Context context;
+
 
 
     public static FragmentoUno newInstance(Tarea tarea) {
@@ -160,6 +165,7 @@ public class FragmentoUno extends Fragment implements View.OnClickListener {
             compartirViewModel.setEstadoTarea(barra.getSelectedItem().toString());
             compartirViewModel.setPrioritaria(prioritaria.isChecked());
             Toast.makeText(requireContext(), "¡Enviado!", Toast.LENGTH_SHORT).show();
+            fragmentoDos = FragmentoDos.newInstance(tarea);
             getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.contenedorFragmentos, new FragmentoDos()).commit();
         }
 

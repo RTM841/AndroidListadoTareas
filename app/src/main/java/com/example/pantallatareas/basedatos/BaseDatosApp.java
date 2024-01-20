@@ -19,7 +19,7 @@ import com.example.pantallatareas.daos.TareaDao;
 
 //Anotación que indica que esta clase es una base de datos de ROOM
 //que guarda entidades de la cale Tarea
-@Database(entities = {Tarea.class}, version = 1, exportSchema = false)
+@Database(entities = {Tarea.class}, version = 2, exportSchema = false)
 @TypeConverters(Converters.class)
 public abstract class BaseDatosApp extends RoomDatabase {
 
@@ -32,7 +32,7 @@ public abstract class BaseDatosApp extends RoomDatabase {
             INSTANCIA = Room.databaseBuilder(
                             context.getApplicationContext(),
                             BaseDatosApp.class,
-                            "dbTareas")
+                            "dbTareas2")
                     .build();
         }
         return INSTANCIA;

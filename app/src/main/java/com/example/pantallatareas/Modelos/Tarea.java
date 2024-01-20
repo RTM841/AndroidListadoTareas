@@ -42,7 +42,7 @@ public class Tarea implements Parcelable {
     @ColumnInfo(name = "progresoTarea", defaultValue = "0")
     public int porcentajeTarea;
     @NotNull
-    @ColumnInfo(name = "fechaCreación", defaultValue = "CURRENT_TIMESTAMP")
+    @ColumnInfo(name = "fechaCreación")
     public Date fechaIni ;
 
     @NotNull
@@ -182,16 +182,14 @@ public class Tarea implements Parcelable {
 
     public Date validarFecha(@NonNull String fechaCreacion){
         Date fecha = new Date(); //Para evitar devolver null
-        if (validarFormatoFecha(fechaCreacion)) {
+        fechaCreacion = fechaCreacion.replaceAll("\\s", "");
             SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
             try {
                 fecha = sdf.parse(fechaCreacion);
             } catch (Exception e) {
                 Log.e("Error fecha","Parseo de fecha no válido");
             }
-        } else {
-            Log.e("Error fecha","Formato de fecha no válido");
-        }
+
         return fecha;
     }
 

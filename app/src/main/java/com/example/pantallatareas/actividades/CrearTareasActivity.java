@@ -173,7 +173,9 @@ public class CrearTareasActivity extends AppCompatActivity implements FragmentoD
     }
 
     private Date convertirStringADate(String fecha) throws ParseException {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd / MM / yyyy");
+        fecha = fecha.replaceAll("\\s", "");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+
         dateFormat.parse(fecha);
         try {
             return dateFormat.parse(fecha);

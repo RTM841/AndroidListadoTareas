@@ -56,6 +56,8 @@ public class EditarTareaActivity extends AppCompatActivity implements FragmentoD
 
     private BaseDatosApp baseDatosApp;
 
+    Tarea tarea;
+
 
 
 
@@ -73,7 +75,7 @@ public class EditarTareaActivity extends AppCompatActivity implements FragmentoD
         //tituloT = findViewById(R.id.txtVTarea);
         //tituloT.setText("Editar Tarea");
 
-        Tarea tarea = getIntent().getParcelableExtra("tareaEditar");
+        tarea = getIntent().getParcelableExtra("tareaEditar");
         fragmento1 = FragmentoUno.newInstance(tarea);
         getSupportFragmentManager().beginTransaction().replace(R.id.contenedorFragmentos,fragmento1).commit();
         baseDatosApp = BaseDatosApp.getInstance(getActivity(this).getApplicationContext());
@@ -199,8 +201,9 @@ public class EditarTareaActivity extends AppCompatActivity implements FragmentoD
 
     @Override
     public void onGuardar() throws ParseException {
-        nombreTarea = tareaViewModel.getNombre().getValue();
-        fechaIni = tareaViewModel.getFechaIni().getValue().toString();
+
+        nombreTarea =  tareaViewModel.getNombre().getValue();
+        fechaIni =  tareaViewModel.getFechaIni().getValue().toString();
         fechaFin = tareaViewModel.getFechaFin().getValue().toString();
         progesoBarra = tareaViewModel.getEstadoTarea().getValue();
         descripcion = tareaViewModel.getGetDescrip().getValue();
@@ -217,6 +220,7 @@ public class EditarTareaActivity extends AppCompatActivity implements FragmentoD
         //Creamos un objeto de la clase que realiza la inserción en un hilo aparte Executor
         Executor executor = Executors.newSingleThreadExecutor();
         executor.execute(new InsertarProducto(tarealistadoE));
+        executor.execute(new BorrarTarea(tarea));
 
 
     finish();
@@ -287,8 +291,10 @@ public class EditarTareaActivity extends AppCompatActivity implements FragmentoD
     }
 
     private Date convertirStringADate(String fecha) throws ParseException {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd / MM / yyyy");
-        dateFormat.parse(fecha);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        // Elimina espacios en blanco de la cadena de fecha
+        fecha = fecha.replaceAll("\\s", "");
+        //dateFormat.parse(fecha);
         try {
             return dateFormat.parse(fecha);
         } catch (ParseException e) {
@@ -309,6 +315,20 @@ public class EditarTareaActivity extends AppCompatActivity implements FragmentoD
         @Override
         public void run() {
             baseDatosApp.tareaDao().insertarTarea(tarea);
+        }
+    }
+
+    class BorrarTarea implements Runnable {
+
+        private Tarea tarea;
+
+        public BorrarTarea(Tarea tarea) {
+            this.tarea = tarea;
+        }
+
+        @Override
+        public void run() {
+            baseDatosApp.tareaDao().borrarTarea(tarea);
         }
     }
 }

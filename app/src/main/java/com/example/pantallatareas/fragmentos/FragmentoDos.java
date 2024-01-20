@@ -1,6 +1,7 @@
 package com.example.pantallatareas.fragmentos;
 
 import static android.app.Activity.RESULT_OK;
+import static android.content.Intent.getIntent;
 
 
 import android.annotation.SuppressLint;
@@ -26,6 +27,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.pantallatareas.Modelos.Tarea;
 import com.example.pantallatareas.actividades.CompartirViewModel;
 import com.example.pantallatareas.R;
 import com.example.pantallatareas.actividades.EditarTareaActivity;
@@ -41,6 +43,7 @@ import java.io.OutputStream;
 public class FragmentoDos extends Fragment {
 
     private TextView textoDescipcion;
+    private Tarea tarea;
     private Button boton, boton2, btDocumentos, btImagenes, btAudios, btVídeos;
     private CompartirViewModel compartirViewModel;
     private static final int PICK_DOCUMENT_REQUEST = 1;
@@ -57,6 +60,14 @@ public class FragmentoDos extends Fragment {
 
     public FragmentoDos() {
 
+    }
+
+    public static FragmentoDos newInstance(Tarea tarea) {
+        FragmentoDos fragmento = new FragmentoDos();
+        Bundle args = new Bundle();
+        args.putParcelable("tareaEditar2", tarea);
+        fragmento.setArguments(args);
+        return fragmento;
     }
 
 
@@ -85,6 +96,9 @@ public class FragmentoDos extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        if (getArguments() != null) {
+            tarea = getArguments().getParcelable("tareaEditar2");
+        }
 
     }
 
@@ -95,6 +109,13 @@ public class FragmentoDos extends Fragment {
         View fragmento2 = inflater.inflate(R.layout.fragment_fragmento_dos, container, false);
         compartirViewModel = new ViewModelProvider(requireActivity()).get(CompartirViewModel.class);
         baseDatosApp = BaseDatosApp.getInstance(getActivity().getApplicationContext());
+
+
+
+        // Actualizar vistas con los datos de la tarea
+        if (tarea != null) {
+           textoDescipcion.setText(tarea.getDescripcion());
+        }
 
         textoDescipcion = fragmento2.findViewById(R.id.txtDescripcion);
         textoDescipcion.setText(compartirViewModel.getGetDescrip().getValue());
