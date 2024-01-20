@@ -6,6 +6,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.util.Log;
@@ -27,16 +28,24 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.LiveData;
+import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.pantallatareas.Modelos.Tarea;
 import com.example.pantallatareas.R;
 import com.example.pantallatareas.actividades.DetalleActivity;
 import com.example.pantallatareas.actividades.EditarTareaActivity;
+import com.example.pantallatareas.actividades.ListadoTareasActivity;
 import com.example.pantallatareas.basedatos.BaseDatosApp;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
@@ -70,6 +79,7 @@ public class TareaAdapter extends RecyclerView.Adapter<TareaAdapter.ViewHolder>{
     }
 
 
+
     public List<Tarea> getDatosTareas(){return datosTareas;}
 
     public void setDatosTareas(List<Tarea> datosTarea){this.datosTareas = datosTarea; notifyDataSetChanged();}
@@ -96,12 +106,58 @@ public class TareaAdapter extends RecyclerView.Adapter<TareaAdapter.ViewHolder>{
     @Override
     public int getItemCount(){return datosTareas.size(); }
 
+    public void notificarPreferencias(){
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        String preferenciaOrden = prefs.getString("tipoCriterio", "nombre"); // Cambia "nombre" por la opción predeterminada7
+        Boolean ordenPreferencia = prefs.getBoolean("orden_criterios", true);
+
+        if (ordenPreferencia) {
+            switch (preferenciaOrden) {
+                case "nombre":
+                    Collections.sort(datosTareas, Tarea.getNombreComparator(true));
+                    break;
+                case "numeroDias":
+                    Collections.sort(datosTareas, Tarea.getNumeroDiasComparator(true));
+                    break;
+                case "progreso":
+                    Collections.sort(datosTareas, Tarea.getProgresoComparator(true));
+                    break;
+                case "fecha":
+                    Collections.sort(datosTareas, Tarea.getFechaComparator(true));
+                    break;
+                default:
+                    // Manejo predeterminado si la preferencia no es reconocida
+                    break;
+            }
+        } else if (!ordenPreferencia) {
+            switch (preferenciaOrden) {
+                case "nombre":
+                    Collections.sort(datosTareas, Tarea.getNombreComparator(false));
+                    break;
+                case "numeroDias":
+                    Collections.sort(datosTareas, Tarea.getNumeroDiasComparator(false));
+                    break;
+                case "progreso":
+                    Collections.sort(datosTareas, Tarea.getProgresoComparator(false));
+                    break;
+                case "fecha":
+                    Collections.sort(datosTareas, Tarea.getFechaComparator(false));
+                    break;
+                default:
+                    // Manejo predeterminado si la preferencia no es reconocida
+                    break;
+            }
+        }
+
+    }
+
 
 
 
     @Override
     public void onBindViewHolder(final TareaAdapter.ViewHolder holder, @SuppressLint("RecyclerView") int position)
     {
+        notificarPreferencias();
         Tarea tarea = datosTareas.get(position);
 
         holder.bindData(tarea);
@@ -335,6 +391,42 @@ public class TareaAdapter extends RecyclerView.Adapter<TareaAdapter.ViewHolder>{
         }
     }
 
+    class NombreTareaComparator implements Comparator<Tarea> {
+        @Override
+        public int compare(Tarea tarea1, Tarea tarea2) {
+            return tarea1.getNombreTarea().compareTo(tarea2.getNombreTarea());
+        }
+    }
 
+    class DiasTareaComparator implements Comparator<Tarea> {
+        @Override
+        public int compare(Tarea tarea1, Tarea tarea2) {
+            return Integer.compare(tarea1.getDiasTarea(), tarea2.getDiasTarea());
+        }
+    }
+
+    class PorcentajeComparator implements Comparator<Tarea> {
+        @Override
+        public int compare(Tarea tarea1, Tarea tarea2) {
+            return Integer.compare(tarea1.getPorcentajeTarea(), tarea2.getPorcentajeTarea());
+        }
+    }
+
+
+    class FechaComparator implements Comparator<Tarea> {
+        @Override
+        public int compare(Tarea tarea1, Tarea tarea2) {
+            // Asumiendo que las fechas son en formato String, debes convertirlas a objetos Date para una comparación adecuada
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+
+            try {
+                Date fecha1 = dateFormat.parse(tarea1.getFechaIni());
+                Date fecha2 = dateFormat.parse(tarea2.getFechaIni());
+                return fecha1.compareTo(fecha2);
+            } catch (ParseException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
 
 }

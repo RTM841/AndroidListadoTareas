@@ -15,9 +15,12 @@ import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.os.Environment;
 import android.provider.OpenableColumns;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -27,12 +30,14 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+
 import com.example.pantallatareas.Modelos.Tarea;
 import com.example.pantallatareas.actividades.CompartirViewModel;
 import com.example.pantallatareas.R;
 import com.example.pantallatareas.actividades.EditarTareaActivity;
 import com.example.pantallatareas.basedatos.BaseDatosApp;
 
+import java.io.File;
 import java.text.ParseException;
 
 import java.io.FileOutputStream;
@@ -42,6 +47,7 @@ import java.io.OutputStream;
 
 public class FragmentoDos extends Fragment {
 
+    private static final int REQUEST_WRITE_EXTERNAL_STORAGE_PERMISSION = 1;
     private TextView textoDescipcion;
     private Tarea tarea;
     private Button boton, boton2, btDocumentos, btImagenes, btAudios, btVídeos;
@@ -216,6 +222,8 @@ public class FragmentoDos extends Fragment {
 
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
 
+        intent.setType("audio/*");
+
 
         startActivityForResult(intent, PICK_AUDIO_REQUEST);
 
@@ -258,7 +266,7 @@ public class FragmentoDos extends Fragment {
 
             // Ahora puedes realizar acciones con el URI del documento seleccionado
             // Por ejemplo, copiarlo a la carpeta deseada en la memoria interna
-            copyFileToInternalStorageDocumentos(selectedDocumentUri);
+            copyFileToExternalStorageDocumentos(selectedDocumentUri);
         } else if (requestCode == PICK_IMAGE_REQUEST) {
             // Aquí manejas el resultado de la selección del documento
             Uri selectedImagenUri = data.getData();
@@ -293,8 +301,11 @@ public class FragmentoDos extends Fragment {
             // Obtiene el nombre del archivo desde la Uri
             String fileName = getFileNameFromUri(sourceUri);
 
-            // Define la ubicación de destino en la memoria interna
-            String destinationPath = "/data/data/com.example.pantallatareas/files/" + fileName;
+            // Obtiene el directorio de archivos internos específico de la aplicación
+            File internalDir = requireContext().getFilesDir();
+
+            // Crea la ruta de destino dentro del directorio de archivos internos
+            String destinationPath = internalDir.getAbsolutePath() + File.separator + fileName;
 
             // Abre un flujo de salida hacia la ubicación de destino
             OutputStream outputStream = new FileOutputStream(destinationPath);
@@ -318,9 +329,57 @@ public class FragmentoDos extends Fragment {
             e.printStackTrace();
             // Manejar cualquier excepción que pueda ocurrir durante la copia del archivo
             Toast.makeText(requireContext(), "Error al guardar el archivo", Toast.LENGTH_SHORT).show();
-
         }
     }
+
+    private void copyFileToExternalStorageDocumentos(Uri sourceUri) {
+        try {
+            // Verificar si se tiene permiso de escritura en el almacenamiento externo
+            if (ContextCompat.checkSelfPermission(requireContext(), android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                    != PackageManager.PERMISSION_GRANTED) {
+                // Solicitar permisos si no se tienen
+                ActivityCompat.requestPermissions(requireActivity(),
+                        new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                        REQUEST_WRITE_EXTERNAL_STORAGE_PERMISSION);
+                return;
+            }
+
+            // Abrir un flujo de entrada desde el Uri proporcionado
+            InputStream inputStream = requireContext().getContentResolver().openInputStream(sourceUri);
+
+            // Obtener el nombre del archivo desde la Uri
+            String fileName = getFileNameFromUri(sourceUri);
+
+            // Obtener el directorio de almacenamiento externo
+            File externalDir = Environment.getExternalStorageDirectory();
+
+            // Crear la ruta de destino dentro del directorio de almacenamiento externo
+            String destinationPath = externalDir.getAbsolutePath() + File.separator + fileName;
+
+            // Abrir un flujo de salida hacia la ubicación de destino
+            OutputStream outputStream = new FileOutputStream(destinationPath);
+
+            // Copiar los datos del InputStream al OutputStream
+            byte[] buffer = new byte[4096];
+            int bytesRead;
+            while ((bytesRead = inputStream.read(buffer)) != -1) {
+                outputStream.write(buffer, 0, bytesRead);
+            }
+
+            // Cerrar los flujos
+            inputStream.close();
+            outputStream.close();
+
+            // Notificar al usuario que la operación fue exitosa
+            Toast.makeText(requireContext(), "Documento guardado correctamente en la tarjeta SD", Toast.LENGTH_SHORT).show();
+            compartirViewModel.setUrlVideo(destinationPath);
+        } catch (IOException e) {
+            e.printStackTrace();
+            // Manejar cualquier excepción que pueda ocurrir durante la copia del archivo
+            Toast.makeText(requireContext(), "Error al guardar el archivo en la tarjeta SD", Toast.LENGTH_SHORT).show();
+        }
+    }
+
 
 
     @SuppressLint("Range")
@@ -352,8 +411,11 @@ public class FragmentoDos extends Fragment {
             // Obtiene el nombre del archivo desde la Uri
             String fileName = getFileNameFromUri(sourceUri);
 
-            // Define la ubicación de destino en la memoria interna
-            String destinationPath = "/data/data/com.example.pantallatareas/files/" + fileName;
+            // Obtiene el directorio de archivos internos específico de la aplicación
+            File internalDir = requireContext().getFilesDir();
+
+            // Crea la ruta de destino dentro del directorio de archivos internos
+            String destinationPath = internalDir.getAbsolutePath() + File.separator + fileName;
 
             // Abre un flujo de salida hacia la ubicación de destino
             OutputStream outputStream = new FileOutputStream(destinationPath);
@@ -368,6 +430,7 @@ public class FragmentoDos extends Fragment {
             // Cierra los flujos
             inputStream.close();
             outputStream.close();
+
 
             // Notificar al usuario que la operación fue exitosa
             Toast.makeText(requireContext(), "Imagen guardada correctamente en la carpeta interna", Toast.LENGTH_SHORT).show();
@@ -387,8 +450,11 @@ public class FragmentoDos extends Fragment {
             // Obtiene el nombre del archivo desde la Uri
             String fileName = getFileNameFromUri(sourceUri);
 
-            // Define la ubicación de destino en la memoria interna
-            String destinationPath = "/data/data/com.example.pantallatareas/files/" + fileName;
+            // Obtiene el directorio de archivos internos específico de la aplicación
+            File internalDir = requireContext().getFilesDir();
+
+            // Crea la ruta de destino dentro del directorio de archivos internos
+            String destinationPath = internalDir.getAbsolutePath() + File.separator + fileName;
 
             // Abre un flujo de salida hacia la ubicación de destino
             OutputStream outputStream = new FileOutputStream(destinationPath);
@@ -424,8 +490,11 @@ public class FragmentoDos extends Fragment {
             // Obtiene el nombre del archivo desde la Uri
             String fileName = getFileNameFromUri(sourceUri);
 
-            // Define la ubicación de destino en la memoria interna
-            String destinationPath = "/data/data/com.example.pantallatareas/files/" + fileName;
+            // Obtiene el directorio de archivos internos específico de la aplicación
+            File internalDir = requireContext().getFilesDir();
+
+            // Crea la ruta de destino dentro del directorio de archivos internos
+            String destinationPath = internalDir.getAbsolutePath() + File.separator + fileName;
 
             // Abre un flujo de salida hacia la ubicación de destino
             OutputStream outputStream = new FileOutputStream(destinationPath);

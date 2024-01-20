@@ -7,6 +7,7 @@ import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContract;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.LiveData;
 import androidx.preference.PreferenceManager;
@@ -19,8 +20,11 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -43,7 +47,7 @@ import java.util.Locale;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
-public class ListadoTareasActivity extends AppCompatActivity {
+public class ListadoTareasActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
     private List<Tarea> elements = new ArrayList<>();
     private TareaDao tareaDao;
 
@@ -85,6 +89,10 @@ public class ListadoTareasActivity extends AppCompatActivity {
 
         init();
 
+        // Registra la actividad como listener de cambios en las preferencias
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        prefs.registerOnSharedPreferenceChangeListener(this);
+
         // Establece la fecha del calendario
         calendar.set(Calendar.YEAR, 2023);
         calendar.set(Calendar.MONTH, 10);
@@ -121,23 +129,7 @@ public class ListadoTareasActivity extends AppCompatActivity {
 
 
     public void init() {
-       /* String formatoFecha = new SimpleDateFormat("dd/MM/yyyy").format(date);
-        String formatoFecha2 = new SimpleDateFormat("dd/MM/yyyy").format(date2);
-        elements = new ArrayList<>();
-
-        elements.add(new Tarea(1,"b", 50, "12/03/2024",12,"Tarea1", true));
-        elements.add(new Tarea(2,"a", 25, "24/01/2024",25, "Tarea2", false));
-        elements.add(new Tarea(3,"alache", 25, "13/07/2024", 10, "Tarea3",false));
-
-        if (elements.isEmpty()){
-            Toast.makeText(this, "No hay tareas", Toast.LENGTH_SHORT).show();}*/
-
-
-
-
-
         tareas = baseDatosApp.getInstance(this).tareaDao().listadoTareas();
-
 
         tareaAdapter = new TareaAdapter(this, elements, baseDatosApp);
         recyclerView = findViewById(R.id.recyclerVistaTareas);
@@ -149,42 +141,16 @@ public class ListadoTareasActivity extends AppCompatActivity {
 
         // Observa los cambios en la lista de tareas
         tareas.observe(this, tareaAdapter::setDatosTareas);
-
-
-        // Obtén la preferencia de orden desde SharedPreferences
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        String preferenciaOrden = prefs.getString("tipoCriterio", "nombre"); // Cambia "nombre" por la opción predeterminada
-
-        // Crea el comparador correspondiente según la preferencia seleccionada
-        /*Comparator<Tarea> comparador = null;
-
-        switch (preferenciaOrden) {
-            case "nombre":
-                comparador = new NombreTareaComparator();
-                break;
-            case "numeroDias":
-                comparador = new DiasTareaComparator();
-                break;
-            case "progreso":
-                comparador = new PorcentajeComparator();
-            case "fecha":
-                comparador = new FechaComparator();
-            default:
-                // Manejo predeterminado si la preferencia no es reconocida
-                break;
-        }
-
-    // Ordena la lista de tareas usando el comparador seleccionado
-        if (comparador != null) {
-            Collections.sort(elements, comparador);
-        }*/
-
-    // Actualiza tu RecyclerView con la lista ordenada
-        tareaAdapter.notifyDataSetChanged();
     }
 
-
-
+    // Método para notificar cambios en las preferencias al adaptador
+    private void notificarCambiosDePreferencias() {
+        if (tareaAdapter != null) {
+            notificarPreferencias();
+            tareaAdapter.setDatosTareas(elements);
+            tareaAdapter.notifyDataSetChanged();
+        }
+    }
 
 
 
@@ -294,42 +260,93 @@ public class ListadoTareasActivity extends AppCompatActivity {
         return tareaPrio;
     }
 
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, @Nullable String key) {
+        // Llama a tu método notificarPreferencias inicialmente
+        notificarCambiosDePreferencias();
 
-    class NombreTareaComparator implements Comparator<Tarea> {
-        @Override
-        public int compare(Tarea tarea1, Tarea tarea2) {
-            return tarea1.getNombreTarea().compareTo(tarea2.getNombreTarea());
+        // Actualiza directamente los datos del adaptador
+        if (tareaAdapter != null) {
+            tareaAdapter.setDatosTareas(elements);
+            tareaAdapter.notifyDataSetChanged(); // Asegúrate de notificar el cambio al adaptador
         }
+
+        notificarCambiosEnAdaptador();
     }
 
-    class DiasTareaComparator implements Comparator<Tarea> {
-        @Override
-        public int compare(Tarea tarea1, Tarea tarea2) {
-            return Integer.compare(tarea1.getDiasTarea(), tarea2.getDiasTarea());
-        }
-    }
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
 
-    class PorcentajeComparator implements Comparator<Tarea> {
-        @Override
-        public int compare(Tarea tarea1, Tarea tarea2) {
-            return Integer.compare(tarea1.getPorcentajeTarea(), tarea2.getPorcentajeTarea());
-        }
+        // Desregistra el listener al salir de la actividad para evitar posibles pérdidas de memoria
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        prefs.unregisterOnSharedPreferenceChangeListener(this);
     }
 
 
-    class FechaComparator implements Comparator<Tarea> {
-        @Override
-        public int compare(Tarea tarea1, Tarea tarea2) {
-            // Asumiendo que las fechas son en formato String, debes convertirlas a objetos Date para una comparación adecuada
-            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+    public void notificarPreferencias(){
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        String preferenciaOrden = prefs.getString("tipoCriterio", "nombre"); // Cambia "nombre" por la opción predeterminada7
+        Boolean ordenPreferencia = prefs.getBoolean("orden_criterios", true);
+        String preferncialetra = prefs.getString("tipoLetra", "nombre");
 
-            try {
-                Date fecha1 = dateFormat.parse(tarea1.getFechaIni());
-                Date fecha2 = dateFormat.parse(tarea2.getFechaIni());
-                return fecha1.compareTo(fecha2);
-            } catch (ParseException e) {
-                throw new RuntimeException(e);
+        if (ordenPreferencia) {
+            switch (preferenciaOrden) {
+                case "nombre":
+                    Collections.sort(elements, Tarea.getNombreComparator(true));
+                    break;
+                case "numeroDias":
+                    Collections.sort(elements, Tarea.getNumeroDiasComparator(true));
+                    break;
+                case "progreso":
+                    Collections.sort(elements, Tarea.getProgresoComparator(true));
+                    break;
+                case "fecha":
+                    Collections.sort(elements, Tarea.getFechaComparator(true));
+                    break;
+                default:
+                    // Manejo predeterminado si la preferencia no es reconocida
+                    break;
+            }
+        } else if (!ordenPreferencia) {
+            switch (preferenciaOrden) {
+                case "nombre":
+                    Collections.sort(elements, Tarea.getNombreComparator(false));
+                    break;
+                case "numeroDias":
+                    Collections.sort(elements, Tarea.getNumeroDiasComparator(false));
+                    break;
+                case "progreso":
+                    Collections.sort(elements, Tarea.getProgresoComparator(false));
+                    break;
+                case "fecha":
+                    Collections.sort(elements, Tarea.getFechaComparator(false));
+                    break;
+                default:
+                    // Manejo predeterminado si la preferencia no es reconocida
+                    break;
             }
         }
+
+            Resources resources = getResources();
+            Configuration configuration = resources.getConfiguration();
+            DisplayMetrics displayMetrics = resources.getDisplayMetrics();
+
+            switch (preferncialetra) {
+                case "small":
+                    configuration.fontScale = 0.8f;
+                    break;
+                case "normal":
+                    configuration.fontScale = 1f;
+                    break;
+                case "large":
+                    configuration.fontScale = 3f;
+                    break;
+                default:
+                    configuration.fontScale = 1f;
+            }
+            resources.updateConfiguration(configuration, displayMetrics);
+        recreate();
+
     }
 }

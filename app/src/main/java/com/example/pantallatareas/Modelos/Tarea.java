@@ -13,6 +13,7 @@ import androidx.room.PrimaryKey;
 import org.jetbrains.annotations.NotNull;
 
 import java.text.SimpleDateFormat;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.Locale;
 import java.util.Objects;
@@ -267,4 +268,24 @@ public class Tarea implements Parcelable {
             return new Tarea[size];
         }
     };
+
+
+
+    // Constructor, getters y setters
+
+    public static Comparator<Tarea> getNombreComparator(boolean ascendente) {
+        return ascendente ? Comparator.comparing(Tarea::getNombreTarea) : Comparator.comparing(Tarea::getNombreTarea).reversed();
+    }
+
+    public static Comparator<Tarea> getFechaComparator(boolean ascendente) {
+        return ascendente ? Comparator.comparing(Tarea::getFechaIni) : Comparator.comparing(Tarea::getFechaIni).reversed();
+    }
+
+    public static Comparator<Tarea> getNumeroDiasComparator(boolean ascendente) {
+        return ascendente ? Comparator.comparingInt(Tarea::getDiasTarea) : Comparator.comparingInt(Tarea::getDiasTarea).reversed();
+    }
+
+    public static Comparator<Tarea> getProgresoComparator(boolean ascendente) {
+        return ascendente ? Comparator.comparingInt(Tarea::getPorcentajeTarea) : Comparator.comparingInt(Tarea::getPorcentajeTarea).reversed();
+    }
 }
