@@ -266,7 +266,7 @@ public class FragmentoDos extends Fragment {
 
             // Ahora puedes realizar acciones con el URI del documento seleccionado
             // Por ejemplo, copiarlo a la carpeta deseada en la memoria interna
-            copyFileToExternalStorageDocumentos(selectedDocumentUri);
+            copyFileToInternalStorageDocumentos(selectedDocumentUri);
         } else if (requestCode == PICK_IMAGE_REQUEST) {
             // Aquí manejas el resultado de la selección del documento
             Uri selectedImagenUri = data.getData();

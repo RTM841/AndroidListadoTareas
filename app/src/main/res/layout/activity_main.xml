@@ -4,12 +4,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".actividades.ListadoTareasActivity" >
+    tools:context=".actividades.ListadoTareasActivity"
+    android:screenOrientation="portrait">
+
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerVistaTareas"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        tools:listitem="@layout/vista_tareas" />
+        tools:listitem="@layout/vista_tareas"
+        />
+
 </RelativeLayout>

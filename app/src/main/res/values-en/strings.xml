@@ -34,5 +34,38 @@
         <item>Nearly finished</item>
         <item>Finished</item>
     </string-array>
+
+    <string name="title_activity_settings" translatable="false">Preferences</string>
+    <string name="tituloEsta" translatable="false">Statistics</string>
+    <string name="tituloDetalle" translatable="false">Details</string>
+    <string name="titulotareAdapter" translatable="false">Adapter</string>
+
+    <!-- Display Preferences -->
+    <string name="visual" translatable="false">Display</string>
+    <string name="oscuro" translatable="false">App Theme</string>
+    <string name="letra" translatable="false">Font Size</string>
+
+    <!-- Sorting Preferences -->
+    <string name="ordenacion" translatable="false">Sorting</string>
+    <string name="criterio" translatable="false">Select criteria for sorting</string>
+    <string name="orden" translatable="false">Order</string>
+
+    <!-- Storage Preferences -->
+    <string name="almacenamiento" translatable="false">Storage</string>
+    <string name="tarjetaSD" translatable="false">Store on SD Card</string>
+    <string name="limpeza" translatable="false">Enter the number for task cleanup</string>
+    <string name="bd" translatable="false">Database</string>
+    <string name="bdEx" translatable="false">External Database</string>
+    <string name="nombreBD" translatable="false">Database Name</string>
+    <string name="ipBD" translatable="false">Database IP</string>
+    <string name="puertoBD" translatable="false">Database Port</string>
+    <string name="usuarioBD" translatable="false">Database User</string>
+    <string name="contraBD" translatable="false">Database Password</string>
+
+    <!-- File Buttons -->
+    <string name="documento" translatable="false">Document</string>
+    <string name="imagen" translatable="false">Image</string>
+    <string name="audio" translatable="false">Audio</string>
+    <string name="video" translatable="false">Video</string>
     ```
 </resources>

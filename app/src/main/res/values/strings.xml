@@ -35,32 +35,32 @@
     </string-array>
 
 
-    <string name="title_activity_settings" translatable="false">Preferencias</string>
-    <string name="tituloEsta" translatable="false">Estadísticas</string>
-    <string name="tituloDetalle" translatable="false">Detalles</string>
-    <string name="titulotareAdapter" translatable="false">Adaptador</string>
+    <string name="title_activity_settings">Preferencias</string>
+    <string name="tituloEsta">Estadísticas</string>
+    <string name="tituloDetalle">Detalles</string>
+    <string name="titulotareAdapter">Adaptador</string>
 
     <!-- Preferencias de Visualización -->
-    <string name="visual" translatable="false">Visualización</string>
-    <string name="oscuro" translatable="false">Tema Aplicación</string>
-    <string name="letra" translatable="false">Tamaño de la letra</string>
+    <string name="visual">Visualización</string>
+    <string name="oscuro">Tema Aplicación</string>
+    <string name="letra">Tamaño de la letra</string>
 
     <!-- Preferncias de Ordenación -->
-    <string name="ordenacion" translatable="false">Ordenación</string>
-    <string name="criterio" translatable="false">Seleccione el criterio para ordenar</string>
-    <string name="orden" translatable="false">Orden</string>
+    <string name="ordenacion">Ordenación</string>
+    <string name="criterio">Seleccione el criterio para ordenar</string>
+    <string name="orden">Orden</string>
 
     <!-- Preferencias de Almacenamiento -->
-    <string name="almacenamiento" translatable="false">Almacenamiento</string>
-    <string name="tarjetaSD" translatable="false">Alamcenar en Tarjeta SD</string>
-    <string name="limpeza" translatable="false">Introduce el número para la limpieza de tareas</string>
-    <string name="bd" translatable="false">Base de Datos</string>
-    <string name="bdEx" translatable="false">Base de datos Externa</string>
-    <string name="nombreBD" translatable="false">Nombre de la BD</string>
-    <string name="ipBD" translatable="false">IP de la BD</string>
-    <string name="puertoBD" translatable="false">Puerto de la BD</string>
-    <string name="usuarioBD" translatable="false">Usuario BD</string>
-    <string name="contraBD" translatable="false">Contraseña BD</string>
+    <string name="almacenamiento">Almacenamiento</string>
+    <string name="tarjetaSD">Alamcenar en Tarjeta SD</string>
+    <string name="limpeza">Introduce el número para la limpieza de tareas</string>
+    <string name="bd">Base de Datos</string>
+    <string name="bdEx">Base de datos Externa</string>
+    <string name="nombreBD">Nombre de la BD</string>
+    <string name="ipBD">IP de la BD</string>
+    <string name="puertoBD">Puerto de la BD</string>
+    <string name="usuarioBD">Usuario BD</string>
+    <string name="contraBD">Contraseña BD</string>
 
     <!-- Botones de Ficheros -->
     <string name="documento" translatable="false">Documento</string>

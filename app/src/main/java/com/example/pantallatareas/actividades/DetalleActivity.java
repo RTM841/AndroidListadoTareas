@@ -4,6 +4,7 @@ import static com.google.android.material.internal.ContextUtils.getActivity;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -16,7 +17,7 @@ import com.example.pantallatareas.basedatos.BaseDatosApp;
 public class DetalleActivity extends AppCompatActivity {
 
     private TextView txtNombre, txtDias , txtDescripcion;
-    private Button btDocu, btImg, btaud, btvideo;
+    private Button btDocu, btImg, btaud, btvideo, btSalir;
 
     @SuppressLint({"RestrictedApi", "MissingInflatedId"})
     @Override
@@ -39,6 +40,9 @@ public class DetalleActivity extends AppCompatActivity {
         btImg = findViewById(R.id.btImagen);
         btaud = findViewById(R.id.btAudio);
         btvideo = findViewById(R.id.btVideo);
+        btSalir = findViewById(R.id.bt_salir);
+
+        btSalir.setOnClickListener(this::salir);
 
 
         txtNombre.setText(tarea.getNombreTarea());
@@ -66,6 +70,11 @@ public class DetalleActivity extends AppCompatActivity {
         else{ btvideo.setText(tarea.getURL_vid().toString());}
 
 
+
+    }
+
+    private void salir(View view) {
+        finish();
 
     }
 
